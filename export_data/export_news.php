@@ -9,7 +9,8 @@ while($count < $total){
 
   while ($row = db_fetch_array($result)) {
     $node = node_load($row['nid']);
-    $insert = db_query("INSERT INTO _gizra_blog_post(nid, title, body) VALUES('%d', '%s', '%s')", $node->nid, $node->title, $node->body);
+    $insert = db_query("INSERT INTO _gizra_blog_post(nid, title, body, uid) VALUES('%d', '%s', '%s', '%d')",
+      $node->nid, $node->title, $node->body, $node->uid);
     ++$count;
   }
 
