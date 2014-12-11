@@ -1,15 +1,16 @@
 <?php
 //testing data
-export_nodes('news', array('nid', 'title', 'body', 'uid'),'_gizra_blog_post');
+export_nodes('news', array('nid'=>"'%d'", 'title'=>"'%s'", 'body'=>"'%s'", 'uid'=>"'%d'"),'_gizra_blog_post');
 
 /**
  * @param $node_type
  *  Type of node for export
  * @param array $fields
- *  Array fields for export to another table
+ *  Array fields for export to another table consist
+ *  Key is name of field, Value is directive type ('%s' - string, '%d' - integer, etc.)
  * @param $result_table
  *  Name for a new table for move data
- * @return bool|mysqli_result|resource
+ * @return bool
  *
  */
 function export_nodes ($node_type, $fields = array(), $result_table) {
@@ -22,14 +23,13 @@ function export_nodes ($node_type, $fields = array(), $result_table) {
   $count = 0;
 
   $total=5; //temporary
-  print_r($list_fields);
+  $d = array();
   // TODO: string of directives appropriate to the type of data.
-  $directives = "'%d', '%s', '%s', '%d'";
-  $values = "";
-  foreach($fields as $item) {
-    $values[] = $node->$item;
+  foreach ($fields as $type){
+    $d[] = $type;
   }
-  print_r($values);
+  $di = implode(", ", $d);
+  print_r($di);
 
   while($count < $total){
     $result = db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $node_type, $range, $count);
@@ -37,11 +37,12 @@ function export_nodes ($node_type, $fields = array(), $result_table) {
       $node = node_load($row['nid']);
       // Prepare the query:
       $values = "";
-      foreach($fields as $item) {
-        $values[] = $node->$item;
+      foreach($fields as $key => $item) {
+        $values[] = $node->$key;
       }
-      print_r($values);
-      $query = "INSERT INTO $result_table(". implode(", ", $fields) .") VALUES(" . $directives . ")";
+
+      $query = "INSERT INTO $result_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $d) . ")";
+      print_r($query);
       $insert = db_query($query, $values);
       ++$count;
       $params = array(
