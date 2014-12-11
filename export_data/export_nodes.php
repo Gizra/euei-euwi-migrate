@@ -27,7 +27,7 @@ function export_nodes ($node_type, $fields = array(), $result_table) {
   $directives = "'%d', '%s', '%s', '%d'";
   $values = "";
   foreach($fields as $item) {
-    $values .= "\$node->$item, ";
+    $values[] = $node->$item;
   }
   print_r($values);
 
@@ -36,6 +36,11 @@ function export_nodes ($node_type, $fields = array(), $result_table) {
     while ($row = db_fetch_array($result)) {
       $node = node_load($row['nid']);
       // Prepare the query:
+      $values = "";
+      foreach($fields as $item) {
+        $values[] = $node->$item;
+      }
+      print_r($values);
       $query = "INSERT INTO $result_table(". implode(", ", $fields) .") VALUES(" . $directives . ")";
       $insert = db_query($query, $values);
       ++$count;
