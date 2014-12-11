@@ -19,3 +19,15 @@ CREATE TABLE `_gizra_users` (
   PRIMARY KEY (`uid`),
   KEY `uid` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `_gizra_documents`;
+CREATE TABLE `_gizra_documents` (
+  `nid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `body` longtext,
+  `uid` int(11) unsigned NOT NULL,
+  `path` varchar (255),
+  `file_name` varchar (128),
+  PRIMARY KEY (`nid`),
+  KEY `nid` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
