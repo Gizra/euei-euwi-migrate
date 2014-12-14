@@ -1,63 +1,57 @@
 <?php
 
+/**
+ * @file
+ * Export data for all entities.
+ */
 
 /**
  * Entry point for exporting data.
  *
  * @param string $entity_type
- *  The entity type to export.
- * @param string $bundle
- *  The bundle to export.
+ *   The entity type to export.
+ * @param string $original_bundle
+ *   The bundle to export.
  * @param array $fields
- *  Array fields for export, keyed by the column name and the  directive type
- * (e.g. '%s', '%d') as value.
- * @param $table_bundle_name
- *  Name for a bundle of the table, in case we are renaming an existing bundle
- * (e.g. "ipaper" is renamed to "document").
+ *   Array fields for export, keyed by the column name and the  directive type
+ *  (e.g. '%s', '%d') as value.
+ * @param $destination_bundle
+ *   Name for a bundle of the table, in case we are renaming an existing bundle
+ *  (e.g. "ipaper" is renamed to "document").
+ * @param int $range
+ *   The number of items to process in one batch. Defaults to 50.
  */
-function export_data($entity_type, $bundle, $fields = array(), $table_bundle_name = NULL) {
-  $result_table = '_gizra_' . $entity_type . '_';
-  $result_table .= $table_bundle_name ? $table_bundle_name : $bundle;
+function export_data($entity_type, $original_bundle, $fields = array(), $destination_bundle = NULL, $range = 50) {
+  $destination_table = '_gizra_' . $entity_type . '_';
 
-  $total =  db_result(db_query("SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid", $bundle));
-  db_query("TRUNCATE TABLE  `_gizra_blog_post`"); //temporary
-  $range = 50;
+  $destination_bundle = $destination_bundle ? $destination_bundle : $original_bundle;
+  $destination_table .= $destination_bundle;
+
+  // Remove any existing data.
+  db_query('TRUNCATE TABLE '. $destination_table);
+
+  $total =  db_result(db_query("SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid", $original_bundle));
   $count = 0;
 
   $directives = array();
-  foreach ($fields as $type){
-    $directives[] = $type;
+  foreach ($fields as $directive){
+    $directives[] = $directive;
   }
 
   while($count < $total){
-    $result = db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $node_type, $range, $count);
+    $result = db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $original_bundle, $range, $count);
+
     while ($row = db_fetch_array($result)) {
       $node = node_load($row['nid']);
-      //print_r($node);
-      // Prepare the query:
-      $values = "";
-      foreach($fields as $key => $type) {
-        if($key == 'file_name' && $node_type == 'ipaper') {
-          $file = reset($node->files);
-          $values[] = !empty($file->filename)? $file->filename :'';
-        }
 
-        elseif($key == 'path' && $node_type == 'ipaper') {
-          $file = reset($node->files);
-          print_r($file->path);
-          if (!empty($file->filepath)) {
-            $values[] = $file->filepath;
-          }
-        }
-        else {
-          $values[] = $node->$key;
-        }
+      $function = 'export_prepare_data_for_insert__' . $entity_type . '__' . $destination_bundle;
+      if (function_exists($function)) {
+        $values = $$function($entity_type, $node, $fields);
       }
 
-      //print_r($values);
-      $query = "INSERT INTO $result_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
-      print_r($values);
+      $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
       $insert = db_query($query, $values);
+
       ++$count;
       $params = array(
         '@count' => $count,
