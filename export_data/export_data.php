@@ -1,27 +1,19 @@
 <?php
-//testing data
-export_nodes('ipaper', array(
-  'nid'=>"'%d'",
-  'title' => "'%s'",
-  'body' => "'%s'",
-  'uid' => "'%d'",
-  'path' => "'%s'",
-  'file_name' => "'%s'"),
-  '_gizra_documents');
+
 
 /**
  * Entry point for exporting data.
  *
- * @param $entity_type
+ * @param string $entity_type
  *  The entity type to export.
- * @param bundle
- *  Array fields for export to another table consist
- *  Key is name of field,
- *  Value is directive type ('%s' - string, '%d' - integer, etc.)
- * @param $result_table
- *  Name for a new table for move data
- * @return bool
- *
+ * @param string $bundle
+ *  The bundle to export.
+ * @param array $fields
+ *  Array fields for export, keyed by the column name and the  directive type
+ * (e.g. '%s', '%d') as value.
+ * @param $table_bundle_name
+ *  Name for a bundle of the table, in case we are renaming an existing bundle
+ * (e.g. "ipaper" is renamed to "document").
  */
 function export_data($entity_type, $bundle, $fields = array(), $table_bundle_name = NULL) {
   $result_table = '_gizra_' . $entity_type . '_';
