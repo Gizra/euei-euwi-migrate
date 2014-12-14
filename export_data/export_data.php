@@ -10,9 +10,11 @@ export_nodes('ipaper', array(
   '_gizra_documents');
 
 /**
- * @param $node_type
- *  Type of node for export
- * @param array $fields
+ * Entry point for exporting data.
+ *
+ * @param $entity_type
+ *  The entity type to export.
+ * @param bundle
  *  Array fields for export to another table consist
  *  Key is name of field,
  *  Value is directive type ('%s' - string, '%d' - integer, etc.)
@@ -21,23 +23,19 @@ export_nodes('ipaper', array(
  * @return bool
  *
  */
-function export_nodes ($node_type, $fields = array(), $result_table) {
-  if(empty($node_type) || empty($fields)|| empty($result_table)){
-    return;
-  }
-  $total =  db_result(db_query("SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid", $node_type));
+function export_data($entity_type, $bundle, $fields = array(), $table_bundle_name = NULL) {
+  $result_table = '_gizra_' . $entity_type . '_';
+  $result_table .= $table_bundle_name ? $table_bundle_name : $bundle;
+
+  $total =  db_result(db_query("SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid", $bundle));
   db_query("TRUNCATE TABLE  `_gizra_blog_post`"); //temporary
-  $range = 2;//temp
+  $range = 50;
   $count = 0;
 
-  $total=2; //temporary
-  $d = array();
-  // TODO: string of directives appropriate to the type of data.
+  $directives = array();
   foreach ($fields as $type){
-    $d[] = $type;
+    $directives[] = $type;
   }
-  $di = implode(", ", $d);
-  print_r($di);
 
   while($count < $total){
     $result = db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $node_type, $range, $count);
@@ -47,18 +45,15 @@ function export_nodes ($node_type, $fields = array(), $result_table) {
       // Prepare the query:
       $values = "";
       foreach($fields as $key => $type) {
-        if($key = 'file_name' && $node_type = 'ipaper') {
+        if($key == 'file_name' && $node_type == 'ipaper') {
           $file = reset($node->files);
-          print_r($file->filename);
-          if (!empty($file->filename)) {
-            $values[] = $file->filename;
-          }
+          $values[] = !empty($file->filename)? $file->filename :'';
         }
 
-        elseif($key = 'path' && $node_type = 'ipaper') {
+        elseif($key == 'path' && $node_type == 'ipaper') {
           $file = reset($node->files);
           print_r($file->path);
-          if (!empty($file->path)) {
+          if (!empty($file->filepath)) {
             $values[] = $file->filepath;
           }
         }
@@ -68,8 +63,8 @@ function export_nodes ($node_type, $fields = array(), $result_table) {
       }
 
       //print_r($values);
-      $query = "INSERT INTO $result_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $d) . ")";
-      //print_r($query);
+      $query = "INSERT INTO $result_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
+      print_r($values);
       $insert = db_query($query, $values);
       ++$count;
       $params = array(
