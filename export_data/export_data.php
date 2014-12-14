@@ -35,7 +35,7 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
 
   $directives = array();
   foreach ($fields as $directive){
-    $directives[] = $directive;
+    $directives[] = "'" . $directive . "'";
   }
 
   while($count < $total){
@@ -47,6 +47,13 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
       $function = 'export_prepare_data_for_insert__' . $entity_type . '__' . $destination_bundle;
       if (function_exists($function)) {
         $values = $function($entity_type, $node, $fields);
+      }
+      else {
+        // No special case, just take the values.
+        $values = array();
+        foreach($fields as $key => $directive) {
+          $values[] = $node->$key;
+        }
       }
 
       $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";

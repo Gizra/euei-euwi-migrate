@@ -5,22 +5,31 @@
  * Export the document content type.
  */
 
-require 'export_data.php'; //check: can't require ../export_data.php
+require '/vagrant/wordpress/build/euei/export_data/export_data.php';
 
 $fields = array(
-  'nid' => "'%d'",
-  'title' => "'%s'",
-  'body' => "'%s'",
-  'uid' => "'%d'",
+  'nid' => '%d',
+  'title' => '%s',
+  'body' => '%s',
+  'uid' => '%d',
+  'path' => '%s',
+  'file_name' => '%s',
 );
 
 export_data('node', 'ipaper', $fields, 'document');
 
 /**
- * Prepare data before inserting to the database.
+ *  Prepare data before inserting to the database.
  *
+ * @param string $entity_type
+ *   The entity type to export.
+ * @param obj $entity
+ *   Node of type document
+ * @param array $fields
+ *   Array fields for export, keyed by the column name and the  directive type
+ *   (e.g. '%s', '%d') as value.
  * @return array
- *   The values ready to be insered.
+ *   The values ready to be inserted.
  */
 function export_prepare_data_for_insert__node__document($entity_type, $entity, $fields) {
   $node = $entity;
