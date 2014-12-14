@@ -21,5 +21,10 @@ export_data('node', 'news', $fields, 'blog_post');
  *   The values ready to be insered.
  */
 function export_prepare_data_for_insert__node__blog_post($entity_type, $entity, $fields) {
-
+  $node = $entity;
+  $values = array();
+  foreach($fields as $key => $directive) {
+    $values[] = $node->$key;
+  }
+  return $values;
 }

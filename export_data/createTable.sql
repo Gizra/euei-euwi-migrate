@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `_gizra_blog_post`;
+DROP TABLE IF EXISTS `_gizra_node_blog_post`;
 
-CREATE TABLE `_gizra_blog_post` (
+CREATE TABLE `_gizra_node_blog_post` (
   `nid` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `body` longtext,
@@ -9,9 +9,9 @@ CREATE TABLE `_gizra_blog_post` (
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `_gizra_users`;
+DROP TABLE IF EXISTS `_gizra_user_user`;
 
-CREATE TABLE `_gizra_users` (
+CREATE TABLE `_gizra_user_user` (
   `uid` int(11) unsigned NOT NULL,
   `name` varchar(64) DEFAULT NULL,
   `password` varchar(64),
@@ -20,8 +20,8 @@ CREATE TABLE `_gizra_users` (
   KEY `uid` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `_gizra_documents`;
-CREATE TABLE `_gizra_documents` (
+DROP TABLE IF EXISTS `_gizra_node_document`;
+CREATE TABLE `_gizra_node_document` (
   `nid` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `body` longtext,

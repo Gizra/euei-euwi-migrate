@@ -5,11 +5,13 @@
  * Export the document content type.
  */
 
-require '../export_data.php';
+require 'export_data.php'; //check: can't require ../export_data.php
 
 $fields = array(
-  'nid' => '%d',
-  'title' => '%s',
+  'nid' => "'%d'",
+  'title' => "'%s'",
+  'body' => "'%s'",
+  'uid' => "'%d'",
 );
 
 export_data('node', 'ipaper', $fields, 'document');
@@ -31,9 +33,7 @@ function export_prepare_data_for_insert__node__document($entity_type, $entity, $
     }
     elseif($key == 'path') {
       $file = reset($node->files);
-      if (!empty($file->filepath)) {
-        $values[] = $file->filepath;
-      }
+      $values[] = !empty($file->filepath) ? $file->filepath : '';
     }
     else {
       $values[] = $node->$key;
