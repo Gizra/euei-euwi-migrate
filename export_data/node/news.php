@@ -11,7 +11,8 @@ $fields = array(
   'nid' => '%d',
   'title' => '%s',
   'body' => '%s',
-  'uid' => '%d'
+  'uid' => '%d',
+  'path' => '%s',
 );
 
 export_data('node', 'news', $fields, 'blog_post');

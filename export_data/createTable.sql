@@ -5,6 +5,7 @@ CREATE TABLE `_gizra_node_blog_post` (
   `title` varchar(255) DEFAULT NULL,
   `body` longtext,
   `uid` int(11) unsigned NOT NULL,
+  `path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`nid`),
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -26,7 +27,8 @@ CREATE TABLE `_gizra_node_document` (
   `title` varchar(255) DEFAULT NULL,
   `body` longtext,
   `uid` int(11) unsigned NOT NULL,
-  `path` varchar (255),
+  `path` varchar(255) DEFAULT NULL,
+  `file_path` varchar (255),
   `file_name` varchar (128),
   PRIMARY KEY (`nid`),
   KEY `nid` (`title`)
