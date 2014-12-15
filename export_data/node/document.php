@@ -8,11 +8,6 @@
 require '/vagrant/wordpress/build/euei/export_data/export_data.php';
 
 $fields = array(
-  'nid' => '%d',
-  'title' => '%s',
-  'body' => '%s',
-  'uid' => '%d',
-  'path' => '%s',
   'file_path' => '%s',
   'file_name' => '%s',
 );
@@ -53,16 +48,24 @@ function export_prepare_data_for_insert__node__document($node, $fields) {
   return $values;
 }
 
-function export_file($file){
-  //Set export folder.
-  $dest = 'export_data/files/euei/';
-  if(!file_check_directory($dest, FILE_CREATE_DIRECTORY)){
-    return;
+/**
+ * @param object $file
+ *   object File.
+ * @param string $dest
+ *   Path to  destanation folder
+ * @return string
+ *   Path to exported file or empty if unsuccsessfull.
+ * @throws Exception
+ *   message if destanation directory not exist.
+ */
+function export_file($file, $dest = 'export_data/files/euei/') {
+  if (!file_check_directory($dest, FILE_CREATE_DIRECTORY)) {
+    throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $dest)));
   }
-  $source = file_directory_path() . "/" . $file->filepath;
-  $dest .= '/'.$file->filename;
+// TODO: Add exception if source file not exists.
+  $source = file_directory_path() . '/' . $file->filepath;
+  $dest .= '/' . $file->filename;
   if (copy($source, $dest)){
     return $dest;
   }
-  return;
 }
