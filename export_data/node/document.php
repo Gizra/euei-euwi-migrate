@@ -13,6 +13,7 @@ $fields = array(
   'body' => '%s',
   'uid' => '%d',
   'path' => '%s',
+  'file_path' => '%s',
   'file_name' => '%s',
 );
 
@@ -40,7 +41,7 @@ function export_prepare_data_for_insert__node__document($entity_type, $entity, $
       $file = reset($node->files);
       $values[] = !empty($file->filename) ? $file->filename : '';
     }
-    elseif($key == 'path') {
+    elseif($key == 'file_path') {
       $file = reset($node->files);
       $values[] = !empty($file->filepath) ? $file->filepath : '';
     }
