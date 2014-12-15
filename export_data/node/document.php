@@ -31,14 +31,16 @@ export_data('node', 'ipaper', $fields, 'document');
  * @return array
  *   The values ready to be inserted.
  */
-function export_prepare_data_for_insert__node__document($entity_type, $entity, $fields) {
+function export_prepare_data_for_insert__node__document($entity, $fields) {
   $node = $entity;
 
   $values = array();
   foreach($fields as $key => $directive) {
     if ($key == 'file_name') {
       $file = reset($node->files);
+      if ()
       $values[] = !empty($file->filename) ? $file->filename : '';
+      file_copy($file,)
     }
     elseif($key == 'path') {
       $file = reset($node->files);
@@ -50,4 +52,12 @@ function export_prepare_data_for_insert__node__document($entity_type, $entity, $
   }
 
   return $values;
+}
+
+function export_file($original_file){
+  //Set export folder.
+  $dirname = '/vagrant/wordpress/build/euei/export_data/files/euei';
+  file_check_directory($dirname, FILE_CREATE_DIRECTORY);
+  file_copy($original_file, $dirname);
+
 }
