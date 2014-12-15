@@ -13,6 +13,7 @@ $fields = array(
   'body' => '%s',
   'uid' => '%d',
   'path' => '%s',
+  'file_path' => '%s',
   'file_name' => '%s',
 );
 
@@ -31,33 +32,37 @@ export_data('node', 'ipaper', $fields, 'document');
  * @return array
  *   The values ready to be inserted.
  */
-function export_prepare_data_for_insert__node__document($entity, $fields) {
-  $node = $entity;
+function export_prepare_data_for_insert__node__document($node, $fields) {
 
   $values = array();
+  $file = reset($node->files);
+  $exported_file = export_file($file);
+
   foreach($fields as $key => $directive) {
-    if ($key == 'file_name') {
-      $file = reset($node->files);
-      if ()
-      $values[] = !empty($file->filename) ? $file->filename : '';
-      file_copy($file,)
+    if($key == 'file_path') {
+      $values[$key] = $exported_file ? $exported_file : '';
     }
-    elseif($key == 'path') {
-      $file = reset($node->files);
-      $values[] = !empty($file->filepath) ? $file->filepath : '';
+    elseif ($key == 'file_name') {
+      $values[$key]= $exported_file ? $file->filename : '';
     }
     else {
-      $values[] = $node->$key;
+      $values[$key] = $node->$key;
     }
   }
 
   return $values;
 }
 
-function export_file($original_file){
+function export_file($file){
   //Set export folder.
-  $dirname = '/vagrant/wordpress/build/euei/export_data/files/euei';
-  file_check_directory($dirname, FILE_CREATE_DIRECTORY);
-  file_copy($original_file, $dirname);
-
+  $dest = 'export_data/files/euei/';
+  if(!file_check_directory($dest, FILE_CREATE_DIRECTORY)){
+    return;
+  }
+  $source = file_directory_path() . "/" . $file->filepath;
+  $dest .= '/'.$file->filename;
+  if (copy($source, $dest)){
+    return $dest;
+  }
+  return;
 }
