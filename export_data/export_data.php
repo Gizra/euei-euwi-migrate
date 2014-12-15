@@ -31,41 +31,44 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
 
   // Remove any existing data.
   db_query('TRUNCATE TABLE '. $destination_table);
-
-  $total =  db_result(db_query("SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid", $original_bundle));
+  $query = export_get_select_query_base_by_entity_type($entity_type, TRUE);
+  $total =  db_result(db_query($query, $original_bundle));
   $count = 0;
 
   $directives = array();
-  foreach ($fields as $directive){
+  foreach ($fields as $directive) {
     $directives[] = "'" . $directive . "'";
   }
 
-  while($count < $total){
-    $result = db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $original_bundle, $range, $count);
+  while ($count < $total) {
+
+    $query = export_get_select_query_base_by_entity_type($entity_type);
+    $result = db_query($query . ' LIMIT %d OFFSET %d', $original_bundle, $range, $count);
 
     while ($row = db_fetch_array($result)) {
-      $node = node_load($row['nid']);
+      $entity = call_user_func($entity_type . '_load', $row['id']);
 
       $function = 'export_prepare_data_for_insert__' . $entity_type . '__' . $destination_bundle;
       if (function_exists($function)) {
-        $values = $function($node, $fields);
+        $values = $function($entity, $fields);
       }
       else {
         // No special case, just take the values.
         $values = array();
         foreach($fields as $key => $directive) {
-          $values[$key] = $node->$key;
+          $values[$key] = $entity->$key;
         }
       }
 
       $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
-      $insert = db_query($query, $values);
 
+      db_query($query, $values);
       ++$count;
+      ($entity->id);
       $params = array(
         '@count' => $count,
         '@total' => $total,
-        '@id' => $node->nid,
+        '@id' => $entity->id,
       );
       drush_print(dt('(@count / @total) Processed node ID @id.', $params));
     }
@@ -85,7 +88,46 @@ function export_data_get_base_fields__node() {
     'body' => '%s',
     'uid' => '%d',
     'path' => '%s',
-    'published' => '%d',
+    'promote' => '%d',
     'sticky' => '%d',
   );
 }
+
+function export_data_get_base_fields__user() {
+  return array(
+    'uid' => '%d',
+    'name' => '%s',
+    'password' => '%s',
+    'mail' => '%s',
+  );
+}
+
+/**
+ * Return a select query by entity type.
+ *
+ * @param $entity_type
+ *   The entity type name.
+ * @param bool $count_query
+ *   Indicate if the query should be a COUNT(). Defaults to FALSE.
+ *
+ * @return string
+ *   The query string that can be used with query_db().
+ */
+function export_get_select_query_base_by_entity_type($entity_type, $count_query = FALSE) {
+  if ($count_query) {
+    switch ($entity_type) {
+      case 'node':
+        return "SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid";
+      case 'user':
+        return "SELECT COUNT(uid) FROM {users} u WHERE status = 1 ORDER BY u.uid";
+    }
+  }
+
+  switch ($entity_type) {
+    case 'node':
+      return "SELECT nid as id FROM {node} n WHERE n.type = '%s' ORDER BY n.nid";
+    case 'user':
+      return "SELECT uid as id FROM {users} u WHERE status = 1 ORDER BY u.uid";
+  }
+}
+
