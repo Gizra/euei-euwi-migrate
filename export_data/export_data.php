@@ -28,13 +28,7 @@ function export_data($entity_type, $original_bundle =NULL, $destination_bundle =
   $original_bundle = $original_bundle ? $original_bundle : $entity_type;
   $destination_bundle = $destination_bundle ? $destination_bundle : $original_bundle;
   $destination_table .= $destination_bundle;
-
   $fields += call_user_func('export_data_get_base_fields__' . $entity_type);
-  print_r($entity_type ."\n");
-  print_r($original_bundle."\n");
-  print_r($destination_bundle."\n");
-  print_r($fields."\n");
-  return;
 
   // Remove any existing data.
   db_query('TRUNCATE TABLE '. $destination_table);
@@ -48,9 +42,8 @@ function export_data($entity_type, $original_bundle =NULL, $destination_bundle =
   }
 
   while ($count < $total) {
-
     $query = export_get_select_query_base_by_entity_type($entity_type);
-    $result = db_query($query . ' LIMIT %d OFFSET %d', $original_bundle, $range, $count);
+    $result = export_get_query_result($query, $entity_type, $original_bundle, $range, $count);
 
     while ($row = db_fetch_array($result)) {
 
@@ -117,7 +110,7 @@ function export_data_get_base_fields__user() {
 }
 
 /**
- * Return a select query by entity type.
+ * Prepare a select query by entity type.
  *
  * @param $entity_type
  *   The entity type name.
@@ -144,7 +137,7 @@ function export_get_select_query_base_by_entity_type($entity_type, $count_query 
     case 'node':
       return "SELECT {$select} FROM {node} n WHERE n.type = '%s' ORDER BY n.nid";
     case 'user':
-      return "SELECT {$select} FROM {users} u WHERE status = '%d' ORDER BY u.uid";
+      return "SELECT {$select} FROM {users} u WHERE status = 1 AND u.uid !=0 ORDER BY u.uid";
   }
 }
 
@@ -186,6 +179,35 @@ function export_load_entity_base_entity_type($entity_type, $row) {
       break;
     case 'user':
       return $entity = user_load($row);
+      break;
+  }
+}
+
+/**
+ * Prepare needed variables for query based on entity type.
+ *
+ * @param $query
+ *   The query to database.
+ * @param $entity_type
+ *   The entity type name.
+ * @param $original_bundle
+ *   The bundle name.
+ * @param $range
+ *   Limit for database query.
+ * @param $count
+ *   Offset for database query.
+ *
+ * @return resource $result
+ *   A database query result resource
+ */
+function export_get_query_result($query, $entity_type, $original_bundle, $range, $count) {
+
+  switch ($entity_type) {
+    case 'user':
+      return $result = db_query($query . ' LIMIT %d OFFSET %d', $range, $count);
+      break;
+    default:
+      return $result = db_query($query . ' LIMIT %d OFFSET %d', $original_bundle, $range, $count);
       break;
   }
 }
