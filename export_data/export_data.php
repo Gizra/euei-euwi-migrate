@@ -27,6 +27,8 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
   $destination_bundle = $destination_bundle ? $destination_bundle : $original_bundle;
   $destination_table .= $destination_bundle;
 
+  $fields += call_user_func('export_data_get_base_fields__' . $entity_type);
+
   // Remove any existing data.
   db_query('TRUNCATE TABLE '. $destination_table);
 
@@ -46,13 +48,13 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
 
       $function = 'export_prepare_data_for_insert__' . $entity_type . '__' . $destination_bundle;
       if (function_exists($function)) {
-        $values = $function($entity_type, $node, $fields);
+        $values = $function($node, $fields);
       }
       else {
         // No special case, just take the values.
         $values = array();
         foreach($fields as $key => $directive) {
-          $values[] = $node->$key;
+          $values[$key] = $node->$key;
         }
       }
 
@@ -68,5 +70,22 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
       drush_print(dt('(@count / @total) Processed node ID @id.', $params));
     }
   }
-  return $insert;
+}
+
+/**
+ * Return the base fields that need to be exported for node content type.
+ *
+ * @return array
+ *   Array keyed by the column name, and the SQL directive as value.
+ */
+function export_data_get_base_fields__node() {
+  return array(
+    'nid' => '%d',
+    'title' => '%s',
+    'body' => '%s',
+    'uid' => '%d',
+    'path' => '%s',
+    'published' => '%d',
+    'sticky' => '%d',
+  );
 }
