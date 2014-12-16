@@ -39,8 +39,7 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
   foreach ($fields as $directive) {
     $directives[] = "'" . $directive . "'";
   }
-  //$total = 5
-  //$range =5;
+
   while ($count < $total) {
 
     $query = export_get_select_query_base_by_entity_type($entity_type);
@@ -49,9 +48,6 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
     while ($row = db_fetch_array($result)) {
 
       $entity = export_load_entity_base_entity_type($entity_type, $row);
-      //$entity = call_user_func($entity_type . '_load', $row['id']);
-      var_dump($row);
-
       $function = 'export_prepare_data_for_insert__' . $entity_type . '__' . $destination_bundle;
       if (function_exists($function)) {
         $values = $function($entity, $fields);
@@ -140,6 +136,13 @@ function export_get_select_query_base_by_entity_type($entity_type, $count_query 
   }
 }
 
+/**
+ * Return id name for the entity_type
+ * @param $entity_type
+ *   The entity type name.
+ * @return string $id
+ *   The key id name.
+ */
 function export_get_id_name_base_on_entity_type($entity_type) {
   switch ($entity_type) {
     case 'node':
@@ -152,6 +155,14 @@ function export_get_id_name_base_on_entity_type($entity_type) {
   return $id;
 }
 
+/**
+ * @param $entity_type
+ *   The entity type name.
+ * @param $row
+ *   The row of results query.
+ * @return object $entity
+ *   The object of the type.
+ */
 function export_load_entity_base_entity_type($entity_type, $row) {
   switch ($entity_type) {
     case 'node':
