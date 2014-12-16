@@ -6,6 +6,23 @@ CREATE TABLE `_gizra_node_blog_post` (
   `body` longtext,
   `uid` int(11) unsigned NOT NULL,
   `path` text DEFAULT NULL,
+  `promote` int(11) NOT NULL DEFAULT '0',
+  `sticky` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`nid`),
+  KEY `nid` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `_gizra_node_document`;
+CREATE TABLE `_gizra_node_document` (
+  `nid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `body` longtext,
+  `uid` int(11) unsigned NOT NULL,
+  `path` text DEFAULT NULL,
+  `promote` int(11) NOT NULL DEFAULT '0',
+  `sticky` int(11) NOT NULL DEFAULT '0',
+  `file_path` varchar (255),
+  `file_name` varchar (128),
   PRIMARY KEY (`nid`),
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -21,15 +38,3 @@ CREATE TABLE `_gizra_user_user` (
   KEY `uid` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `_gizra_node_document`;
-CREATE TABLE `_gizra_node_document` (
-  `nid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  `body` longtext,
-  `uid` int(11) unsigned NOT NULL,
-  `path` text DEFAULT NULL,
-  `file_path` varchar (255),
-  `file_name` varchar (128),
-  PRIMARY KEY (`nid`),
-  KEY `nid` (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
