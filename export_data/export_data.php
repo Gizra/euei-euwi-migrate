@@ -39,14 +39,18 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
   foreach ($fields as $directive) {
     $directives[] = "'" . $directive . "'";
   }
-
+  //$total = 5
+  //$range =5;
   while ($count < $total) {
 
     $query = export_get_select_query_base_by_entity_type($entity_type);
     $result = db_query($query . ' LIMIT %d OFFSET %d', $original_bundle, $range, $count);
 
     while ($row = db_fetch_array($result)) {
-      $entity = call_user_func($entity_type . '_load', $row['id']);
+
+      $entity = export_load_entity_base_entity_type($entity_type, $row);
+      //$entity = call_user_func($entity_type . '_load', $row['id']);
+      var_dump($row);
 
       $function = 'export_prepare_data_for_insert__' . $entity_type . '__' . $destination_bundle;
       if (function_exists($function)) {
@@ -64,11 +68,13 @@ function export_data($entity_type, $original_bundle, $fields = array(), $destina
 
       db_query($query, $values);
       ++$count;
-      ($entity->id);
+      $id = export_get_id_name_base_on_entity_type($entity_type);
+
+
       $params = array(
         '@count' => $count,
         '@total' => $total,
-        '@id' => $entity->id,
+        '@id' => $entity->$id,
       );
       drush_print(dt('(@count / @total) Processed node ID @id.', $params));
     }
@@ -114,20 +120,46 @@ function export_data_get_base_fields__user() {
  *   The query string that can be used with query_db().
  */
 function export_get_select_query_base_by_entity_type($entity_type, $count_query = FALSE) {
-  if ($count_query) {
-    switch ($entity_type) {
-      case 'node':
-        return "SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid";
-      case 'user':
-        return "SELECT COUNT(uid) FROM {users} u WHERE status = 1 ORDER BY u.uid";
-    }
+  switch ($entity_type) {
+    case 'node':
+      $select = $count_query ? 'COUNT(nid)' : 'nid';
+      break;
+    case 'user':
+      $select = $count_query ? 'COUNT(uid)' : 'uid';
+      break;
+    default:
+      $select = $count_query?  'COUNT(*)' : '*';
+      break;
   }
 
   switch ($entity_type) {
     case 'node':
-      return "SELECT nid as id FROM {node} n WHERE n.type = '%s' ORDER BY n.nid";
+      return "SELECT {$select} FROM {node} n WHERE n.type = '%s' ORDER BY n.nid";
     case 'user':
-      return "SELECT uid as id FROM {users} u WHERE status = 1 ORDER BY u.uid";
+      return "SELECT {$select} FROM {users} u WHERE status = '%d' ORDER BY u.uid";
   }
 }
 
+function export_get_id_name_base_on_entity_type($entity_type) {
+  switch ($entity_type) {
+    case 'node':
+      $id = 'nid';
+      break;
+    case 'user':
+      $id = 'uid';
+      break;
+  }
+  return $id;
+}
+
+function export_load_entity_base_entity_type($entity_type, $row) {
+  switch ($entity_type) {
+    case 'node':
+      $entity = node_load($row['nid']);
+      break;
+    case 'user':
+      $entity = user_load($row);
+      break;
+  }
+  return $entity;
+}
