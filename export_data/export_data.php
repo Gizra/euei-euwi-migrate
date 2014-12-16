@@ -21,13 +21,20 @@
  * @param int $range
  *   The number of items to process in one batch. Defaults to 50.
  */
-function export_data($entity_type, $original_bundle, $fields = array(), $destination_bundle = NULL, $range = 50) {
+function export_data($entity_type, $original_bundle =NULL, $destination_bundle = NULL, $fields = array(),  $range = 50) {
+
   $destination_table = '_gizra_' . $entity_type . '_';
 
+  $original_bundle = $original_bundle ? $original_bundle : $entity_type;
   $destination_bundle = $destination_bundle ? $destination_bundle : $original_bundle;
   $destination_table .= $destination_bundle;
 
   $fields += call_user_func('export_data_get_base_fields__' . $entity_type);
+  print_r($entity_type ."\n");
+  print_r($original_bundle."\n");
+  print_r($destination_bundle."\n");
+  print_r($fields."\n");
+  return;
 
   // Remove any existing data.
   db_query('TRUNCATE TABLE '. $destination_table);
@@ -94,7 +101,12 @@ function export_data_get_base_fields__node() {
     'sticky' => '%d',
   );
 }
-
+/**
+ * Return the base fields that need to be exported for user.
+ *
+ * @return array
+ *   Array keyed by the column name, and the SQL directive as value.
+ */
 function export_data_get_base_fields__user() {
   return array(
     'uid' => '%d',
@@ -137,40 +149,43 @@ function export_get_select_query_base_by_entity_type($entity_type, $count_query 
 }
 
 /**
- * Return id name for the entity_type
+ * Return the ID key name for the entity type.
+ *
  * @param $entity_type
  *   The entity type name.
+ *
  * @return string $id
- *   The key id name.
+ *   The ID key name.
  */
 function export_get_id_name_base_on_entity_type($entity_type) {
   switch ($entity_type) {
     case 'node':
-      $id = 'nid';
+      return $id = 'nid';
       break;
     case 'user':
-      $id = 'uid';
+      return $id = 'uid';
       break;
   }
-  return $id;
 }
 
 /**
+ * Load the entity by ID and return it as object.
+ *
  * @param $entity_type
  *   The entity type name.
  * @param $row
- *   The row of results query.
+ *   The row of results database query.
+ *
  * @return object $entity
  *   The object of the type.
  */
 function export_load_entity_base_entity_type($entity_type, $row) {
   switch ($entity_type) {
     case 'node':
-      $entity = node_load($row['nid']);
+      return $entity = node_load($row['nid']);
       break;
     case 'user':
-      $entity = user_load($row);
+      return $entity = user_load($row);
       break;
   }
-  return $entity;
 }

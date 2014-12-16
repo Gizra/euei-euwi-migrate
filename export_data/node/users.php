@@ -9,7 +9,7 @@ require '/vagrant/wordpress/build/euei/export_data/export_data.php';
 
 $fields = array();
 
-export_data('user', 1, $fields, 'user');
+export_data('user');
 
 /**
  *  Prepare data before inserting to the database.
@@ -19,6 +19,7 @@ export_data('user', 1, $fields, 'user');
  * @param array $fields
  *   Array fields for export, keyed by the column name and the  directive type
  *   (e.g. '%s', '%d') as value.
+ *
  * @return array $values
  *   The values ready to be inserted.
  */

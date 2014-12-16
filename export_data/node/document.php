@@ -12,7 +12,7 @@ $fields = array(
   'file_name' => '%s',
 );
 
-export_data('node', 'ipaper', $fields, 'document');
+export_data('node', 'ipaper', 'document', $fields);
 
 /**
  *  Prepare data before inserting to the database.
@@ -24,6 +24,7 @@ export_data('node', 'ipaper', $fields, 'document');
  * @param array $fields
  *   Array fields for export, keyed by the column name and the  directive type
  *   (e.g. '%s', '%d') as value.
+ *
  * @return array
  *   The values ready to be inserted.
  */
@@ -54,11 +55,12 @@ function export_prepare_data_for_insert__node__document($node, $fields) {
  * @param object $file
  *   object File.
  * @param string $dest
- *   Path to  destination folder
+ *   Path to destination folder.
+ *
  * @return string
  *   Path to exported file or empty if unsuccsessfull.
  * @throws Exception
- *   message if destination directory not exist or have not write permission.
+ *   Message if destination directory not exist or have not write permission.
  */
 function export_file($file, $dest = 'export_data/files/euei/') {
   if (!file_check_directory($dest, FILE_CREATE_DIRECTORY)) {
