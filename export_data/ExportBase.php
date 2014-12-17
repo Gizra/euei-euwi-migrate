@@ -15,7 +15,10 @@ class ExportBase implements ExportInterface {
     // Remove any existing data.
     $this->truncateTable();
 
-    $total = $this->getTotal();
+    // Get total count
+    if (!$total = $this->getTotal()) {
+      throw new Exception('No total count for entity type');
+    }
 
     $count = 0;
 
@@ -23,18 +26,20 @@ class ExportBase implements ExportInterface {
       $result = $this->getResults($count);
 
       while ($row = db_fetch_array($result)) {
-        $entity = node_load($row['nid']);
+
         $entity = $this->getEntityFromRow($row);
 
         $this->insertQuery($entity);
 
         ++$count;
         $params = array(
+          '@entity_type' => $this->getEntityType(),
           '@count' => $count,
           '@total' => $total,
-          '@id' => $this->getEntityId(),
+          '@id' => $this->getEntityId($entity),
         );
-        drush_print(dt('(@count / @total) Processed node ID @id.', $params));
+
+        drush_print(dt('(@count / @total) Processed @entity_type ID @id.', $params));
       }
     }
   }
@@ -60,7 +65,7 @@ class ExportBase implements ExportInterface {
     db_query('TRUNCATE TABLE '. $this->getDestinationTable());
   }
 
-  /**
+   /**
    * Get values from entity.
    *
    * @param stdClass $entity
@@ -71,10 +76,9 @@ class ExportBase implements ExportInterface {
    */
   protected function getValues($entity) {
     $values = array();
-    foreach($this->getFields() as $key => $directive) {
+    foreach($this->getBaseFields() as $key => $directive) {
       $values[$key] = $entity->$key;
     }
-
     return $values;
   }
 
@@ -89,8 +93,8 @@ class ExportBase implements ExportInterface {
    */
   protected function insertQuery($entity) {
     $destination_table = $this->getDestinationTable();
-    $fields = $this->getFields();
 
+    $fields = $this->getBaseFields();
     $directives = array();
     foreach ($fields as $directive) {
       $directives[] = "'" . $directive . "'";
