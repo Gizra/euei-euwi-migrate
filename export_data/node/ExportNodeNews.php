@@ -12,7 +12,3 @@ class ExportNodeNews extends  ExportNodeBase {
 
   protected $originalBundle = 'blog_post';
 }
-
-// Export.
-$handler = new ExportNodeNews();
-$handler->export();

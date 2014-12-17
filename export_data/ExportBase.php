@@ -23,19 +23,9 @@ class ExportBase implements ExportInterface {
       $result = $this->getResults($count);
 
       while ($row = db_fetch_array($result)) {
-        $node = node_load($row['nid']);
+        $entity = node_load($row['nid']);
 
-        $function = 'export_prepare_data_for_insert__' . $entity_type . '__' . $destination_bundle;
-        if (function_exists($function)) {
-          $values = $function($node, $fields);
-        }
-        else {
-          // No special case, just take the values.
-
-        }
-
-        $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
-        $insert = db_query($query, $values);
+        $this->insertQuery($entity);
 
         ++$count;
         $params = array(
