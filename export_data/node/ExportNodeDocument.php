@@ -4,9 +4,9 @@
  * Contains \ExportNodeDocument.
  */
 
-class ExportNodeDocument extends  ExportNodeBase {
+require '/vagrant/wordpress/build/euei/export_data/ExportNodeBase.php';
 
-  protected $entityType = 'node';
+class ExportNodeDocument extends  ExportNodeBase {
 
   protected $bundle = 'document';
 
@@ -66,5 +66,4 @@ class ExportNodeDocument extends  ExportNodeBase {
       return $destination;
     }
   }
-
 }

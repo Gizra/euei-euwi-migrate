@@ -4,6 +4,8 @@
  * Contains \ExportNodeBase.
  */
 
+require '/vagrant/wordpress/build/euei/export_data/ExportBase.php';
+
 class ExportNodeBase extends  ExportBase {
 
   protected $entityType = 'node';

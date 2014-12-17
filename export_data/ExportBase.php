@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 12/17/14
- * Time: 8:40 AM
- */
+
+require '/vagrant/wordpress/build/euei/export_data/ExportInterface.php';
 
 class ExportBase implements ExportInterface {
 
