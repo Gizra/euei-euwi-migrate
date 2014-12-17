@@ -24,6 +24,7 @@ class ExportBase implements ExportInterface {
 
       while ($row = db_fetch_array($result)) {
         $entity = node_load($row['nid']);
+        $entity = $this->getEntityFromRow($row);
 
         $this->insertQuery($entity);
 
@@ -31,7 +32,7 @@ class ExportBase implements ExportInterface {
         $params = array(
           '@count' => $count,
           '@total' => $total,
-          '@id' => $node->nid,
+          '@id' => $this->getEntityId(),
         );
         drush_print(dt('(@count / @total) Processed node ID @id.', $params));
       }
@@ -97,10 +98,6 @@ class ExportBase implements ExportInterface {
 
     $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
     return db_query($query, $this->getValues($entity));
-  }
-
-  protected function prepare() {
-
   }
 
   /**

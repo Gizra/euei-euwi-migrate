@@ -59,4 +59,12 @@ class ExportNodeBase extends  ExportBase {
     return db_result(db_query("SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid", $this->getOriginalBundle()));
   }
 
+  protected function getEntityFromRow($row) {
+    return node_load($row['id']);
+  }
+
+  protected function getEntityId($entity) {
+    return $entity->nid;
+  }
+
 }
