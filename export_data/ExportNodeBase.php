@@ -32,7 +32,7 @@ class ExportNodeBase extends ExportBase {
    * @return array
    */
   protected function getResults($offset = 0) {
-   return db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $this->getOriginalBundle(), $this->getRange(), $offset);
+    return db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $this->getOriginalBundle(), $this->getRange(), $offset);
   }
 
   /**

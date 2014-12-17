@@ -45,13 +45,17 @@ class ExportBase implements ExportInterface {
   }
 
   /**
+   * Return array of all fields.
+   *
    * @return array
    */
   protected function getFields() {
-    return array_merge($this->fields, $this->getBaseFields());
+    return array_merge($this->getBaseFields(),$this->fields);
   }
 
   /**
+   * Return entity type name.
+   *
    * @return mixed
    */
   protected function getEntityType() {
@@ -76,7 +80,7 @@ class ExportBase implements ExportInterface {
    */
   protected function getValues($entity) {
     $values = array();
-    foreach($this->getBaseFields() as $key => $directive) {
+    foreach($this->getFields() as $key => $directive) {
       $values[$key] = $entity->$key;
     }
     return $values;
@@ -94,7 +98,8 @@ class ExportBase implements ExportInterface {
   protected function insertQuery($entity) {
     $destination_table = $this->getDestinationTable();
 
-    $fields = $this->getBaseFields();
+    $fields = $this->getFields();
+
     $directives = array();
     foreach ($fields as $directive) {
       $directives[] = "'" . $directive . "'";
@@ -105,6 +110,8 @@ class ExportBase implements ExportInterface {
   }
 
   /**
+   * Get range of records processed per batch.
+   * 
    * @return int
    */
   public function getRange() {
