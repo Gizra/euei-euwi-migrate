@@ -6,5 +6,4 @@ echo Recreate DB Tables.
 
 drush scr node/document.php
 drush scr node/news.php
-
-
+drush scr node/users.php
