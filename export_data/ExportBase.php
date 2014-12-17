@@ -10,31 +10,21 @@ class ExportBase implements ExportInterface {
 
   protected $entityType = NULL;
 
-  protected $destination_table = NULL;
-
   protected $range = 50;
 
+  /**
+   * Export data.
+   */
   public function export() {
-    $destination_table = '_gizra_' . $entity_type . '_';
-
-    $destination_bundle = $destination_bundle ? $destination_bundle : $original_bundle;
-    $destination_table .= $destination_bundle;
-
-    $fields $this->getFields();
-
     // Remove any existing data.
-    db_query('TRUNCATE TABLE '. $destination_table);
+    $this->truncateTable();
 
-    $total =  db_result(db_query("SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid", $original_bundle));
+    $total = $this->getTotal();
+
     $count = 0;
 
-    $directives = array();
-    foreach ($fields as $directive){
-      $directives[] = "'" . $directive . "'";
-    }
-
-    while($count < $total){
-      $result = db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $original_bundle, $range, $count);
+    while($count < $total) {
+      $result = $this->getResults($count);
 
       while ($row = db_fetch_array($result)) {
         $node = node_load($row['nid']);
@@ -45,10 +35,7 @@ class ExportBase implements ExportInterface {
         }
         else {
           // No special case, just take the values.
-          $values = array();
-          foreach($fields as $key => $directive) {
-            $values[$key] = $node->$key;
-          }
+
         }
 
         $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
@@ -79,20 +66,71 @@ class ExportBase implements ExportInterface {
     return $this->entityType;
   }
 
+  /**
+   * Truncate table.
+   */
   protected function truncateTable() {
-
+    db_query('TRUNCATE TABLE '. $this->getDestinationTable());
   }
 
-  protected function getTotal() {
+  /**
+   * Get values from entity.
+   *
+   * @param stdClass $entity
+   *   The entity to process and extract the values.
+   *
+   * @return array
+   *   Array keyed by the SQL directive, and the value to insert.
+   */
+  protected function getValues($entity) {
+    $values = array();
+    foreach($this->getFields() as $key => $directive) {
+      $values[$key] = $entity->$key;
+    }
 
+    return $values;
   }
 
-  protected function insertQuery() {
+  /**
+   * Insert Values to DB.
+   *
+   * @param stdClass $entity
+   *   The entity to process and insert to the DB.
+   *
+   * @return bool
+   *   TRUE if insert was successful.
+   */
+  protected function insertQuery($entity) {
+    $destination_table = $this->getDestinationTable();
+    $fields = $this->getFields();
 
+    $directives = array();
+    foreach ($fields as $directive) {
+      $directives[] = "'" . $directive . "'";
+    }
+
+    $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
+    return db_query($query, $this->getValues($entity));
   }
 
   protected function prepare() {
 
+  }
+
+  /**
+   * @return int
+   */
+  public function getRange() {
+    return $this->range;
+  }
+
+  /**
+   * Return the destination table.
+   *
+   * @return string
+   */
+  protected function getDestinationTable() {
+    return '_gizra_' . $this->getEntityType();
   }
 
 }
