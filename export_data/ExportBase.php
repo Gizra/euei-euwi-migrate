@@ -50,7 +50,7 @@ class ExportBase implements ExportInterface {
    * @return array
    */
   protected function getFields() {
-    return array_merge($this->getBaseFields(),$this->fields);
+    return empty($this->fields) ?  $this->getBaseFields() : array_merge($this->getBaseFields(), $this->fields);
   }
 
   /**
@@ -111,7 +111,7 @@ class ExportBase implements ExportInterface {
 
   /**
    * Get range of records processed per batch.
-   * 
+   *
    * @return int
    */
   public function getRange() {
