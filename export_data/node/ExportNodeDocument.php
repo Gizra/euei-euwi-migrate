@@ -20,8 +20,9 @@ class ExportNodeDocument extends ExportNodeBase {
    */
   protected function getValues($entity) {
     $values = array();
-    $file = reset($entity->files);
-    $exported_file = $this->exportFile($file);
+    $file =  reset($entity->files);
+    $exported_file = $file ? $this->exportFile($file) : FALSE ;
+
 
     foreach($this->getFields() as $key => $directive) {
       if($key == 'file_path') {
@@ -58,8 +59,12 @@ class ExportNodeDocument extends ExportNodeBase {
     }
 
     // @todo: Add exception if source file not exists.
-    $source = file_directory_path() . '/' . $file->filepath;
+    $source = $file->filepath;
     $destination .= '/' . $file->filename;
+    if (!file_exists($source)) {
+      echo 'File ' . $source . 'could not be found';
+    }
+
     if (copy($source, $destination)){
       return $destination;
     }
