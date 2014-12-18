@@ -20,13 +20,13 @@ class ExportNodeDocument extends ExportNodeBase {
    */
   protected function getValues($entity) {
     $values = array();
-    $file =  reset($entity->files);
-    $exported_file = $file ? $this->exportFile($file) : FALSE ;
+    $file = reset($entity->files);
+    $exported_file = $file ? $this->exportFile($file) : '';
 
 
     foreach($this->getFields() as $key => $directive) {
       if($key == 'file_path') {
-        $values[$key] = $exported_file ? $exported_file : '';
+        $values[$key] = $exported_file;
       }
       elseif ($key == 'file_name') {
         $values[$key]= $exported_file ? $file->filename : '';

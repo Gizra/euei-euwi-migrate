@@ -10,6 +10,6 @@ $handler = new ExportNodeDocument();
 $handler->export();
 
 // News
-$handler = new ExportNodeNews();
-$handler->export();
+//$handler = new ExportNodeNews();
+//$handler->export();
 
