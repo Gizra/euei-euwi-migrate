@@ -97,9 +97,9 @@ class ExportBase implements ExportInterface {
    */
   protected function insertQuery($entity) {
     $destination_table = $this->getDestinationTable();
-
+    print_r($destination_table . "\n");
     $fields = $this->getFields();
-
+    //print_r($fields);
     $directives = array();
     foreach ($fields as $directive) {
       $directives[] = "'" . $directive . "'";
@@ -125,6 +125,15 @@ class ExportBase implements ExportInterface {
    */
   protected function getDestinationTable() {
     return '_gizra_' . $this->getEntityType();
+  }
+
+  /**
+   * The main field will be overridden in child classes.
+   *
+   * @return array
+   */
+  protected function getBaseFields() {
+    return array();
   }
 
 }

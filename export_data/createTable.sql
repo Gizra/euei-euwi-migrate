@@ -38,3 +38,21 @@ CREATE TABLE `_gizra_user_user` (
   KEY `uid` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `_gizra_comments`;
+
+CREATE TABLE IF NOT EXISTS `_gizra_comment` (
+  `cid` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL DEFAULT '0',
+  `nid` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `subject` varchar(64) NOT NULL DEFAULT '',
+  `comment` longtext NOT NULL,
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(60) DEFAULT NULL,
+  `mail` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`cid`),
+  KEY `lid` (`nid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=131 ;
+
+
