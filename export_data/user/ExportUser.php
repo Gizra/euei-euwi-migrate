@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \ExportNodeDocument.
+ * Contains \ExportUser.
  */
 
 class ExportUser extends ExportBase {
@@ -18,11 +18,11 @@ class ExportUser extends ExportBase {
   /**
    * Get values from entity.
    *
-   * @param stdClass $entity
+   * @param stdClass $user
    *   The entity to process and extract the values.
    *
    * @return array
-   *   Array keyed by the SQL directive, and the value to insert.
+   *   Array keyed by field name, and the value to insert.
    */
   protected function getValues($user) {
     $values = array();
@@ -79,7 +79,7 @@ class ExportUser extends ExportBase {
    *
    * @return integer
    */
-  protected function getEntityId($entity) {
-    return $entity->uid;
+  protected function getEntityId($user) {
+    return $user->uid;
   }
 }
