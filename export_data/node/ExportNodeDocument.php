@@ -21,11 +21,12 @@ class ExportNodeDocument extends ExportNodeBase {
   protected function getValues($entity) {
     $values = array();
     $file = reset($entity->files);
-    $exported_file = $this->exportFile($file);
+    $exported_file = $file ? $this->exportFile($file) : '';
+
 
     foreach($this->getFields() as $key => $directive) {
       if($key == 'file_path') {
-        $values[$key] = $exported_file ? $exported_file : '';
+        $values[$key] = $exported_file;
       }
       elseif ($key == 'file_name') {
         $values[$key]= $exported_file ? $file->filename : '';
@@ -57,9 +58,12 @@ class ExportNodeDocument extends ExportNodeBase {
       throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
     }
 
-    // @todo: Add exception if source file not exists.
-    $source = file_directory_path() . '/' . $file->filepath;
+    $source = $file->filepath;
     $destination .= '/' . $file->filename;
+    if (!file_exists($source)) {
+      drush_print(dt('File @source could not be found.', array('@source' => $source)));
+    }
+
     if (copy($source, $destination)){
       return $destination;
     }

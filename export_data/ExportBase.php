@@ -54,6 +54,15 @@ class ExportBase implements ExportInterface {
   }
 
   /**
+   * Return array of general fields of entity type.
+   *
+   * @return array
+   */
+  protected function getBaseFields(){
+    return array();
+  }
+
+  /**
    * Return entity type name.
    *
    * @return mixed
