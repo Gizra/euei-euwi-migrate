@@ -6,10 +6,10 @@
 
 class ExportComment extends ExportBase {
 
-  //The entity name.
+  // The entity name.
   protected $entityType = 'comment';
 
-  //Fields to export for comments.
+  // Fields to export for comments.
   protected $fields = array(
       'cid' => '%d',
       'pid' => '%d',
