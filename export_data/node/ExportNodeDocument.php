@@ -58,11 +58,10 @@ class ExportNodeDocument extends ExportNodeBase {
       throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
     }
 
-    // @todo: Add exception if source file not exists.
     $source = $file->filepath;
     $destination .= '/' . $file->filename;
     if (!file_exists($source)) {
-      echo 'File ' . $source . 'could not be found';
+      drush_print(dt('File @source could not be found.', array('@source' => $source)));
     }
 
     if (copy($source, $destination)){
