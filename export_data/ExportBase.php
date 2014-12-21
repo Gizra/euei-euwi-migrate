@@ -108,7 +108,7 @@ class ExportBase implements ExportInterface {
     $destination_table = $this->getDestinationTable();
 
     $fields = $this->getFields();
-    
+
     $directives = array();
     foreach ($fields as $directive) {
       $directives[] = "'" . $directive . "'";
