@@ -4,12 +4,12 @@
  * Contains \ExportComment.
  */
 
-//require '/vagrant/wordpress/build/euei/export_data/ExportBase.php';
-
 class ExportComment extends ExportBase {
 
+  //The entity name.
   protected $entityType = 'comment';
 
+  //Fields to export for comments.
   protected $fields = array(
       'cid' => '%d',
       'pid' => '%d',

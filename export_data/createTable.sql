@@ -38,7 +38,7 @@ CREATE TABLE `_gizra_user_user` (
   KEY `uid` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `_gizra_comments`;
+DROP TABLE IF EXISTS `_gizra_comment`;
 
 CREATE TABLE IF NOT EXISTS `_gizra_comment` (
   `cid` int(11) NOT NULL AUTO_INCREMENT,

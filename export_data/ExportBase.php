@@ -97,9 +97,7 @@ class ExportBase implements ExportInterface {
    */
   protected function insertQuery($entity) {
     $destination_table = $this->getDestinationTable();
-    print_r($destination_table . "\n");
     $fields = $this->getFields();
-    //print_r($fields);
     $directives = array();
     foreach ($fields as $directive) {
       $directives[] = "'" . $directive . "'";
