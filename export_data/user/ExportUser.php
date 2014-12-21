@@ -26,21 +26,15 @@ class ExportUser extends ExportBase {
    */
   protected function getValues($user) {
     $values = array();
+
     foreach($this->getFields() as $key => $directive) {
-      switch ($key){
-        case 'password':
-          $values['password'] = $user->pass;
-          break;
-        default:
-          $values[$key] = $user->$key;
-          break;
-      }
+      $values[$key] = $values[$key] == 'password' ? $user->pass : $user->$key;
     }
     return $values;
   }
 
   /**
-  * Get amount node records.
+  * Get amount user records.
   *
   * @return integer
   */
@@ -71,11 +65,11 @@ class ExportUser extends ExportBase {
     return user_load($row);
   }
 
-  /**
-   * Get entity ID.
+   /**
+   * Get the entity ID.
    *
-   * @param object $entity
-   *    The entity object.
+   * @param $user
+   *  The user object.
    *
    * @return integer
    */

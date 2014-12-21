@@ -7,12 +7,12 @@ require '/vagrant/wordpress/build/euei/export_data/user/ExportUser.php';
 
 
 // Document.
-//$handler = new ExportNodeDocument();
-//$handler->export();
+$handler = new ExportNodeDocument();
+$handler->export();
 
 // News
-//$handler = new ExportNodeNews();
-//$handler->export();
+$handler = new ExportNodeNews();
+$handler->export();
 
 // Users
 $handler = new ExportUser();
