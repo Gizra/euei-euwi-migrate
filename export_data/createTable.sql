@@ -27,9 +27,9 @@ CREATE TABLE `_gizra_node_document` (
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `_gizra_user_user`;
+DROP TABLE IF EXISTS `_gizra_user`;
 
-CREATE TABLE `_gizra_user_user` (
+CREATE TABLE `_gizra_user` (
   `uid` int(11) unsigned NOT NULL,
   `name` varchar(64) DEFAULT NULL,
   `password` varchar(64),
