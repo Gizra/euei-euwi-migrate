@@ -25,7 +25,7 @@ class ExportComment extends ExportBase {
    * @return integer
    */
   protected function getTotal() {
-    return db_result(db_query("SELECT COUNT(cid) FROM comments ORDER BY cid"));
+    return db_result(db_query("SELECT COUNT(cid) FROM comments"));
   }
 
   /**
