@@ -24,7 +24,7 @@ class ExportOgMembership extends ExportBase {
    * @return integer
    */
   protected function getTotal() {
-    return db_result(db_query("SELECT COUNT(uid) FROM og_uid"));
+    return db_result(db_query("SELECT COUNT(*) FROM og_uid"));
   }
 
   /**
@@ -35,7 +35,7 @@ class ExportOgMembership extends ExportBase {
    * @return array
    */
   protected function getResults($offset = 0) {
-    return db_query("SELECT uid FROM og_uid ORDER BY nid LIMIT %d OFFSET %d", $this->getRange(), $offset);
+    return db_query("SELECT nid, uid FROM og_uid ORDER BY nid, uid LIMIT %d OFFSET %d", $this->getRange(), $offset);
   }
 
   /**
@@ -47,7 +47,7 @@ class ExportOgMembership extends ExportBase {
    * @return object
    */
   protected function getEntityFromRow($row) {
-    return db_fetch_object(db_query('SELECT * FROM og_uid WHERE uid = %d', $row['uid']));
+    return db_fetch_object(db_query("SELECT * FROM og_uid WHERE nid = '%d' AND uid = '%d'", $row['nid'], $row['uid']));
   }
 
   /**
