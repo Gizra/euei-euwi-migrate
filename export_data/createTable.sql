@@ -38,3 +38,15 @@ CREATE TABLE `_gizra_user` (
   KEY `uid` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `_gizra_og_membership`;
+
+CREATE TABLE IF NOT EXISTS `_gizra_og_membership` (
+  `nid` int(11) NOT NULL DEFAULT '0',
+  `og_role` int(1) NOT NULL DEFAULT '0',
+  `is_active` int(1) NOT NULL DEFAULT '0',
+  `is_admin` int(1) NOT NULL DEFAULT '0',
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `created` int(11) DEFAULT '0',
+  `changed` int(11) DEFAULT '0',
+  PRIMARY KEY (`nid`,`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
