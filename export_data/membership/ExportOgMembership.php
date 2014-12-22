@@ -9,7 +9,7 @@ class ExportOgMembership extends ExportBase {
   // The entity type name, destination table name.
   protected $entityType = 'og_membership';
 
-  // There are fields to export
+  // There are fields to export. Key is name, value is sql directive.
   protected $fields = array(
     'nid' => '%d',
     'og_role' => '%d',
