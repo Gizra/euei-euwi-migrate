@@ -56,3 +56,31 @@ CREATE TABLE IF NOT EXISTS `_gizra_comment` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=131 ;
 
 
+DROP TABLE IF EXISTS `_gizra_node_event`;
+
+CREATE TABLE `_gizra_node_event` (
+  `nid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `body` longtext,
+  `uid` int(11) unsigned NOT NULL,
+  `path` text DEFAULT NULL,
+  `promote` int(11) NOT NULL DEFAULT '0',
+  `sticky` int(11) NOT NULL DEFAULT '0',
+  `event_start` int(10) unsigned NOT NULL DEFAULT '0',
+  `event_end` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`nid`),
+  KEY `nid` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `_gizra_og_membership`;
+
+CREATE TABLE IF NOT EXISTS `_gizra_og_membership` (
+  `nid` int(11) NOT NULL DEFAULT '0',
+  `og_role` int(1) NOT NULL DEFAULT '0',
+  `is_active` int(1) NOT NULL DEFAULT '0',
+  `is_admin` int(1) NOT NULL DEFAULT '0',
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `created` int(11) DEFAULT '0',
+  `changed` int(11) DEFAULT '0',
+  PRIMARY KEY (`nid`,`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
