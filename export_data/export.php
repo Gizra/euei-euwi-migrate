@@ -5,6 +5,7 @@ require '/vagrant/wordpress/build/euei/export_data/node/ExportNodeDocument.php';
 require '/vagrant/wordpress/build/euei/export_data/node/ExportNodeNews.php';
 require '/vagrant/wordpress/build/euei/export_data/node/ExportNodeEvent.php';
 require '/vagrant/wordpress/build/euei/export_data/user/ExportUser.php';
+require '/vagrant/wordpress/build/euei/export_data/membership/ExportOgMembership.php';
 
 
 // Document.
@@ -21,4 +22,8 @@ $handler->export();
 
 // Users
 $handler = new ExportUser();
+$handler->export();
+
+// Membership
+$handler = new ExportOgMembership();
 $handler->export();
