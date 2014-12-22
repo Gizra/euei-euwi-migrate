@@ -9,6 +9,7 @@ class ExportOgMembership extends ExportBase {
   // The entity type name, destination table name.
   protected $entityType = 'og_membership';
 
+  // There are fields to export
   protected $fields = array(
     'nid' => '%d',
     'og_role' => '%d',
@@ -46,7 +47,6 @@ class ExportOgMembership extends ExportBase {
    * @return object
    */
   protected function getEntityFromRow($row) {
-    var_dump($row);
     return db_fetch_object(db_query('SELECT * FROM og_uid WHERE uid = %d', $row['uid']));
   }
 
