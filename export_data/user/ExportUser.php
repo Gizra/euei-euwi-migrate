@@ -28,7 +28,7 @@ class ExportUser extends ExportBase {
     $values = array();
 
     foreach($this->getFields() as $key => $directive) {
-      $values[$key] = $values[$key] == 'password' ? $user->pass : $user->$key;
+      $values[$key] = $key == 'password' ? $user->pass : $user->$key;
     }
     return $values;
   }
