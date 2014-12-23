@@ -12,6 +12,9 @@ class ExportNodeBase extends ExportBase {
 
   protected $bundle = NULL;
 
+  /**
+   * @return array
+   */
   protected function getBaseFields() {
     return array(
       'nid' => '%d',

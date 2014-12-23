@@ -8,6 +8,12 @@ class ExportBase implements ExportInterface {
 
   protected $range = 50;
 
+  protected $siteName;
+
+  public function __construct() {
+    $this->siteName = drush_get_option('site-name', 'euei');
+  }
+
   /**
    * Export data.
    */
@@ -29,8 +35,8 @@ class ExportBase implements ExportInterface {
 
         $entity = $this->getEntityFromRow($row);
 
-        $this->insertQuery($entity);
 
+        $this->insertQuery($entity);
         ++$count;
         $params = array(
           '@entity_type' => $this->getEntityType(),
@@ -88,11 +94,28 @@ class ExportBase implements ExportInterface {
    *   Array keyed by the SQL directive, and the value to insert.
    */
   protected function getValues($entity) {
-    $values = array();
+    // First value for unique ID.
+    $values = $this->getEntityUniqueId($entity);
     foreach($this->getFields() as $key => $directive) {
       $values[$key] = $entity->$key;
     }
     return $values;
+  }
+
+  /**
+   * Get the unique ID of the entity.
+   *
+   * @param $entity
+   * @return array
+   *   Array keyed by "unique_id" and the unique ID (site name, and entity ID)
+   *   as value.
+   */
+  protected function getEntityUniqueId($entity) {
+    return array('unique_id' => $this->getSiteName() . ':' . $this->getEntityId($entity));
+  }
+
+  protected function getSiteName() {
+    return $this->siteName;
   }
 
   /**
@@ -106,14 +129,14 @@ class ExportBase implements ExportInterface {
    */
   protected function insertQuery($entity) {
     $destination_table = $this->getDestinationTable();
+    //First field  with directive for unique_id
+    $fields = array('unique_id' => '%s');
+    $fields = array_merge($fields, $this->getFields()) ;
 
-    $fields = $this->getFields();
-
-    $directives = array();
     foreach ($fields as $directive) {
       $directives[] = "'" . $directive . "'";
     }
-
+    //var_dump($directives); die;
     $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
     return db_query($query, $this->getValues($entity));
   }
@@ -135,5 +158,4 @@ class ExportBase implements ExportInterface {
   protected function getDestinationTable() {
     return '_gizra_' . $this->getEntityType();
   }
-
 }

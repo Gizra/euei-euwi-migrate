@@ -19,11 +19,12 @@ class ExportNodeDocument extends ExportNodeBase {
    * {@inheritdoc}
    */
   protected function getValues($entity) {
-    $values = array();
+
     $file = reset($entity->files);
     $exported_file = $file ? $this->exportFile($file) : '';
 
-
+    //First value for uniaue ID
+    $values = $this->getEntityUniqueId($entity);
     foreach($this->getFields() as $key => $directive) {
       if($key == 'file_path') {
         $values[$key] = $exported_file;
