@@ -55,18 +55,25 @@ class ExportNodeDocument extends ExportNodeBase {
    *   message if destination directory not exist.
    */
   protected function exportFile($file, $destination = 'export_data/files/euei/') {
+    if($this->getSiteName() =='euwi') {
+      $destination = '../euei/export_data/files/euwi';
+    }
     if (!file_check_directory($destination, FILE_CREATE_DIRECTORY)) {
       throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
     }
 
     $source = $file->filepath;
-    $destination .= '/' . $file->filename;
+    if($this->getSiteName() =='euwi') {
+      $source = variable_get('file_directory_path', 'files') . '/' . $source;
+      print_r($source);
+    }
+    $path = 'export_data/files/euei/' . $file->filename;
     if (!file_exists($source)) {
       drush_print(dt('File @source could not be found.', array('@source' => $source)));
     }
 
     if (copy($source, $destination)){
-      return $destination;
+      return $path;
     }
   }
 }
