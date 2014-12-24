@@ -6,5 +6,7 @@ echo Recreate DB Tables.
 drush scr export.php
 
 # The command needs drush alias
-`drush @euwi sql-connect` < createTable.sql
-drush @euwi export.php --site-name=euwi
+drush @euwi scr export.php --site-name=euwi
+
+# Export DB tables to SQL file.
+drush sql-dump --tables-list=_gizra_user,_gizra_node_blog_post,_gizra_node_document,_gizra_node_event,_gizra_og_membership  > exported-data.sql

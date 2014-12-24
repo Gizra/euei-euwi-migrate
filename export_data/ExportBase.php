@@ -18,8 +18,10 @@ class ExportBase implements ExportInterface {
    * Export data.
    */
   public function export() {
-    // Remove any existing data.
-    $this->truncateTable();
+    // Remove any existing data if the EUEI site.
+    if( $this->getSiteName()=='euei') {
+      $this->truncateTable();
+    }
 
     // Get total count
     if (!$total = $this->getTotal()) {
@@ -156,6 +158,9 @@ class ExportBase implements ExportInterface {
    * @return string
    */
   protected function getDestinationTable() {
+    if ($this->getSiteName() == 'euwi') {
+      return 'euei._gizra_' . $this->getEntityType();
+    }
     return '_gizra_' . $this->getEntityType();
   }
 }

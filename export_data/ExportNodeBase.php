@@ -53,7 +53,7 @@ class ExportNodeBase extends ExportBase {
    * @return string
    */
   protected function getDestinationTable() {
-    return '_gizra_' . $this->getEntityType() . '_' . $this->getBundle();
+    return parent::getDestinationTable() . '_' . $this->getBundle();
   }
 
   /**
