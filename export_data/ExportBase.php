@@ -135,5 +135,4 @@ class ExportBase implements ExportInterface {
   protected function getDestinationTable() {
     return '_gizra_' . $this->getEntityType();
   }
-
 }
