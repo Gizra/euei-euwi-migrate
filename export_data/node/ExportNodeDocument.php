@@ -65,8 +65,8 @@ class ExportNodeDocument extends ExportNodeBase {
     $source = $file->filepath;
     if($this->getSiteName() =='euwi') {
       $source = variable_get('file_directory_path', 'files') . '/' . $source;
-      print_r($source);
     }
+
     $path = 'export_data/files/euei/' . $file->filename;
     if (!file_exists($source)) {
       drush_print(dt('File @source could not be found.', array('@source' => $source)));
