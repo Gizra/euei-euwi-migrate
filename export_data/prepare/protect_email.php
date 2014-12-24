@@ -15,7 +15,6 @@ while($count < $total){
     if (end($mail) != 'test') {
       $user->mail .= '.test';
       $insert = db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $user->mail, $user->uid);
-      print_r('added test');
     }
 
     $count++;

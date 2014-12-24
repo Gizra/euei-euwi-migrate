@@ -64,7 +64,7 @@ class ExportNodeDocument extends ExportNodeBase {
 
     $source = $file->filepath;
     if($this->getSiteName() =='euwi') {
-      $source = variable_get('file_directory_path', 'files') . '/' . $source;
+      $source = file_directory_path() . '/' . $source;
     }
 
     $path = 'export_data/files/euei/' . $file->filename;

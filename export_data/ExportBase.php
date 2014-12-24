@@ -138,7 +138,7 @@ class ExportBase implements ExportInterface {
     foreach ($fields as $directive) {
       $directives[] = "'" . $directive . "'";
     }
-    //var_dump($directives); die;
+
     $query = "INSERT INTO $destination_table(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
     return db_query($query, $this->getValues($entity));
   }
