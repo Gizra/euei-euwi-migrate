@@ -12,7 +12,7 @@ while($count < $total){
 
     $mail = $user->mail;
     $mail = explode('.', $mail);
-    if (!end($mail) == 'test') {
+    if (end($mail) != 'test') {
       $user->mail .= '.test';
       $insert = db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $user->mail, $user->uid);
       print_r('added test');
