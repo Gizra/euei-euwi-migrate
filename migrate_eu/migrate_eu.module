@@ -9,12 +9,12 @@ function migrate_eu_migrate_api() {
     'api' => 2,
     'groups' => array(
       'eu' => array(
-        'title' => t('EU Migration'),
+        'title' => t('EUWI & EUEI Migration'),
       ),
     ),
     'migrations' => array(
-      'User' => array(
-        'class_name' => 'UserMigration',
+      'EuUser' => array(
+        'class_name' => 'EuUserMigration',
         'group_name' => 'eu',
       )
     ),

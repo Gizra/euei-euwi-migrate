@@ -1,17 +1,6 @@
 <?php
 
-abstract class EuMigration extends Migration {
-  public function __construct() {
-    parent::__construct();
-
-    $this->team = array(
-      new MigrateTeamMember('Ilya Manyahin', 'ilya@gizra.com', t('Developer'))
-    );
-
-  }
-}
-
-class UserMigration extends EuMigration {
+class EuUserMigration extends Migration {
   public function __construct() {
     parent::__construct();
 
@@ -34,7 +23,6 @@ class UserMigration extends EuMigration {
     $this->source = new MigrateSourceSQL($query);
 
     $this->destination = new MigrateDestinationUser('Migrate User');
-
 
     // $Destination = Source
     $this->addFieldMapping('name', 'name');

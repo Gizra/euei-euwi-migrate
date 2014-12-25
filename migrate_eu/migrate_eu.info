@@ -4,6 +4,4 @@ package = "Migration"
 core = 6.x
 dependencies[] = migrate
 
-#  include the files that contain your Migrate classes
-files[] = migrate_eu.migrate.inc
-files[] = user.inc
+files[] = handlers/user.inc
