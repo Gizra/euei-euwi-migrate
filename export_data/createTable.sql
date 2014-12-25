@@ -44,7 +44,8 @@ CREATE TABLE `_gizra_user` (
 DROP TABLE IF EXISTS `_gizra_comment`;
 
 CREATE TABLE IF NOT EXISTS `_gizra_comment` (
-  `cid` int(11) NOT NULL AUTO_INCREMENT,
+  `unique_id` varchar (64) NOT NULL,
+  `cid` int(11) NOT NULL,
   `pid` int(11) NOT NULL DEFAULT '0',
   `nid` int(11) NOT NULL DEFAULT '0',
   `uid` int(11) NOT NULL DEFAULT '0',
@@ -54,9 +55,9 @@ CREATE TABLE IF NOT EXISTS `_gizra_comment` (
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `name` varchar(60) DEFAULT NULL,
   `mail` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`cid`),
+  PRIMARY KEY (`unique_id`),
   KEY `lid` (`nid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=131 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `_gizra_node_event`;
