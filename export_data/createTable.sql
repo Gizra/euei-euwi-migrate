@@ -90,3 +90,14 @@ CREATE TABLE IF NOT EXISTS `_gizra_og_membership` (
   `changed` int(11) DEFAULT '0',
   PRIMARY KEY (`unique_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `_gizra_files`;
+
+CREATE TABLE IF NOT EXISTS `_gizra_files` (
+  `fid` varchar (64) NOT NULL AUTO_INCREMENT,
+  `unique_id` varchar (64) NOT NULL,
+  `file_path` varchar (255),
+  `file_name` varchar (128),
+  PRIMARY KEY (`fid`),
+  KEY `nid` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
