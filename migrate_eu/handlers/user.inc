@@ -6,6 +6,18 @@ class EuUserMigration extends Migration {
 
     $this->description = t('Migrate users');
 
+    // Set source object.
+    $query = db_select('_gizra_user', 'user')
+      ->fields('user', array('unique_id', 'uid', 'name', 'password', 'mail'))
+      ->orderBy('uid', 'ASC');
+
+
+    $this->source = new MigrateSourceSQL($query);
+
+    // Set destination object.
+    $this->destination = new MigrateDestinationUser();
+
+    // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
       array(
         'unique_id' => array('type' => 'varchar',
@@ -14,20 +26,14 @@ class EuUserMigration extends Migration {
           'description' => 'Source name and user id',
         )
       ),
-      MigrateDestinationTerm::getKeySchema()
+      MigrateDestinationUser::getKeySchema()
     );
 
-    $query = db_select('_gizra_user', 'user')
-      ->fields('user', array('unique_id', 'uid', 'name', 'password', 'mail'));
+    $this->addSimpleMappings(array(
+      'name',
+      'mail',
+    ));
 
-    $this->source = new MigrateSourceSQL($query);
-
-    $this->destination = new MigrateDestinationUser('Migrate User');
-
-    // $Destination = Source
-    $this->addFieldMapping('name', 'name');
     $this->addFieldMapping('pass', 'password');
-    $this->addFieldMapping('mail', 'mail');
-
   }
 }
