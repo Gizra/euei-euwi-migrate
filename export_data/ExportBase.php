@@ -158,9 +158,6 @@ class ExportBase implements ExportInterface {
    * @return string
    */
   protected function getDestinationTable() {
-    if ($this->getSiteName() == 'euwi') {
       return 'euei._gizra_' . $this->getEntityType();
-    }
-    return '_gizra_' . $this->getEntityType();
   }
 }
