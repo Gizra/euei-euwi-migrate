@@ -31,7 +31,7 @@ class EuUserMigration extends EuMigration {
     ));
     $this->addFieldMapping('pass', 'password');
   }
-  
+
   /**
    * Check that current imported user are not exists in origin database.
    * And modify user email to prevent sending emails by mistake.
