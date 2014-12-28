@@ -50,12 +50,6 @@ class EuUserMigration extends Migration {
    *  Current row in exported table.
    */
   public function prepareRow($row) {
-    // Always include this fragment at the beginning of every prepareRow()
-    // implementation, so parent classes can ignore rows.
-    if (parent::prepareRow($row) === FALSE) {
-      return FALSE;
-    }
-
     // Check that current import user are not exists in origin database.
     $result = db_select('users', 'u')
       ->fields('u', array('name'))
@@ -64,7 +58,7 @@ class EuUserMigration extends Migration {
       ->execute()
       ->fetchField();
 
-    if($result) {
+    if ($result) {
       // User already exists, so skip it.
       return FALSE;
     }
