@@ -18,7 +18,7 @@ class EuNewsMigration extends EuMigration {
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new MigrateDestinationNode('Blog post');
+    $this->destination = new MigrateDestinationNode('blog');
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
