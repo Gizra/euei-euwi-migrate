@@ -1,11 +1,9 @@
 <?php
-
 /**
  * @file
- *
  * Contains EuNewsMigration class for migrate EuNews.
  */
-class EuNewsMigration extends Migration {
+class EuNewsMigration extends EuMigration {
   public function __construct() {
     parent::__construct();
 
@@ -24,13 +22,7 @@ class EuNewsMigration extends Migration {
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
-      array(
-        'unique_id' => array('type' => 'varchar',
-          'length' => 254,
-          'not null' => TRUE,
-          'description' => 'Origin source name and user id separated by colon.',
-        )
-      ),
+      $this->unique_id_setting,
       MigrateDestinationNode::getKeySchema()
     );
 

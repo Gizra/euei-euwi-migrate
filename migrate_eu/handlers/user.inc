@@ -1,11 +1,9 @@
 <?php
-
 /**
  * @file
- *
  * Contains EuUserMigration class for migrate EuUser.
  */
-class EuUserMigration extends Migration {
+class EuUserMigration extends EuMigration {
   public function __construct() {
     parent::__construct();
 
@@ -23,13 +21,7 @@ class EuUserMigration extends Migration {
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
-      array(
-        'unique_id' => array('type' => 'varchar',
-          'length' => 254,
-          'not null' => TRUE,
-          'description' => 'Origin source name and user id separated by colon.',
-        )
-      ),
+      $this->unique_id_setting,
       MigrateDestinationUser::getKeySchema()
     );
 
@@ -39,8 +31,7 @@ class EuUserMigration extends Migration {
     ));
     $this->addFieldMapping('pass', 'password');
   }
-
-
+  
   /**
    * Check that current imported user are not exists in origin database.
    * And modify user email to prevent sending emails by mistake.
