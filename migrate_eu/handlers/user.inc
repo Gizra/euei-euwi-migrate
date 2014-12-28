@@ -43,8 +43,8 @@ class EuUserMigration extends Migration {
 
 
   /**
-   * Check that current import user are not exists in origin database.
-   * And modify user email to prevent sending emails by mistake. 
+   * Check that current imported user are not exists in origin database.
+   * And modify user email to prevent sending emails by mistake.
    *
    * @param $row
    *  Current row in exported table.
