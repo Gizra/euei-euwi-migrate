@@ -10,6 +10,9 @@ function migrate_eu_migrate_api() {
     'migrations' => array(
       'EuUser' => array(
         'class_name' => 'EuUserMigration',
+      ),
+      'EuNews' => array(
+        'class_name' => 'EuNewsMigration',
       )
     ),
   );
