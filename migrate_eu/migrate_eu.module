@@ -1,0 +1,18 @@
+<?php
+
+
+/**
+ * Implements hook_migrate_api().
+ */
+function migrate_eu_migrate_api() {
+  $api = array(
+    'api' => 2,
+    'migrations' => array(
+      'EuUser' => array(
+        'class_name' => 'EuUserMigration',
+      )
+    ),
+  );
+
+  return $api;
+}
