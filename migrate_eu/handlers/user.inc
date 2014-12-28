@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ *
+ * Contains EuUserMigration class for migrate EuUser.
+ */
 class EuUserMigration extends Migration {
   public function __construct() {
     parent::__construct();
@@ -36,6 +41,14 @@ class EuUserMigration extends Migration {
     $this->addFieldMapping('pass', 'password');
   }
 
+
+  /**
+   * Check that current import user are not exists in origin database.
+   * And modify user email to prevent sending emails by mistake. 
+   *
+   * @param $row
+   *  Current row in exported table.
+   */
   public function prepareRow($row) {
     // Always include this fragment at the beginning of every prepareRow()
     // implementation, so parent classes can ignore rows.
@@ -52,8 +65,12 @@ class EuUserMigration extends Migration {
       ->fetchField();
 
     if($result) {
+      // User already exists, so skip it.
       return FALSE;
     }
+
+    // Add a suffix to make the mail, to prevent sending emails by mistake.
+    $row->mail .= '.test';
 
     return TRUE;
   }
