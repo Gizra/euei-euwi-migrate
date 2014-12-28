@@ -16,7 +16,6 @@ class EuUserMigration extends Migration {
       ->fields('user', array('unique_id', 'uid', 'name', 'password', 'mail'))
       ->orderBy('uid', 'ASC');
 
-
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
@@ -28,7 +27,7 @@ class EuUserMigration extends Migration {
         'unique_id' => array('type' => 'varchar',
           'length' => 254,
           'not null' => TRUE,
-          'description' => 'Source name and user id',
+          'description' => 'Origin source name and user id separated by colon.',
         )
       ),
       MigrateDestinationUser::getKeySchema()

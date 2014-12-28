@@ -13,7 +13,7 @@ function migrate_eu_migrate_api() {
       ),
       'EuNews' => array(
         'class_name' => 'EuNewsMigration',
-      )
+      ),
     ),
   );
 
