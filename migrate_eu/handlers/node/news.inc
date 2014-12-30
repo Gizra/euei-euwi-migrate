@@ -5,7 +5,7 @@
  */
 class EuNewsMigration extends EuMigration {
 
-  protected $entityType = 'node';
+  protected $destination_class_name = 'MigrateDestinationNode';
 
   protected $bundle = 'blog';
 
@@ -23,8 +23,7 @@ class EuNewsMigration extends EuMigration {
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new MigrateDestinationNode('blog');
-
+    $this->destination = new $this->destination_class_name($this->bundle);
 
     $this->addSimpleMappings(array(
       'title',

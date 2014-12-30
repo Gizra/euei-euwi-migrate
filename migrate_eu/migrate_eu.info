@@ -5,6 +5,6 @@ core = 6.x
 dependencies[] = migrate
 
 files[] = migrate_eu.migrate.inc
-files[] = handlers/node/user.inc
+files[] = handlers/user/user.inc
 files[] = handlers/node/news.inc
-files[] = handlers/user/event.inc
+files[] = handlers/node/event.inc

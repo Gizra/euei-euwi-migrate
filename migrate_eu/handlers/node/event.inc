@@ -5,7 +5,9 @@
  */
 class EuEventMigration extends EuMigration {
 
-  protected $entityType = 'node';
+  protected $destination_class_name = 'MigrateDestinationNode';
+
+  protected $bundle = 'event';
 
   public function __construct() {
     parent::__construct();
@@ -21,7 +23,7 @@ class EuEventMigration extends EuMigration {
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new MigrateDestinationNode('event');
+    $this->destination = new $this->destination_class_name($this->bundle);
 
     $this->addSimpleMappings(array(
       'title',

@@ -5,7 +5,7 @@
  */
 class EuUserMigration extends EuMigration {
 
-  protected $entityType = 'user';
+  protected $destination_class_name = 'MigrateDestinationUser';
 
   public function __construct() {
     parent::__construct();
@@ -20,7 +20,7 @@ class EuUserMigration extends EuMigration {
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new MigrateDestinationUser();
+    $this->destination = new $this->destination_class_name();
 
     $this->addSimpleMappings(array(
       'name',
