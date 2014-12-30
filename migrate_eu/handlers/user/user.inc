@@ -4,6 +4,9 @@
  * Contains EuUserMigration class for migrate EuUser.
  */
 class EuUserMigration extends EuMigration {
+
+  protected $destination_class_name = 'MigrateDestinationUser';
+
   public function __construct() {
     parent::__construct();
 
@@ -17,13 +20,7 @@ class EuUserMigration extends EuMigration {
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new MigrateDestinationUser();
-
-    // Set map object.
-    $this->map = new MigrateSQLMap($this->machineName,
-      $this->unique_id_setting,
-      MigrateDestinationUser::getKeySchema()
-    );
+    $this->destination = new $this->destination_class_name();
 
     $this->addSimpleMappings(array(
       'name',

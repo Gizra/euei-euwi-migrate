@@ -4,6 +4,11 @@
  * Contains EuNewsMigration class for migrate EuNews.
  */
 class EuEventMigration extends EuMigration {
+
+  protected $destination_class_name = 'MigrateDestinationNode';
+
+  protected $bundle = 'event';
+
   public function __construct() {
     parent::__construct();
 
@@ -18,13 +23,7 @@ class EuEventMigration extends EuMigration {
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new MigrateDestinationNode('event');
-
-    // Set map object.
-    $this->map = new MigrateSQLMap($this->machineName,
-      $this->unique_id_setting,
-      MigrateDestinationNode::getKeySchema()
-    );
+    $this->destination = new $this->destination_class_name($this->bundle);
 
     $this->addSimpleMappings(array(
       'title',
