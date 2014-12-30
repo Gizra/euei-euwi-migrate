@@ -20,7 +20,7 @@ class ExportNodeBase extends ExportBase {
       'nid' => '%d',
       'title' => '%s',
       'body' => '%s',
-      'uid' => '%d',
+      'uid' => '%s',
       'path' => '%s',
       'promote' => '%d',
       'sticky' => '%d',
@@ -99,5 +99,23 @@ class ExportNodeBase extends ExportBase {
    */
   protected function getEntityId($entity) {
     return $entity->nid;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getValues($entity) {
+    // First value for unique ID.
+    $values = $this->getEntityUniqueId($entity);
+    foreach($this->getFields() as $key => $directive) {
+      if ($key == 'uid') {
+        $values[$key] = $this->getSiteName() . ':' . $entity->$key;
+      }
+      else {
+        $values[$key] = $entity->$key;
+      }
+
+    }
+    return $values;
   }
 }

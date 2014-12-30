@@ -19,13 +19,13 @@ class ExportBase implements ExportInterface {
    */
   public function export() {
     // Remove any existing data if the EUEI site.
-    if( $this->getSiteName()=='euei') {
+    if ($this->getSiteName() == 'euei') {
       $this->truncateTable();
     }
 
-    // Get total count
+    // Get total count.
     if (!$total = $this->getTotal()) {
-      throw new Exception('No total count for entity type');
+      throw new Exception('No total count for entity type.');
     }
 
     $count = 0;
