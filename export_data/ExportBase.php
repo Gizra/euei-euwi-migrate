@@ -10,6 +10,9 @@ class ExportBase implements ExportInterface {
 
   protected $siteName;
 
+  /**
+   * Construct method.
+   */
   public function __construct() {
     $this->siteName = drush_get_option('site-name', 'euei');
   }
@@ -30,13 +33,12 @@ class ExportBase implements ExportInterface {
 
     $count = 0;
 
-    while($count < $total) {
+    while ($count < $total) {
       $result = $this->getResults($count);
 
       while ($row = db_fetch_array($result)) {
 
         $entity = $this->getEntityFromRow($row);
-
 
         $this->insertQuery($entity);
         ++$count;

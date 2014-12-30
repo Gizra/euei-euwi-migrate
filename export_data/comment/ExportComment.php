@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \ExportComment.
@@ -11,13 +12,13 @@ class ExportComment extends ExportBase {
 
   // Fields to export for comments.
   protected $fields = array(
-      'cid' => '%d',
-      'pid' => '%d',
-      'nid' => '%d',
-      'uid' => '%d',
-      'subject' => '%s',
-      'comment' => '%s',
-    );
+    'cid' => '%d',
+    'pid' => '%d',
+    'nid' => '%d',
+    'uid' => '%d', // Change this line if type of uid col in comments table also changed.
+    'subject' => '%s',
+    'comment' => '%s',
+  );
 
   /**
    * Get amount comment records.

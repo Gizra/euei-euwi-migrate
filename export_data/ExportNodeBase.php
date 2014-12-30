@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \ExportNodeBase.
@@ -13,6 +14,8 @@ class ExportNodeBase extends ExportBase {
   protected $bundle = NULL;
 
   /**
+   * Return key value array with name and format.
+   *
    * @return array
    */
   protected function getBaseFields() {

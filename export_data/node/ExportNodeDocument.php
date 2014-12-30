@@ -21,9 +21,9 @@ class ExportNodeDocument extends ExportNodeBase {
   protected function getValues($entity) {
     $exported_files = array();
     if (count($entity->files)>1)
-      foreach($entity->files as $file) {
+      foreach ($entity->files as $file) {
         if ($path = $this->exportFile($file)) {
-          $exported_files[] =array (
+          $exported_files[] = array (
             'unique_id' => $this->getEntityUniqueId($entity),
             'file_path' => $path,
             'file_name' => $file->filename,
@@ -64,15 +64,16 @@ class ExportNodeDocument extends ExportNodeBase {
    *   message if destination directory not exist.
    */
   protected function exportFile($file, $destination = 'export_data/files/euei/') {
-    if($this->getSiteName() =='euwi') {
+    if ($this->getSiteName() == 'euwi') {
       $destination = '../euei/export_data/files/euwi';
     }
+
     if (!file_check_directory($destination, FILE_CREATE_DIRECTORY)) {
       throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
     }
 
     $source = $file->filepath;
-    if($this->getSiteName() =='euwi') {
+    if($this->getSiteName() == 'euwi') {
       $source = file_directory_path() . '/' . $source;
     }
 
@@ -84,10 +85,13 @@ class ExportNodeDocument extends ExportNodeBase {
     if (copy($source, $destination)){
       return $path;
     }
+
     return;
   }
 
-
+  /**
+   * Check files.
+   */
   protected function checkFiles() {
     if (!$total = $this->getTotal()) {
       throw new Exception('No total count for entity type');
@@ -99,20 +103,15 @@ class ExportNodeDocument extends ExportNodeBase {
       $result = $this->getResults($count);
 
       while ($row = db_fetch_array($result)) {
-
         $entity = $this->getEntityFromRow($row);
-        if($entity->files) {
+        if ($entity->files) {
           if (count($entity->files) > 1) {
-
+            // WTF?!
           }
-
-
-
-
-
-
         }
+
         ++$count;
+
         $params = array(
           '@entity_type' => $this->getEntityType(),
           '@count' => $count,

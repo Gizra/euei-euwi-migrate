@@ -1,3 +1,5 @@
+-- This file contain sql scheme for exported tables.
+
 DROP TABLE IF EXISTS `_gizra_node_blog_post`;
 
 CREATE TABLE `_gizra_node_blog_post` (
@@ -94,10 +96,9 @@ CREATE TABLE IF NOT EXISTS `_gizra_og_membership` (
 DROP TABLE IF EXISTS `_gizra_files`;
 
 CREATE TABLE IF NOT EXISTS `_gizra_files` (
-  `fid` varchar (64) NOT NULL AUTO_INCREMENT,
-  `unique_id` varchar (64) NOT NULL,
-  `file_path` varchar (255),
-  `file_name` varchar (128),
-  PRIMARY KEY (`fid`),
-  KEY `nid` (`title`)
+  `fid` int(10) NOT NULL AUTO_INCREMENT,
+  `unique_id` varchar(254) NOT NULL,
+  `file_path` varchar(255),
+  `file_name` varchar(128),
+  PRIMARY KEY (`fid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

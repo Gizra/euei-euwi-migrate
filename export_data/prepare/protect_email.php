@@ -1,12 +1,16 @@
 <?php
 
+/**
+ * @file
+ * Protect email.
+ */
+
 $id = drush_get_option('id', 1);
 $total = db_result(db_query("SELECT COUNT(uid) FROM {users} u ORDER BY u.uid", $id));
 $range = 50;
 $count = 0;
 
-
-while($count < $total){
+while ($count < $total){
   $result = db_query("SELECT uid FROM {users} u  ORDER BY u.uid LIMIT %d OFFSET %d", $range, $count);
   while ($user = user_load(db_fetch_array($result))) {
 
@@ -23,6 +27,7 @@ while($count < $total){
       '@total' => $total,
       '@id' => $user->uid,
     );
+
     drush_print(dt('(@count / @total) Processed user ID @id.', $params));
   }
 }

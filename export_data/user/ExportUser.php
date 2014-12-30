@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \ExportUser.
@@ -26,7 +27,7 @@ class ExportUser extends ExportBase {
    */
   protected function getValues($account) {
     $values = $this->getEntityUniqueId($account);
-    foreach($this->getFields() as $key => $directive) {
+    foreach ($this->getFields() as $key => $directive) {
       $values[$key] = $key == 'password' ? $account->pass : $account->$key;
     }
     return $values;

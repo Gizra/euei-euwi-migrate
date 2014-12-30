@@ -21,7 +21,7 @@
  * @param int $range
  *   The number of items to process in one batch. Defaults to 50.
  */
-function export_data($entity_type, $original_bundle =NULL, $destination_bundle = NULL, $fields = array(),  $range = 50) {
+function export_data($entity_type, $original_bundle = NULL, $destination_bundle = NULL, $fields = array(),  $range = 50) {
 
   $destination_table = '_gizra_' . $entity_type . '_';
 
@@ -33,7 +33,7 @@ function export_data($entity_type, $original_bundle =NULL, $destination_bundle =
   // Remove any existing data.
   db_query('TRUNCATE TABLE '. $destination_table);
   $query = export_get_select_query_base_by_entity_type($entity_type, TRUE);
-  $total =  db_result(db_query($query, $original_bundle));
+  $total = db_result(db_query($query, $original_bundle));
   $count = 0;
 
   $directives = array();
@@ -46,7 +46,6 @@ function export_data($entity_type, $original_bundle =NULL, $destination_bundle =
     $result = export_get_query_result($query, $entity_type, $original_bundle, $range, $count);
 
     while ($row = db_fetch_array($result)) {
-
       $entity = export_load_entity_base_entity_type($entity_type, $row);
       $function = 'export_prepare_data_for_insert__' . $entity_type . '__' . $destination_bundle;
       if (function_exists($function)) {
@@ -55,7 +54,7 @@ function export_data($entity_type, $original_bundle =NULL, $destination_bundle =
       else {
         // No special case, just take the values.
         $values = array();
-        foreach($fields as $key => $directive) {
+        foreach ($fields as $key => $directive) {
           $values[$key] = $entity->$key;
         }
       }
@@ -88,7 +87,7 @@ function export_data_get_base_fields__node() {
     'nid' => '%d',
     'title' => '%s',
     'body' => '%s',
-    'uid' => '%d',
+    'uid' => '%s', // Changed from %d to %s because `uid` have new syntax.
     'path' => '%s',
     'promote' => '%d',
     'sticky' => '%d',
@@ -125,19 +124,23 @@ function export_get_select_query_base_by_entity_type($entity_type, $count_query 
     case 'node':
       $select = $count_query ? 'COUNT(nid)' : 'nid';
       break;
+
     case 'user':
       $select = $count_query ? 'COUNT(uid)' : 'uid';
       break;
+
     default:
       $select = $count_query?  'COUNT(*)' : '*';
-      break;
   }
 
   switch ($entity_type) {
     case 'node':
       return "SELECT {$select} FROM {node} n WHERE n.type = '%s' ORDER BY n.nid";
+      break;
+
     case 'user':
       return "SELECT {$select} FROM {users} u WHERE status = 1 AND u.uid !=0 ORDER BY u.uid";
+      break;
   }
 }
 
@@ -155,6 +158,7 @@ function export_get_id_name_base_on_entity_type($entity_type) {
     case 'node':
       return $id = 'nid';
       break;
+
     case 'user':
       return $id = 'uid';
       break;
@@ -177,6 +181,7 @@ function export_load_entity_base_entity_type($entity_type, $row) {
     case 'node':
       return $entity = node_load($row['nid']);
       break;
+
     case 'user':
       return $entity = user_load($row);
       break;
@@ -206,6 +211,7 @@ function export_get_query_result($query, $entity_type, $original_bundle, $range,
     case 'user':
       return $result = db_query($query . ' LIMIT %d OFFSET %d', $range, $count);
       break;
+
     default:
       return $result = db_query($query . ' LIMIT %d OFFSET %d', $original_bundle, $range, $count);
       break;

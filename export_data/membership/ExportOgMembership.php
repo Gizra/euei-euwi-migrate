@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \ExportOgMembership.
@@ -15,7 +16,7 @@ class ExportOgMembership extends ExportBase {
     'og_role' => '%d',
     'is_active' => '%d',
     'is_admin' => '%d',
-    'uid' => '%d',
+    'uid' => '%d', // Change this line if type of uid col in comments table also changed.
   );
 
   /**
