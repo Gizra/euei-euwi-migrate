@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \ EuNewsMigration
+ * Contains \EuNewsMigration
  */
 
 class EuNewsMigration extends EuMigration {
@@ -19,7 +19,7 @@ class EuNewsMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_node_blog_post', 'post')
-      ->fields('post', $this->base_fields_node)
+      ->fields('post', $this->getNodeFields())
       ->orderBy('nid', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);

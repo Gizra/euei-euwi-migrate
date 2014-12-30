@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \ EuEventMigration
+ * Contains \EuEventMigration
  */
 
 class EuEventMigration extends EuMigration {
@@ -19,7 +19,7 @@ class EuEventMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_node_event', 'event')
-      ->fields('event', array_merge($this->base_fields_node, array('event_start', 'event_end')))
+      ->fields('event', array_merge($this->getNodeFields(), array('event_start', 'event_end')))
       ->orderBy('nid', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);

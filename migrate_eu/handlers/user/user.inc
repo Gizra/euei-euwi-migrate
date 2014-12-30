@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \ EuUserMigration
+ * Contains \EuUserMigration
  */
 
 class EuUserMigration extends EuMigration {
@@ -16,7 +16,7 @@ class EuUserMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_user', 'user')
-      ->fields('user', $this->base_fields_user)
+      ->fields('user', array('unique_id', 'uid', 'name', 'password', 'mail'))
       ->orderBy('uid', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);

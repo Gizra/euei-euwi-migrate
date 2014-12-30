@@ -15,21 +15,28 @@ abstract class EuMigration extends Migration {
     )
   );
 
-  protected $base_fields_node = array(
-    'unique_id', 'nid', 'title', 'body', 'uid', 'path', 'promote', 'sticky'
-  );
-
-  protected $base_fields_user = array(
-    'unique_id', 'uid', 'name', 'password', 'mail'
-  );
+  /**
+   * Return the base fields that should be migrated on all node bundles.
+   */
+  protected function getNodeFields() {
+    return array('unique_id', 'nid', 'title', 'body', 'uid', 'path', 'promote', 'sticky');
+  }
 
   public function __construct() {
     parent::__construct();
 
+    // Set destination class.
+    if ($this->entityType == 'node') {
+      $destination_class = 'MigrateDestinationNode';
+    }
+    else {
+      $destination_class = 'MigrateDestinationUser';
+    }
+
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
       $this->unique_id_setting,
-      $this->entityType == 'node' ? MigrateDestinationNode::getKeySchema() : MigrateDestinationUser::getKeySchema()
+      $destination_class::getKeySchema()
     );
 
     // Make sure only a single alias is created.
