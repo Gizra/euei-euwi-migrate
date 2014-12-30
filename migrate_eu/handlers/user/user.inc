@@ -1,11 +1,13 @@
 <?php
+
 /**
  * @file
- * Contains EuUserMigration class for migrate EuUser.
+ * Contains \ EuUserMigration
  */
+
 class EuUserMigration extends EuMigration {
 
-  protected $destination_class_name = 'MigrateDestinationUser';
+  protected $entityType = 'user';
 
   public function __construct() {
     parent::__construct();
@@ -14,13 +16,13 @@ class EuUserMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_user', 'user')
-      ->fields('user', array('unique_id', 'uid', 'name', 'password', 'mail'))
+      ->fields('user', $this->base_fields_user)
       ->orderBy('uid', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new $this->destination_class_name();
+    $this->destination = new MigrateDestinationUser();
 
     $this->addSimpleMappings(array(
       'name',

@@ -1,11 +1,13 @@
 <?php
+
 /**
  * @file
- * Contains EuNewsMigration class for migrate EuNews.
+ * Contains \ EuNewsMigration
  */
+
 class EuNewsMigration extends EuMigration {
 
-  protected $destination_class_name = 'MigrateDestinationNode';
+  protected $entityType = 'node';
 
   protected $bundle = 'blog';
 
@@ -17,13 +19,13 @@ class EuNewsMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_node_blog_post', 'post')
-      ->fields('post', array('unique_id', 'nid', 'title', 'body', 'uid', 'path', 'promote', 'sticky'))
+      ->fields('post', $this->base_fields_node)
       ->orderBy('nid', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new $this->destination_class_name($this->bundle);
+    $this->destination = new MigrateDestinationNode($this->bundle);
 
     $this->addSimpleMappings(array(
       'title',

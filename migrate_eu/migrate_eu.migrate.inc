@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \EuMigration
+ */
+
 abstract class EuMigration extends Migration {
 
   protected $unique_id_setting = array(
@@ -10,14 +15,21 @@ abstract class EuMigration extends Migration {
     )
   );
 
+  protected $base_fields_node = array(
+    'unique_id', 'nid', 'title', 'body', 'uid', 'path', 'promote', 'sticky'
+  );
+
+  protected $base_fields_user = array(
+    'unique_id', 'uid', 'name', 'password', 'mail'
+  );
+
   public function __construct() {
     parent::__construct();
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
       $this->unique_id_setting,
-//      $this->destination_class_name::getKeySchema()
-      call_user_func(array($this->destination_class_name, 'getKeySchema'))
+      $this->entityType == 'node' ? MigrateDestinationNode::getKeySchema() : MigrateDestinationUser::getKeySchema()
     );
 
     // Make sure only a single alias is created.
