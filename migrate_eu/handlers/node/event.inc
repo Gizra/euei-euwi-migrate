@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \ EuEventMigration
+ * Contains \EuEventMigration
  */
 
 class EuEventMigration extends EuMigration {
