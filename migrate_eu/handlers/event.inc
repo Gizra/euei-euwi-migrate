@@ -3,22 +3,22 @@
  * @file
  * Contains EuNewsMigration class for migrate EuNews.
  */
-class EuNewsMigration extends EuMigration {
+class EuEventMigration extends EuMigration {
   public function __construct() {
     parent::__construct();
 
-    $this->description = t('Migrate news');
+    $this->description = t('Migrate events');
     $this->dependencies = array('EuUser');
 
     // Set source object.
-    $query = db_select('_gizra_node_blog_post', 'post')
-      ->fields('post', array('unique_id', 'nid', 'title', 'body', 'uid', 'path', 'promote', 'sticky'))
+    $query = db_select('_gizra_node_event', 'event')
+      ->fields('event', array('unique_id', 'nid', 'title', 'body', 'uid', 'path', 'promote', 'sticky', 'event_start', 'event_end'))
       ->orderBy('nid', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
-    $this->destination = new MigrateDestinationNode('blog');
+    $this->destination = new MigrateDestinationNode('event');
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
@@ -31,16 +31,14 @@ class EuNewsMigration extends EuMigration {
       'body',
       'path',
       'promote',
-      'sticky'
+      'sticky',
+      'event_start',
+      'event_end',
     ));
-
-    $this->addFieldMapping('pathauto_perform_alias')
-      ->defaultValue(FALSE);
 
     $this
       ->addFieldMapping('uid', 'uid')
       ->sourceMigration('EuUser');
-    
-  }
 
+  }
 }
