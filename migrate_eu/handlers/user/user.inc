@@ -2,10 +2,13 @@
 
 /**
  * @file
- *
- * Contains EuUserMigration class for migrate EuUser.
+ * Contains \EuUserMigration
  */
-class EuUserMigration extends Migration {
+
+class EuUserMigration extends EuMigration {
+
+  protected $entityType = 'user';
+
   public function __construct() {
     parent::__construct();
 
@@ -16,23 +19,10 @@ class EuUserMigration extends Migration {
       ->fields('user', array('unique_id', 'uid', 'name', 'password', 'mail'))
       ->orderBy('uid', 'ASC');
 
-
     $this->source = new MigrateSourceSQL($query);
 
     // Set destination object.
     $this->destination = new MigrateDestinationUser();
-
-    // Set map object.
-    $this->map = new MigrateSQLMap($this->machineName,
-      array(
-        'unique_id' => array('type' => 'varchar',
-          'length' => 254,
-          'not null' => TRUE,
-          'description' => 'Source name and user id',
-        )
-      ),
-      MigrateDestinationUser::getKeySchema()
-    );
 
     $this->addSimpleMappings(array(
       'name',
@@ -40,7 +30,6 @@ class EuUserMigration extends Migration {
     ));
     $this->addFieldMapping('pass', 'password');
   }
-
 
   /**
    * Check that current imported user are not exists in origin database.
