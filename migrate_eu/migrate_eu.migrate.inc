@@ -36,7 +36,7 @@ abstract class EuMigration extends Migration {
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
       $this->unique_id_setting,
-      $destination_class::getKeySchema()
+      call_user_func(array($destination_class, 'getKeySchema'))
     );
 
     // Make sure only a single alias is created.
