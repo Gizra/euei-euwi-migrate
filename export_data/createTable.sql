@@ -11,6 +11,7 @@ CREATE TABLE `_gizra_node_blog_post` (
   `path` text DEFAULT NULL,
   `promote` int(11) NOT NULL DEFAULT '0',
   `sticky` int(11) NOT NULL DEFAULT '0',
+  `gid` varchar(254) NOT NULL DEFAULT '0',
   PRIMARY KEY (`unique_id`),
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
