@@ -11,5 +11,26 @@ class ExportNodeNews extends  ExportNodeBase {
 
   protected $originalBundle = 'news';
 
-  protected $fields = array();
+  protected $fields = array(
+    'gid' => '%s'
+  );
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getValues($entity) {
+    // First value for unique ID.
+    $values = $this->getEntityUniqueId($entity);
+    foreach($this->getFields() as $key => $directive) {
+      if ($key == 'gid') {
+        $values[$key] = !empty($entity->og_groups[0]) ?
+          $this->getSiteName() . ':' . $entity->og_groups[0] : 0;
+      }
+      else {
+        $values[$key] = $entity->$key;
+      }
+
+    }
+    return $values;
+  }
 }
