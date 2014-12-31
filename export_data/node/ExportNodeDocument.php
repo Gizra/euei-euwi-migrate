@@ -106,7 +106,7 @@ class ExportNodeDocument extends ExportNodeBase {
         $entity = $this->getEntityFromRow($row);
         if ($entity->files) {
           if (count($entity->files) > 1) {
-            // WTF?!
+            // @todo: Deal with multiple files.
           }
         }
 
