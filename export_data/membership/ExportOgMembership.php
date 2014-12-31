@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \ExportOgMembership.
@@ -15,7 +16,7 @@ class ExportOgMembership extends ExportBase {
     'og_role' => '%d',
     'is_active' => '%d',
     'is_admin' => '%d',
-    'uid' => '%d',
+    'uid' => '%d', // Change this line if type of uid col in comments table also changed.
   );
 
   /**
@@ -60,6 +61,18 @@ class ExportOgMembership extends ExportBase {
    */
   protected function getEntityId($entity) {
     return $entity->uid;
+  }
+
+  /**
+   * Get the unique ID of the entity.
+   *
+   * @param $entity
+   * @return array
+   *   Array keyed by "unique_id" and the unique ID (site name, and entity ID, and node ID for og membership )
+   *   as value.
+   */
+  protected function getEntityUniqueId($entity) {
+    return array('unique_id' => $this->getSiteName() . ':' . $this->getEntityId($entity) . ':' . $entity->nid);
   }
 }
 

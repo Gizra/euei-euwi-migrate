@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \ExportNodeBase.
@@ -12,12 +13,17 @@ class ExportNodeBase extends ExportBase {
 
   protected $bundle = NULL;
 
+  /**
+   * Return key value array with name and format.
+   *
+   * @return array
+   */
   protected function getBaseFields() {
     return array(
       'nid' => '%d',
       'title' => '%s',
       'body' => '%s',
-      'uid' => '%d',
+      'uid' => '%s',
       'path' => '%s',
       'promote' => '%d',
       'sticky' => '%d',
@@ -50,7 +56,7 @@ class ExportNodeBase extends ExportBase {
    * @return string
    */
   protected function getDestinationTable() {
-    return '_gizra_' . $this->getEntityType() . '_' . $this->getBundle();
+    return parent::getDestinationTable() . '_' . $this->getBundle();
   }
 
   /**
@@ -96,5 +102,23 @@ class ExportNodeBase extends ExportBase {
    */
   protected function getEntityId($entity) {
     return $entity->nid;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getValues($entity) {
+    // First value for unique ID.
+    $values = $this->getEntityUniqueId($entity);
+    foreach($this->getFields() as $key => $directive) {
+      if ($key == 'uid') {
+        $values[$key] = $this->getSiteName() . ':' . $entity->$key;
+      }
+      else {
+        $values[$key] = $entity->$key;
+      }
+
+    }
+    return $values;
   }
 }

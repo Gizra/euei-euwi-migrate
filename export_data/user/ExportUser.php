@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \ExportUser.
@@ -18,17 +19,16 @@ class ExportUser extends ExportBase {
   /**
    * Get values from entity.
    *
-   * @param stdClass $user
+   * @param stdClass $account
    *   The entity to process and extract the values.
    *
    * @return array
    *   Array keyed by field name, and the value to insert.
    */
-  protected function getValues($user) {
-    $values = array();
-
-    foreach($this->getFields() as $key => $directive) {
-      $values[$key] = $key == 'password' ? $user->pass : $user->$key;
+  protected function getValues($account) {
+    $values = $this->getEntityUniqueId($account);
+    foreach ($this->getFields() as $key => $directive) {
+      $values[$key] = $key == 'password' ? $account->pass : $account->$key;
     }
     return $values;
   }
@@ -39,7 +39,7 @@ class ExportUser extends ExportBase {
   * @return integer
   */
   protected function getTotal() {
-    return db_result(db_query("SELECT COUNT(u.uid) FROM {users} u WHERE u.uid != 0 and status = 1 ORDER BY u.uid"));
+    return db_result(db_query("SELECT COUNT(u.uid) FROM {users} u WHERE u.uid != 0 and status = 1"));
   }
 
   /**
