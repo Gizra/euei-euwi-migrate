@@ -1,0 +1,10 @@
+name = "Migrate from EUEI and EUWI"
+description = "Module to migrate from Drupal 5 to Drupal 6"
+package = "Migration"
+core = 6.x
+dependencies[] = migrate
+
+files[] = migrate_eu.migrate.inc
+files[] = handlers/user/user.inc
+files[] = handlers/node/news.inc
+files[] = handlers/node/event.inc
