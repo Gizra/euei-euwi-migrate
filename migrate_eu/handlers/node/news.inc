@@ -32,13 +32,14 @@ class EuNewsMigration extends EuMigration {
       'body',
       'path',
       'promote',
-      'sticky'
+      'sticky',
     ));
+
+    $this->addFieldMapping('og_groups', 'gid');
 
     $this
       ->addFieldMapping('uid', 'uid')
       ->sourceMigration('EuUser');
-    
   }
 
   /**
@@ -48,17 +49,9 @@ class EuNewsMigration extends EuMigration {
    * @param $row
    *  Current row in exported table.
    */
-  public function prepareRow($row)
-  {
-    var_dump($row); die;
-    // Skip news without gid or if gid not defined.
-    if (isset($this->groups_connect[$row->gid]) && !empty($this->groups_connect[$row->gid])) {
-      // Map original gid with new gid.
-      $row->gid = $this->groups_connect[$row->gid];
-    }
-    else {
-      return FALSE;
-    }
+  public function prepareRow($row) {
+
+    $row->og_groups = array($this->groupConnect[$row->og_groups]);
 
     return TRUE;
   }
