@@ -41,4 +41,25 @@ class EuNewsMigration extends EuMigration {
     
   }
 
+  /**
+   * Check that current imported news have group id.
+   * Map original group id with new group id.
+   *
+   * @param $row
+   *  Current row in exported table.
+   */
+  public function prepareRow($row)
+  {
+    var_dump($row); die;
+    // Skip news without gid or if gid not defined.
+    if (isset($this->groups_connect[$row->gid]) && !empty($this->groups_connect[$row->gid])) {
+      // Map original gid with new gid.
+      $row->gid = $this->groups_connect[$row->gid];
+    }
+    else {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
 }
