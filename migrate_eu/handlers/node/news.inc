@@ -43,16 +43,9 @@ class EuNewsMigration extends EuMigration {
   }
 
   /**
-   * Check that current imported news have group id.
    * Map original group id with new group id.
-   *
-   * @param $row
-   *  Current row in exported table.
    */
-  public function prepareRow($row) {
-
-    $row->og_groups = array($this->groupConnect[$row->og_groups]);
-
-    return TRUE;
+  public function prepare($entity, $row) {
+    $entity->og_groups = array($this->groupConnect[$row->gid]);
   }
 }
