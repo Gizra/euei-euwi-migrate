@@ -16,6 +16,17 @@ abstract class EuMigration extends Migration {
   );
 
   /**
+   * Array for set mapping between old and new group id.
+   *
+   * @var array
+   */
+  protected $groupConnect = array(
+    // EUEI
+    'euei:54' => '43907', // AFRETEP
+    'euei:10772' => '43909', // CEREEECA
+  );
+
+  /**
    * Return the base fields that should be migrated on all node bundles.
    */
   protected function getNodeFields() {

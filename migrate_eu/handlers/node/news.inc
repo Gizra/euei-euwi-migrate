@@ -32,13 +32,20 @@ class EuNewsMigration extends EuMigration {
       'body',
       'path',
       'promote',
-      'sticky'
+      'sticky',
     ));
+
+    $this->addFieldMapping('og_groups', 'gid');
 
     $this
       ->addFieldMapping('uid', 'uid')
       ->sourceMigration('EuUser');
-    
   }
 
+  /**
+   * Map original group id with new group id.
+   */
+  public function prepare($entity, $row) {
+    $entity->og_groups = array($this->groupConnect[$row->gid]);
+  }
 }
