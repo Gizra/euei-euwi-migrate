@@ -30,7 +30,16 @@ abstract class EuMigration extends Migration {
    * Return the base fields that should be migrated on all node bundles.
    */
   protected function getNodeFields() {
-    return array('unique_id', 'nid', 'title', 'body', 'uid', 'path', 'promote', 'sticky');
+    return array('unique_id',
+      'nid',
+      'title',
+      'body',
+      'uid',
+      'path',
+      'promote',
+      'sticky',
+      'gid',
+    );
   }
 
   public function __construct() {
