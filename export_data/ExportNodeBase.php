@@ -121,4 +121,17 @@ class ExportNodeBase extends ExportBase {
     }
     return $values;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function isGroupContent($entity) {
+    if (!empty($entity->og_groups[0])) {
+      if (in_array($entity->og_groups[0], $this->groupForExport[$this->getSiteName()])) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
 }

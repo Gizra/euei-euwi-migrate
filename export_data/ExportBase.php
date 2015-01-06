@@ -11,6 +11,31 @@ class ExportBase implements ExportInterface {
   protected $siteName;
 
   /**
+   * Array for set working groups will be exported for each site.
+   *
+   * @var array
+   */
+  protected $groupForExport = array(
+    'euei' => array(
+      'AFRETEP' => 54,
+      'CEREEECA' => 10772,
+    ),
+    'euwi' => array(
+      'EUWI Community Space' => 21098,
+      'Africa' => 21244,
+      'Eastern Europe, Caucasus and Central Asia' => 20336,
+      'Finance Working Group' => 20532,
+      'Latin America Water Supply and Sanitation' => 21019,
+      'Mediterranean' => 20691,
+      'Monitoring' => 20488,
+      'Multi-stakeholder Forum' => 20733,
+      'Research' => 20451,
+      'Secretariat' => 21010,
+      'Coordination Group' => 20868,
+    ),
+  );
+
+  /**
    * Construct method.
    */
   public function __construct() {
@@ -39,8 +64,10 @@ class ExportBase implements ExportInterface {
       while ($row = db_fetch_array($result)) {
 
         $entity = $this->getEntityFromRow($row);
+        if ($this->isGroupContent($entity)) {
+          $this->insertQuery($entity);
+        }
 
-        $this->insertQuery($entity);
         ++$count;
         $params = array(
           '@entity_type' => $this->getEntityType(),
@@ -161,5 +188,16 @@ class ExportBase implements ExportInterface {
    */
   protected function getDestinationTable() {
       return 'euei._gizra_' . $this->getEntityType();
+  }
+
+  /**
+   * Check necessity of exporting groups.
+   *
+   * @param $entity
+   *   Verifiable entity
+   * @return bool
+   */
+  protected function isGroupContent($entity) {
+    return TRUE;
   }
 }
