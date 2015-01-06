@@ -27,6 +27,7 @@ class ExportNodeBase extends ExportBase {
       'path' => '%s',
       'promote' => '%d',
       'sticky' => '%d',
+      'gid' => '%s',
     );
   }
 
@@ -125,9 +126,13 @@ class ExportNodeBase extends ExportBase {
   /**
    * {@inheritdoc}
    */
-  protected function isGroupContent($entity) {
-    if (!empty($entity->og_groups[0])) {
-      if (in_array($entity->og_groups[0], $this->groupForExport[$this->getSiteName()])) {
+  protected function checkNecessity($entity) {
+    if(empty($entity->og_groups)) {
+      return FALSE;
+    }
+
+    foreach ($entity->og_groups as $og_group) {
+      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
         return TRUE;
       }
     }
@@ -135,3 +140,4 @@ class ExportNodeBase extends ExportBase {
     return FALSE;
   }
 }
+

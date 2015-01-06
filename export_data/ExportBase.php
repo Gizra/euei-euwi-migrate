@@ -64,7 +64,7 @@ class ExportBase implements ExportInterface {
       while ($row = db_fetch_array($result)) {
 
         $entity = $this->getEntityFromRow($row);
-        if ($this->isGroupContent($entity)) {
+        if ($this->checkNecessity($entity)) {
           $this->insertQuery($entity);
         }
 
@@ -191,13 +191,16 @@ class ExportBase implements ExportInterface {
   }
 
   /**
-   * Check necessity of exporting groups.
+   * Check necessity of exporting data. Default value is TRUE
    *
    * @param $entity
    *   Verifiable entity
+   *
    * @return bool
    */
-  protected function isGroupContent($entity) {
+  protected function checkNecessity($entity) {
     return TRUE;
   }
+
+
 }

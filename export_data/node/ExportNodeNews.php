@@ -11,10 +11,6 @@ class ExportNodeNews extends  ExportNodeBase {
 
   protected $originalBundle = 'news';
 
-  protected $fields = array(
-    'gid' => '%s'
-  );
-
   /**
    * {@inheritdoc}
    */
@@ -22,6 +18,7 @@ class ExportNodeNews extends  ExportNodeBase {
     // First value for unique ID.
     $values = $this->getEntityUniqueId($entity);
     foreach($this->getFields() as $key => $directive) {
+      //TODO: Move function to ExportNodeBase and new function for multiple group.
       if ($key == 'gid') {
         $values[$key] = !empty($entity->og_groups[0]) ?
           $this->getSiteName() . ':' . $entity->og_groups[0] : 0;
