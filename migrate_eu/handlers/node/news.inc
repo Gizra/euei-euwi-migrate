@@ -19,7 +19,7 @@ class EuNewsMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_node_blog_post', 'post')
-      ->fields('post', $this->getNodeFields())
+      ->fields('post', array_merge($this->getNodeFields(), array('gid')))
       ->orderBy('nid', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
