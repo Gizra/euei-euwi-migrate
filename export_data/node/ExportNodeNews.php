@@ -26,6 +26,9 @@ class ExportNodeNews extends  ExportNodeBase {
         $values[$key] = !empty($entity->og_groups[0]) ?
           $this->getSiteName() . ':' . $entity->og_groups[0] : 0;
       }
+      elseif ($key == 'uid') {
+        $values[$key] = $this->getSiteName() . ':' . $entity->$key;
+      }
       else {
         $values[$key] = $entity->$key;
       }
