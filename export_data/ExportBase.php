@@ -40,8 +40,6 @@ class ExportBase implements ExportInterface {
 
         $entity = $this->getEntityFromRow($row);
 
-
-
         $this->insertQuery($entity);
         ++$count;
         $params = array(
