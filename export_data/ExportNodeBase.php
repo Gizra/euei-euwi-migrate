@@ -112,7 +112,10 @@ class ExportNodeBase extends ExportBase {
     // First value for unique ID.
     $values = $this->getEntityUniqueId($entity);
     foreach($this->getFields() as $key => $directive) {
-      if ($key == 'uid') {
+      if ($key == 'gid') {
+        $values[$key] = $this->getGroupIdFromEntity($entity);
+      }
+      elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
       else {
