@@ -40,7 +40,14 @@ class EuDocumentMigration extends EuMigration {
       ->addFieldMapping('uid', 'uid')
       ->sourceMigration('EuUser');
 
-    // TODO: Map gid.
+    $this->addFieldMapping('og_groups', 'gid');
 
+  }
+
+  /**
+   * Map original group id with new group id.
+   */
+  public function prepare($entity, $row) {
+    $entity->og_groups = array($this->groupConnect[$row->gid]);
   }
 }
