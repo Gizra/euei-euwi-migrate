@@ -139,5 +139,29 @@ class ExportNodeBase extends ExportBase {
 
     return FALSE;
   }
+
+  /**
+   * Return list of necessary groups of entity for export separated by pipe
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return int|string
+   *
+   */
+  protected function getNeededGroup($entity) {
+    if(!empty($entity->og_groups)) {
+      $gids= array();
+      foreach ($entity->og_groups as $og_group) {
+        if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+          $gids[] = $this->getSiteName() . ':' . $og_group;
+        }
+      }
+      return !empty($gids) ? implode("|", $gids) : 0;
+    }
+    else {
+      return 0;
+    }
+  }
 }
 
