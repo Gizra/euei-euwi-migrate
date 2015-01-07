@@ -42,10 +42,30 @@ class EuNewsMigration extends EuMigration {
       ->sourceMigration('EuUser');
   }
 
-  /**
-   * Map original group id with new group id.
-   */
   public function prepare($entity, $row) {
+
+    // Test that user of the news didn't migrated
+    // because already exist in system.
+    if (empty($entity->uid)) {
+      // Fetch a mail of existing user in dump.
+      $user_name = db_select('_gizra_user', 'u')
+        ->fields('u', array('name'))
+        ->condition('unique_id', $row->uid)
+        ->execute()
+        ->fetchField();
+
+      // Fetch a uid of existing user in c4d.
+      $user_id = db_select('users', 'u')
+        ->fields('u', array('uid'))
+        ->condition('name', $user_name)
+        ->execute()
+        ->fetchField();
+
+      // Set uid for entity.
+      $entity->uid = $user_id;
+    }
+
+    // Map original group id with new group id.
     $entity->og_groups = array($this->groupConnect[$row->gid]);
   }
 }
