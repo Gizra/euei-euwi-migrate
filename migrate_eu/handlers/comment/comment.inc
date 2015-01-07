@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file
+ * Contains \EuCommentMigration
+ */
+
+class EuCommentMigration extends EuMigration {
+
+  protected $bundle = 'comment';
+
+  public function __construct() {
+    parent::__construct();
+
+    $this->description = t('Migration of the Comments');
+    $this->dependencies = array('EuUser', 'EuNews', 'EuEvent');
+
+    // Set source object.
+    $query = db_select('_gizra_comment', 'comment')
+      ->fields('comment', array('unique_id',
+        'cid',
+        'pid',
+        'nid',
+        'uid',
+        'subject',
+        'comment',
+        'timestamp',
+        'status',
+        'name',
+        'mail'))
+      ->orderBy('cid', 'ASC');
+
+    $this->source = new MigrateSourceSQL($query);
+
+    // Set destination object.
+    $this->destination = new MigrateDestinationComment($this->bundle);
+
+    $this->addSimpleMappings(array(
+      'subject',
+      'comment',
+      'timestamp',
+      'status',
+      'name',
+      'mail',
+    ));
+
+    // Map the user.
+    $this
+      ->addFieldMapping('uid', 'uid')
+      ->sourceMigration('EuUser');
+
+    // Map the node.
+    $this
+      ->addFieldMapping('nid', 'nid')
+      ->sourceMigration('EuNews');
+
+    // TODO: Map the parent comment.
+  }
+}
