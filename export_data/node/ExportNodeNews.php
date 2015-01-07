@@ -19,7 +19,7 @@ class ExportNodeNews extends  ExportNodeBase {
     $values = $this->getEntityUniqueId($entity);
     foreach($this->getFields() as $key => $directive) {
       if ($key == 'gid') {
-        $values[$key] = $this->getNeededGroup($entity);
+        $values[$key] = $this->getGroupIdFromEntity($entity);
       }
       elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;

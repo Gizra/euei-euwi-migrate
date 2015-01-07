@@ -64,7 +64,7 @@ class ExportBase implements ExportInterface {
       while ($row = db_fetch_array($result)) {
 
         $entity = $this->getEntityFromRow($row);
-        if ($this->checkNecessity($entity)) {
+        if ($this->isExportable($entity)) {
           $this->insertQuery($entity);
         }
 
@@ -198,7 +198,7 @@ class ExportBase implements ExportInterface {
    *
    * @return bool
    */
-  protected function checkNecessity($entity) {
+  protected function isExportable($entity) {
     return TRUE;
   }
 
