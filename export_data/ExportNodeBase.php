@@ -144,7 +144,6 @@ class ExportNodeBase extends ExportBase {
         return TRUE;
       }
     }
-    return;
   }
 
   /**
