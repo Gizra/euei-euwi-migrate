@@ -148,12 +148,12 @@ class ExportNodeBase extends ExportBase {
   }
 
   /**
-   * Return list of necessary groups of entity for export separated by pipe
+   * Return list of necessary groups of entity for export separated by pipe.
    *
    * @param $entity
    *   The entity object.
    *
-   * @return int|string
+   * @return string
    *
    */
   protected function getGroupIdFromEntity($entity) {
@@ -164,7 +164,7 @@ class ExportNodeBase extends ExportBase {
         $gids[] = $this->getSiteName() . ':' . $og_group;
       }
     }
-    
+
     return implode("|", $gids);
   }
 }
