@@ -22,8 +22,8 @@ abstract class EuMigration extends Migration {
    */
   protected $groupConnect = array(
     // EUEI
-    'euei:54' => '43907', // AFRETEP
-    'euei:10772' => '43909', // CEREEECA
+    'euei:54' => '43874', // AFRETEP
+    'euei:10772' => '43876', // CEREEECA
   );
 
   /**
