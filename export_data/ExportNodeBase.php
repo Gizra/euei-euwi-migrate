@@ -132,11 +132,11 @@ class ExportNodeBase extends ExportBase {
    * @param $entity
    *   The entity object.
    *
-   * @return int|string
+   * @return bool
    */
   protected function isExportable($entity) {
     if (empty($entity->og_groups)) {
-      // Node is not associated with any group
+      // Node is not associated with any group.
       return;
     }
     foreach ($entity->og_groups as $og_group) {
@@ -157,17 +157,15 @@ class ExportNodeBase extends ExportBase {
    *
    */
   protected function getGroupIdFromEntity($entity) {
-    if (!empty($entity->og_groups)) {
-      $gids= array();
-      foreach ($entity->og_groups as $og_group) {
-        if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
-          $gids[] = $this->getSiteName() . ':' . $og_group;
-        }
-      }
-      return !empty($gids) ? implode("|", $gids) : 0;
-    }
 
-    return 0;
+    $gids= array();
+    foreach ($entity->og_groups as $og_group) {
+      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+        $gids[] = $this->getSiteName() . ':' . $og_group;
+      }
+    }
+    
+    return implode("|", $gids);
   }
 }
 
