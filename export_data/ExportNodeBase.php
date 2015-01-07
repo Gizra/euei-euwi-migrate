@@ -124,19 +124,21 @@ class ExportNodeBase extends ExportBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Check if the node belongs certain groups and needs to export.
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return int|string
    */
   protected function checkNecessity($entity) {
-    if(empty($entity->og_groups)) {
-      return FALSE;
-    }
-
-    foreach ($entity->og_groups as $og_group) {
-      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
-        return TRUE;
+    if(!empty($entity->og_groups)) {
+      foreach ($entity->og_groups as $og_group) {
+        if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+          return TRUE;
+        }
       }
     }
-
     return FALSE;
   }
 
@@ -159,9 +161,8 @@ class ExportNodeBase extends ExportBase {
       }
       return !empty($gids) ? implode("|", $gids) : 0;
     }
-    else {
-      return 0;
-    }
+
+    return 0;
   }
 }
 
