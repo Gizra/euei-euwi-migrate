@@ -36,12 +36,6 @@ class EuDocumentMigration extends EuMigration {
       'file_name',
     ));
 
-    $this
-      ->addFieldMapping('uid', 'uid')
-      ->sourceMigration('EuUser');
-
-    $this->addFieldMapping('og_groups', 'gid');
-
   }
 
   /**
