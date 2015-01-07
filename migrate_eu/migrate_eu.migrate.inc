@@ -22,15 +22,24 @@ abstract class EuMigration extends Migration {
    */
   protected $groupConnect = array(
     // EUEI
-    'euei:54' => '43907', // AFRETEP
-    'euei:10772' => '43909', // CEREEECA
+    'euei:54' => '43874', // AFRETEP
+    'euei:10772' => '43876', // CEREEECA
   );
 
   /**
    * Return the base fields that should be migrated on all node bundles.
    */
   protected function getNodeFields() {
-    return array('unique_id', 'nid', 'title', 'body', 'uid', 'path', 'promote', 'sticky');
+    return array('unique_id',
+      'nid',
+      'title',
+      'body',
+      'uid',
+      'path',
+      'promote',
+      'sticky',
+      'gid',
+    );
   }
 
   public function __construct() {
