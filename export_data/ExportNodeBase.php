@@ -27,6 +27,7 @@ class ExportNodeBase extends ExportBase {
       'path' => '%s',
       'promote' => '%d',
       'sticky' => '%d',
+      'gid' => '%s',
     );
   }
 
@@ -111,13 +112,16 @@ class ExportNodeBase extends ExportBase {
     // First value for unique ID.
     $values = $this->getEntityUniqueId($entity);
     foreach($this->getFields() as $key => $directive) {
-      if ($key == 'uid') {
+      if ($key == 'gid') {
+        $values[$key] = !empty($entity->og_groups[0]) ?
+          $this->getSiteName() . ':' . $entity->og_groups[0] : 0;
+      }
+      elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
       else {
         $values[$key] = $entity->$key;
       }
-
     }
     return $values;
   }

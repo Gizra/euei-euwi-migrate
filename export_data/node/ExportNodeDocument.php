@@ -46,6 +46,7 @@ class ExportNodeDocument extends ExportNodeBase {
       //TODO: Insert the file information to euei._gizra_files.
     }
 
+    // Temporary solution until files not completed.
     return $values = parent::getValues($entity);
   }
 

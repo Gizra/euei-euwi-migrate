@@ -18,4 +18,5 @@ class ExportNodeEvent extends  ExportNodeBase {
     'event_start' => '%d',
     'event_end' => '%d',
   );
+
 }
