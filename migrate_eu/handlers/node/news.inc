@@ -14,7 +14,7 @@ class EuNewsMigration extends EuMigration {
   public function __construct() {
     parent::__construct();
 
-    $this->description = t('Migrate news');
+    $this->description = t('Migration of the News');
     $this->dependencies = array('EuUser');
 
     // Set source object.
@@ -35,17 +35,6 @@ class EuNewsMigration extends EuMigration {
       'sticky',
     ));
 
-    $this->addFieldMapping('og_groups', 'gid');
-
-    $this
-      ->addFieldMapping('uid', 'uid')
-      ->sourceMigration('EuUser');
   }
 
-  /**
-   * Map original group id with new group id.
-   */
-  public function prepare($entity, $row) {
-    $entity->og_groups = array($this->groupConnect[$row->gid]);
-  }
 }

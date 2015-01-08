@@ -19,6 +19,9 @@ function migrate_eu_migrate_api() {
       'EuComment' => array(
         'class_name' => 'EuCommentMigration',
       ),
+      'EuDocument' => array(
+        'class_name' => 'EuDocumentMigration',
+      ),
     ),
   );
 
