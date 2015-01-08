@@ -19,34 +19,34 @@ class ExportNodeDocument extends ExportNodeBase {
    * {@inheritdoc}
    */
   protected function getValues($entity) {
-    $exported_files = array();
-    if (count($entity->files)>1)
-      foreach ($entity->files as $file) {
+
+    $file_path = array();
+    $file_name = array();
+    if (!empty ($entity->files)) {
+      foreach ($entity->files as $file){
+
         if ($path = $this->exportFile($file)) {
-          $exported_files[] = array (
-            'unique_id' => $this->getEntityUniqueId($entity),
-            'file_path' => $path,
-            'file_name' => $file->filename,
-          );
-        }
-      }
-    else {
-      if ($file = reset($entity->files)) {
-        if ($path = $this->exportFile($file)) {
-          $exported_files[] = array (
-            'unique_id' => $this->getEntityUniqueId($entity),
-            'file_path' => $this->exportFile($file),
-            'file_name' => $file->filename,
-          );
-        }
+          $file_path[] = $path;
+          $file_name[] = $file->filename;
+        };
       }
     }
 
-    if ($exported_files) {
-      //TODO: Insert the file information to euei._gizra_files.
+    //First value for uniaue ID
+    $values = $this->getEntityUniqueId($entity);
+    foreach($this->getFields() as $key => $directive) {
+      if($key == 'file_path') {
+        $values[$key] = implode ('|', $file_path);
+      }
+      elseif ($key == 'file_name') {
+        $values[$key]= implode ('|', $file_name);
+      }
+      else {
+        $values[$key] = $entity->$key;
+      }
     }
 
-    return $values = parent::getValues($entity);
+    return $values;
   }
 
   /**
@@ -72,16 +72,13 @@ class ExportNodeDocument extends ExportNodeBase {
       throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
     }
 
-    $source = $file->filepath;
-    if($this->getSiteName() == 'euwi') {
-      $source = file_directory_path() . '/' . $source;
-    }
-
-    $path = 'export_data/files/euei/' . $file->filename;
+    $source = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
+    $path = 'export_data/files/' . $this->getSiteName() . '/' . $file->filename;
     if (!file_exists($source)) {
       drush_print(dt('File @source could not be found.', array('@source' => $source)));
     }
 
+    $destination .= '/' . $file->filename;
     if (copy($source, $destination)){
       return $path;
     }

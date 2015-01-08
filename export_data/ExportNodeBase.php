@@ -27,6 +27,7 @@ class ExportNodeBase extends ExportBase {
       'path' => '%s',
       'promote' => '%d',
       'sticky' => '%d',
+      'gid' => '%s',
     );
   }
 
@@ -111,7 +112,10 @@ class ExportNodeBase extends ExportBase {
     // First value for unique ID.
     $values = $this->getEntityUniqueId($entity);
     foreach($this->getFields() as $key => $directive) {
-      if ($key == 'uid') {
+      if ($key == 'gid') {
+        $values[$key] = $this->getGroupIdFromEntity($entity);
+      }
+      elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
       else {
@@ -121,4 +125,42 @@ class ExportNodeBase extends ExportBase {
     }
     return $values;
   }
+
+  /**
+   * Check if the node belongs certain groups and needs to export.
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return bool
+   */
+  protected function isExportable($entity) {
+    if (empty($entity->og_groups)) {
+      // Node is not associated with any group.
+      return;
+    }
+    foreach ($entity->og_groups as $og_group) {
+      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+        return TRUE;
+      }
+    }
+  }
+
+  /**
+   * Return list of necessary groups of entity for export separated by pipe.
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return string
+   *
+   */
+  protected function getGroupIdFromEntity($entity) {
+    foreach ($entity->og_groups as $og_group) {
+      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+        return $this->getSiteName() . ':' . $og_group;
+      }
+    }
+  }
 }
+
