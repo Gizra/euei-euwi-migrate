@@ -72,12 +72,7 @@ class ExportNodeDocument extends ExportNodeBase {
       throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
     }
 
-    // todo: in one line.   $source = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $source : $file->filepath;
-    $source = $file->filepath;
-    if($this->getSiteName() == 'euwi') {
-      $source = file_directory_path() . '/' . $source;
-    }
-
+    $source = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
     $path = $this->getSiteName() == 'euwi' ? 'export_data/files/euwi/' : 'export_data/files/euei/';
     $path .= $file->filename;
     if (!file_exists($source)) {
