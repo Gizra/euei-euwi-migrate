@@ -156,15 +156,11 @@ class ExportNodeBase extends ExportBase {
    *
    */
   protected function getGroupIdFromEntity($entity) {
-
-    $gids= array();
     foreach ($entity->og_groups as $og_group) {
       if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
-        $gids[] = $this->getSiteName() . ':' . $og_group;
+        return $this->getSiteName() . ':' . $og_group;
       }
     }
-
-    return implode("|", $gids);
   }
 }
 
