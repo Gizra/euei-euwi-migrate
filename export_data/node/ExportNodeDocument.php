@@ -36,10 +36,10 @@ class ExportNodeDocument extends ExportNodeBase {
     $values = $this->getEntityUniqueId($entity);
     foreach($this->getFields() as $key => $directive) {
       if($key == 'file_path') {
-        $values[$key] = implode ("|", $file_path);
+        $values[$key] = implode ('|', $file_path);
       }
       elseif ($key == 'file_name') {
-        $values[$key]= implode ("|", $file_name);
+        $values[$key]= implode ('|', $file_name);
       }
       else {
         $values[$key] = $entity->$key;
@@ -73,8 +73,7 @@ class ExportNodeDocument extends ExportNodeBase {
     }
 
     $source = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
-    $path = $this->getSiteName() == 'euwi' ? 'export_data/files/euwi/' : 'export_data/files/euei/';
-    $path .= $file->filename;
+    $path = 'export_data/files/' . $this->getSiteName() . '/' . $file->filename;
     if (!file_exists($source)) {
       drush_print(dt('File @source could not be found.', array('@source' => $source)));
     }
