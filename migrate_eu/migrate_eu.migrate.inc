@@ -87,10 +87,8 @@ abstract class EuMigration extends Migration {
     }
 
     // Map original group id with new group id.
-    if (strpos($entity->og_groups, ':') && $row->gid) {
+    if ($this->entityType == 'node') {
       $entity->og_groups = array($this->groupConnect[$row->gid]);
     }
-
   }
-
 }
