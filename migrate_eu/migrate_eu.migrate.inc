@@ -64,4 +64,33 @@ abstract class EuMigration extends Migration {
       ->defaultValue(FALSE);
   }
 
+  public function prepare($entity, $row) {
+    // Test that user of the entity didn't migrated
+    // because already exist in system.
+    if (empty($entity->uid) && $row->uid) {
+      // Fetch a name of existing user in dump.
+      $user_name = db_select('_gizra_user', 'u')
+        ->fields('u', array('name'))
+        ->condition('unique_id', $row->uid)
+        ->execute()
+        ->fetchField();
+
+      // Fetch a uid of existing user in c4d.
+      $user_id = db_select('users', 'u')
+        ->fields('u', array('uid'))
+        ->condition('name', $user_name)
+        ->execute()
+        ->fetchField();
+
+      // Set uid for entity.
+      $entity->uid = $user_id;
+    }
+
+    // Map original group id with new group id.
+    if (strpos($entity->og_groups, ':') && $row->gid) {
+      $entity->og_groups = array($this->groupConnect[$row->gid]);
+    }
+
+  }
+
 }
