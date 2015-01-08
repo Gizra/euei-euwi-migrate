@@ -42,12 +42,11 @@ class EuDocumentMigration extends EuMigration {
       ->addFieldMapping('field_file_file:file_replace')
       ->defaultValue(FILE_EXISTS_REPLACE);
 
+    // Explicitly set the file function.
     $this
       ->addFieldMapping('field_file_file:file_function')
       ->defaultValue('file_copy');
 
-    // Set source files path by drush:
-    // drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/c4d/expoted-images/"
     $files_path = variable_get('c4d_migrate_files_path', NULL);
 
     $this
