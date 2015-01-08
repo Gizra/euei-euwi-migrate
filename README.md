@@ -19,7 +19,7 @@ function __clone() {
 3. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
 https://github.com/drupal/drupal/blob/6.x/.htaccess
 
-## Staff
+## Stuff
 
 On current step all groups should be made manually.
 
