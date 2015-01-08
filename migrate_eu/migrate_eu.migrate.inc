@@ -62,6 +62,14 @@ abstract class EuMigration extends Migration {
     // Make sure only a single alias is created.
     $this->addFieldMapping('pathauto_perform_alias')
       ->defaultValue(FALSE);
+
+    // Map for groups.
+    $this->addFieldMapping('og_groups', 'gid');
+
+    // Map for users.
+    $this
+      ->addFieldMapping('uid', 'uid')
+      ->sourceMigration('EuUser');
   }
 
   public function prepare($entity, $row) {

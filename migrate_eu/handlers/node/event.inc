@@ -37,9 +37,5 @@ class EuEventMigration extends EuMigration {
       'event_end',
     ));
 
-    $this
-      ->addFieldMapping('uid', 'uid')
-      ->sourceMigration('EuUser');
-
   }
 }
