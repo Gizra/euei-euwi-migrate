@@ -46,13 +46,12 @@ abstract class EuMigration extends Migration {
     parent::__construct();
 
     // Set destination class.
-    if ($this->entityType == 'node') {
-      $destination_class = 'MigrateDestinationNode';
-    }
-    elseif ($this->entityType == 'user') {
+    $destination_class = 'MigrateDestinationNode';
+
+    if ($this->entityType == 'user') {
       $destination_class = 'MigrateDestinationUser';
     }
-    else {
+    elseif ($this->entityType == 'comment') {
       $destination_class = 'MigrateDestinationComment';
     }
 

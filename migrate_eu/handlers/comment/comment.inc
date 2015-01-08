@@ -7,6 +7,8 @@
 
 class EuCommentMigration extends EuMigration {
 
+  protected $entityType = 'comment';
+
   protected $bundle = 'comment';
 
   public function __construct() {
@@ -43,11 +45,6 @@ class EuCommentMigration extends EuMigration {
       'name',
       'mail',
     ));
-
-    // Map the user.
-    $this
-      ->addFieldMapping('uid', 'uid')
-      ->sourceMigration('EuUser');
 
     // Map the node.
     $this
