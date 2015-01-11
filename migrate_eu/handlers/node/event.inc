@@ -11,6 +11,9 @@ class EuEventMigration extends EuMigration {
 
   protected $bundle = 'event';
 
+  /**
+   *
+   */
   public function __construct() {
     parent::__construct();
 
@@ -33,9 +36,23 @@ class EuEventMigration extends EuMigration {
       'path',
       'promote',
       'sticky',
-      'event_start',
-      'event_end',
     ));
 
+    // Set "Group event" as default value for all migrated groups.
+    $this->addFieldMapping('field_event_type')
+      ->defaultValue(array('group_event'));
+
   }
+
+  public function prepare($entity, $row) {
+    parent::prepare($entity, $row);
+
+    // Convert timestamps to allowed date format.
+    $entity->field_date = array();
+    $entity->field_date[0] = array(
+      'value' => date('c', $row->event_start),
+      'value2' => date('c', $row->event_end),
+    );
+  }
+
 }
