@@ -15,7 +15,7 @@ class ExportComment extends ExportBase {
     'cid' => '%d',
     'pid' => '%s',
     'nid' => '%s',
-    'uid' => '%s', // Change this line if type of uid col in comments table also changed.
+    'uid' => '%s',
     'subject' => '%s',
     'comment' => '%s',
     'name' => '%s',
