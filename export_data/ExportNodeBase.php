@@ -114,7 +114,7 @@ class ExportNodeBase extends ExportBase {
       if ($key == 'gid') {
         $values[$key] = $this->getGroupIdFromEntity($entity);
       }
-      if ($key == 'uid') {
+      elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
     }

@@ -25,10 +25,12 @@ class ExportUser extends ExportBase {
    * @return array
    *   Array keyed by field name, and the value to insert.
    */
-  protected function getValues($account) {
-    $values = $this->getEntityUniqueId($account);
-    foreach ($this->getFields() as $key => $directive) {
-      $values[$key] = $key == 'password' ? $account->pass : $account->$key;
+  protected function getValues($entity) {
+    $values = parent::getValues($entity);
+    foreach ($values as $key => $directive) {
+      if ($key == 'password') {
+        $values[$key] =  $entity->pass;
+      }
     }
     return $values;
   }
