@@ -33,19 +33,15 @@ class ExportNodeDocument extends ExportNodeBase {
     }
 
     //First value for uniaue ID
-    $values = $this->getEntityUniqueId($entity);
-    foreach($this->getFields() as $key => $directive) {
-      if($key == 'file_path') {
+    $values = parent::getValues($entity);
+    foreach($values as $key => $directive) {
+      if ($key == 'file_path') {
         $values[$key] = implode ('|', $file_path);
       }
       elseif ($key == 'file_name') {
-        $values[$key]= implode ('|', $file_name);
-      }
-      else {
-        $values[$key] = $entity->$key;
+        $values[$key] = implode ('|', $file_name);
       }
     }
-
     return $values;
   }
 
