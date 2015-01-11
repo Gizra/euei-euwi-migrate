@@ -13,11 +13,13 @@ class ExportComment extends ExportBase {
   // Fields to export for comments.
   protected $fields = array(
     'cid' => '%d',
-    'pid' => '%d',
-    'nid' => '%d',
-    'uid' => '%d', // Change this line if type of uid col in comments table also changed.
+    'pid' => '%s',
+    'nid' => '%s',
+    'uid' => '%s',
     'subject' => '%s',
     'comment' => '%s',
+    'name' => '%s',
+    'mail' => '%s',
   );
 
   /**
@@ -62,6 +64,20 @@ class ExportComment extends ExportBase {
    */
   protected function getEntityId($entity) {
     return $entity->cid;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getValues($entity) {
+
+    $values = parent::getValues($entity);
+    foreach ($values as $key => $directive) {
+      if (in_array($key, array('uid', 'nid', 'pid'))) {
+        $values[$key] = $this->getSiteName() . ':' . $entity->$key;
+      }
+    }
+    return $values;
   }
 }
 
