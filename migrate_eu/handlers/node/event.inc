@@ -10,10 +10,7 @@ class EuEventMigration extends EuMigration {
   protected $entityType = 'node';
 
   protected $bundle = 'event';
-
-  /**
-   *
-   */
+  
   public function __construct() {
     parent::__construct();
 
