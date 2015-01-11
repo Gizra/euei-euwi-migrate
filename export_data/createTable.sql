@@ -50,9 +50,9 @@ DROP TABLE IF EXISTS `_gizra_comment`;
 CREATE TABLE IF NOT EXISTS `_gizra_comment` (
   `unique_id` varchar (64) NOT NULL,
   `cid` int(11) NOT NULL,
-  `pid` int(11) NOT NULL DEFAULT '0',
-  `nid` int(11) NOT NULL DEFAULT '0',
-  `uid` int(11) NOT NULL DEFAULT '0',
+  `pid` varchar (64) NOT NULL DEFAULT '0',
+  `nid` varchar (64) NOT NULL DEFAULT '0',
+  `uid` varchar (64) NOT NULL DEFAULT '0',
   `subject` varchar(64) NOT NULL DEFAULT '',
   `comment` longtext NOT NULL,
   `timestamp` int(11) NOT NULL DEFAULT '0',
