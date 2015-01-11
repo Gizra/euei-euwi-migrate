@@ -73,7 +73,7 @@ class ExportComment extends ExportBase {
 
     $values = parent::getValues($entity);
     foreach ($values as $key => $directive) {
-      if ($key == 'uid' || $key == 'nid' || $key == 'pid') {
+      if (in_array($key, array('uid', 'nid', 'pid'))) {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
     }
