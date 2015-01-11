@@ -76,4 +76,25 @@ class ExportUser extends ExportBase {
   protected function getEntityId($user) {
     return $user->uid;
   }
+
+  /**
+   * Check necessity of exporting data.
+   * Check existence name, pass, email and belonging to groups for export.
+   *
+   * @param $entity
+   *   Verifiable entity
+   *
+   * @return bool
+   */
+  protected function isExportable($entity) {
+
+    if (empty($entity->name) || empty($entity->pass) || empty($entity->mail)) {
+      return FALSE;
+    }
+    foreach ($entity->og_groups as $og_key => $og_group) {
+      if (in_array($og_key, $this->groupForExport[$this->getSiteName()])) {
+        return TRUE;
+      }
+    }
+  }
 }
