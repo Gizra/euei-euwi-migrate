@@ -28,6 +28,7 @@ class ExportNodeBase extends ExportBase {
       'promote' => '%d',
       'sticky' => '%d',
       'gid' => '%s',
+      'tags' => '%s',
     );
   }
 
@@ -117,6 +118,9 @@ class ExportNodeBase extends ExportBase {
       elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
+      elseif ($key == 'tags') {
+        $values[$key] = $this->getTagsFromNode($entity);
+      }
     }
     return $values;
   }
@@ -156,6 +160,26 @@ class ExportNodeBase extends ExportBase {
         return $this->getSiteName() . ':' . $og_group;
       }
     }
+  }
+
+  /**
+   * Return the tags of the node.
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return string
+   */
+  protected function getTagsFromNode($entity) {
+    if (empty($entity->tags)) {
+      return;
+    }
+
+    $tags = array();
+    foreach(reset($entity->tags) as $tag) {
+      $tags[] = $tag->name;
+    }
+    return implode ('|', $tags);
   }
 }
 
