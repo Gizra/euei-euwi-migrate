@@ -182,6 +182,14 @@ class ExportBase implements ExportInterface {
   }
 
   /**
+   * Get list numbers of groups for current site.
+   *
+   * @return Array
+   */
+  public function getGroupsforExport() {
+    return $this->groupForExport[$this->getSiteName()];
+  }
+  /**
    * Return the destination table.
    *
    * @return string

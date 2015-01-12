@@ -40,6 +40,16 @@ class ExportNodeBase extends ExportBase {
    * @return array
    */
   protected function getResults($offset = 0) {
+
+    return db_query( "SELECT n.nid FROM  {og_ancestry} og LEFT JOIN {node} n ON og.nid = n.nid
+      WHERE og.group_nid IN ('%s')
+      AND n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d" ,
+      implode(',', $this->getGroupsforExport()),
+      $this->getOriginalBundle(),
+      $this->getRange(),
+      $offset
+    );
+
     return db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $this->getOriginalBundle(), $this->getRange(), $offset);
   }
 
@@ -79,7 +89,11 @@ class ExportNodeBase extends ExportBase {
    * @return integer
    */
   protected function getTotal() {
-    return db_result(db_query("SELECT COUNT(nid) FROM {node} n WHERE n.type = '%s' ORDER BY n.nid", $this->getOriginalBundle()));
+    return db_result(db_query("SELECT count(n.nid) FROM  {og_ancestry} og LEFT JOIN {node} n ON og.nid = n.nid
+      WHERE og.group_nid IN ('%s')
+      AND n.type = '%s'" ,
+      implode(',', $this->getGroupsforExport()),
+      $this->getOriginalBundle()));
   }
 
   /**
