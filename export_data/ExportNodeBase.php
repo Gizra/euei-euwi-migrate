@@ -194,10 +194,6 @@ class ExportNodeBase extends ExportBase {
    * @return string
    */
   protected function getPathFromNode($entity) {
-    if (empty($entity->path)) {
-      return;
-    }
-
     $path = explode('/', $entity->path);
     unset($path[0]);
     return implode('/', $path);
