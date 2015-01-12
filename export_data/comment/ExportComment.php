@@ -18,6 +18,7 @@ class ExportComment extends ExportBase {
     'uid' => '%s',
     'subject' => '%s',
     'comment' => '%s',
+    'timestamp' => '%d',
     'name' => '%s',
     'mail' => '%s',
   );
