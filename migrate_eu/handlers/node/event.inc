@@ -41,6 +41,8 @@ class EuEventMigration extends EuMigration {
 
   }
 
+
+
   public function prepare($entity, $row) {
     parent::prepare($entity, $row);
 

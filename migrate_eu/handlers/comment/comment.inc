@@ -15,12 +15,16 @@ class EuCommentMigration extends EuMigration {
     parent::__construct();
 
     $this->description = t('Migration of the Comments');
-    $this->dependencies = array('EuUser', 'EuNews', 'EuEvent');
+    $this->dependencies = array(
+      'EuDocument',
+      'EuEvent',
+      'EuNews',
+      'EuUser',
+    );
 
     // Set source object.
     $query = db_select('_gizra_comment', 'comment')
       ->fields('comment', array('unique_id',
-        'cid',
         'pid',
         'nid',
         'uid',
@@ -30,7 +34,7 @@ class EuCommentMigration extends EuMigration {
         'status',
         'name',
         'mail'))
-      ->orderBy('cid', 'ASC');
+      ->orderBy('unique_id', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
 
@@ -49,8 +53,12 @@ class EuCommentMigration extends EuMigration {
     // Map the node.
     $this
       ->addFieldMapping('nid', 'nid')
-      ->sourceMigration('EuNews');
+      ->sourceMigration(array('EuNews', 'EuEvent', 'EuDocument'));
 
-    // TODO: Map the parent comment.
+    // Map the parent comment.
+    $this
+      ->addFieldMapping('pid', 'pid')
+      ->sourceMigration('EuComment');
+
   }
 }
