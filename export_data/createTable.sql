@@ -89,11 +89,11 @@ DROP TABLE IF EXISTS `_gizra_og_membership`;
 
 CREATE TABLE IF NOT EXISTS `_gizra_og_membership` (
   `unique_id` varchar (64) NOT NULL,
-  `nid` int(11) NOT NULL DEFAULT '0',
+  `nid` varchar(64) NOT NULL DEFAULT '0',
   `og_role` int(1) NOT NULL DEFAULT '0',
   `is_active` int(1) NOT NULL DEFAULT '0',
   `is_admin` int(1) NOT NULL DEFAULT '0',
-  `uid` int(11) NOT NULL DEFAULT '0',
+  `uid` varchar(64) NOT NULL DEFAULT '0',
   `created` int(11) DEFAULT '0',
   `changed` int(11) DEFAULT '0',
   PRIMARY KEY (`unique_id`)

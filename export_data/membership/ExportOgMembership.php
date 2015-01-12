@@ -12,11 +12,11 @@ class ExportOgMembership extends ExportBase {
 
   // There are fields to export. Key is name, value is sql directive.
   protected $fields = array(
-    'nid' => '%d',
+    'nid' => '%s',
     'og_role' => '%d',
     'is_active' => '%d',
     'is_admin' => '%d',
-    'uid' => '%d', // Change this line if type of uid col in comments table also changed.
+    'uid' => '%s',
   );
 
   /**
@@ -73,6 +73,19 @@ class ExportOgMembership extends ExportBase {
    */
   protected function getEntityUniqueId($entity) {
     return array('unique_id' => $this->getSiteName() . ':' . $this->getEntityId($entity) . ':' . $entity->nid);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getValues($entity) {
+    $values = parent::getValues($entity);
+    foreach ($values as $key => $directive){
+      if (in_array($key, array('nid','uid'))) {
+        $values[$key] = $this->getSiteName() . ':' . $entity->$key;
+      }
+    }
+    return $values;
   }
 }
 
