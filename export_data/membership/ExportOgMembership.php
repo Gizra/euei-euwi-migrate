@@ -80,7 +80,7 @@ class ExportOgMembership extends ExportBase {
    */
   protected function getValues($entity) {
     $values = parent::getValues($entity);
-    foreach ($values as $key => $directive){
+    foreach ($values as $key => $directive) {
       if (in_array($key, array('nid','uid'))) {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
