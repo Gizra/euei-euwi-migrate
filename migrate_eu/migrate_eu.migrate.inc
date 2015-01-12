@@ -84,29 +84,7 @@ abstract class EuMigration extends Migration {
       ->addFieldMapping('uid', 'uid')
       ->sourceMigration('EuUser');
   }
-
-  /**
-   * Callback method; Add taxonomy terms.
-   */
-  public function addTags($tags) {
-    $tags_array = array();
-    foreach ($tags as $tag_name) {
-      // if tag already exists return term obj.
-      if ($term_obj = taxonomy_get_term_by_name($tag_name)) {
-        $tags_array[] = array_shift($term_obj);
-      }
-      // else create a new tag.
-      else {
-        $term = array(
-          'vid' => 512,
-          'name' => $tag_name,
-        );
-        taxonomy_save_term($term);
-        $tags_array = array_merge(taxonomy_get_term_by_name($tag_name), $tags_array);
-      }
-    }
-    return $tags_array;
-  }
+  
 
   public function prepare($entity, $row) {
     // Test that user of the entity didn't migrated
