@@ -162,6 +162,14 @@ class ExportNodeBase extends ExportBase {
     }
   }
 
+  /**
+   * Return the tags of the node.
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return string
+   */
   protected function getTagsFromNode($entity) {
     if (empty($entity->tags)) {
       return;
