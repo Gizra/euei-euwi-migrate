@@ -121,6 +121,9 @@ class ExportNodeBase extends ExportBase {
       elseif ($key == 'tags') {
         $values[$key] = $this->getTagsFromNode($entity);
       }
+      elseif ($key == 'path') {
+        $values[$key] = $this->getPathFromNode($entity);
+      }
     }
     return $values;
   }
@@ -181,5 +184,20 @@ class ExportNodeBase extends ExportBase {
     }
     return implode ('|', $tags);
   }
+
+  /**
+   * Return prepared path. Remove first prefix.
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return string
+   */
+  protected function getPathFromNode($entity) {
+    $path = explode('/', $entity->path);
+    unset($path[0]);
+    return implode('/', $path);
+  }
+
 }
 
