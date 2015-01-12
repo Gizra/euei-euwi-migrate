@@ -51,6 +51,7 @@ abstract class EuMigration extends Migration {
       'promote',
       'sticky',
       'gid',
+      'tags',
     );
   }
 
@@ -84,6 +85,29 @@ abstract class EuMigration extends Migration {
       ->sourceMigration('EuUser');
   }
 
+  /**
+   * Callback method; Add taxonomy terms.
+   */
+  public function addTags($tags) {
+    $tags_array = array();
+    foreach ($tags as $tag_name) {
+      // if tag already exists return term obj.
+      if ($term_obj = taxonomy_get_term_by_name($tag_name)) {
+        $tags_array[] = array_shift($term_obj);
+      }
+      // else create a new tag.
+      else {
+        $term = array(
+          'vid' => 512,
+          'name' => $tag_name,
+        );
+        taxonomy_save_term($term);
+        $tags_array = array_merge(taxonomy_get_term_by_name($tag_name), $tags_array);
+      }
+    }
+    return $tags_array;
+  }
+
   public function prepare($entity, $row) {
     // Test that user of the entity didn't migrated
     // because already exist in system.
@@ -108,7 +132,86 @@ abstract class EuMigration extends Migration {
 
     // Map original group id with new group id.
     if ($this->entityType == 'node') {
-      $entity->og_groups = array($this->groupConnect[$row->gid]);
+      $gid = $this->groupConnect[$row->gid];
+      $entity->og_groups = array($gid);
+
+      $vocabs = array_keys(og_vocab_get_vocabularies($gid));
+      $entity->vocabs = $vocabs;
+
+      // Parse tags.
+      if ($row->tags) {
+        $tags = explode('|', $row->tags);
+        $entity->taxonomy = array();
+        foreach ($tags as $tag_name) {
+          // Search tag in Categories.
+          $tag_id = $this->searchTagInVocabulary($tag_name, $entity->vocabs[0]);
+          if ($tag_id) {
+            $entity = $this->addTagToEntity($tag_id, $entity);
+          }
+          else {
+            // Search tag in Additional tags.
+            $tag_id = $this->searchTagInVocabulary($tag_name, $entity->vocabs[1]);
+            if ($tag_id) {
+              $entity = $this->addTagToEntity($tag_id, $entity);
+            }
+            else {
+              // Create a new tag and safe in Additional tags.
+              $new_term = array(
+                'vid' => $entity->vocabs[1],
+                'name' => $tag_name,
+              );
+              if (taxonomy_save_term($new_term)) {
+                $entity = $this->addTagToEntity($new_term['tid'], $entity);
+              }
+            }
+          }
+        }
+      }
     }
+  }
+
+  /**
+   * Search tag by name in special vocabulary.
+   *
+   * @param $tag_name
+   *  Tag name for search.
+   * @param $vocabulary_id
+   *  ID of vocabulary where make search.
+   *
+   * @return int
+   *   Id of founded tag or false.
+   */
+  public function searchTagInVocabulary($tag_name, $vocabulary_id) {
+    $tree = taxonomy_get_tree($vocabulary_id);
+    // Find
+    if ($tree) {
+      foreach ($tree as $tag) {
+        if(strtolower($tag->name) == strtolower($tag_name)) {
+          return $tag->tid;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Add exists tag to entity.
+   *
+   * @param $tag_id
+   *   Id of tag.
+   * @param $entity
+   *   Entity prepare.
+   * @return obect
+   *   Return updated entity.
+   */
+  public function addTagToEntity($tag_id, $entity) {
+    if (!is_array($entity->taxonomy)) {
+      $entity->taxonomy = array();
+    }
+    $term = taxonomy_get_term($tag_id);
+    $entity->taxonomy[$tag_id] = $term;
+
+    return $entity;
   }
 }
