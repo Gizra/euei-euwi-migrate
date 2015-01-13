@@ -41,8 +41,12 @@ class EuEventMigration extends EuMigration {
 
   }
 
-
-
+  /**
+   * Prepare function fix time format for new imported events.
+   *
+   * @param $entity
+   * @param $row
+   */
   public function prepare($entity, $row) {
     parent::prepare($entity, $row);
 
