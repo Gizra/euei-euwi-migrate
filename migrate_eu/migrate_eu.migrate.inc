@@ -7,7 +7,7 @@
 
 abstract class EuMigration extends Migration {
 
-  protected $unique_id_setting = array(
+  protected $uniqueIdSetting = array(
     'unique_id' => array('type' => 'varchar',
       'length' => 254,
       'not null' => TRUE,
@@ -68,7 +68,7 @@ abstract class EuMigration extends Migration {
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
-      $this->unique_id_setting,
+      $this->uniqueIdSetting,
       call_user_func(array($destination_class, 'getKeySchema'))
     );
 
@@ -84,8 +84,15 @@ abstract class EuMigration extends Migration {
       ->addFieldMapping('uid', 'uid')
       ->sourceMigration('EuUser');
   }
-  
 
+
+  /**
+   * Prepare function map Users that already exists in C4D.
+   * Also prepare function map Groups, Tags for nodes.
+   *
+   * @param $entity
+   * @param $row
+   */
   public function prepare($entity, $row) {
     // Test that user of the entity didn't migrated
     // because already exist in system.
@@ -108,15 +115,16 @@ abstract class EuMigration extends Migration {
       $entity->uid = $user_id;
     }
 
-    // Map original group id with new group id.
     if ($this->entityType == 'node') {
+      // Map original group id with new group id.
       $gid = $this->groupConnect[$row->gid];
       $entity->og_groups = array($gid);
 
+      // Map tags for the node.
       $vocabs = array_keys(og_vocab_get_vocabularies($gid));
       $entity->vocabs = $vocabs;
 
-      // Parse tags.
+      // If a node have tags start parse it.
       if ($row->tags) {
         $tags = explode('|', $row->tags);
         $entity->taxonomy = array();
@@ -147,7 +155,7 @@ abstract class EuMigration extends Migration {
       }
     }
   }
-
+  
   /**
    * Search tag by name in special vocabulary.
    *
@@ -179,7 +187,7 @@ abstract class EuMigration extends Migration {
    * @param $tag_id
    *   Id of tag.
    * @param $entity
-   *   Entity prepare.
+   *   Entity.
    * @return obect
    *   Return updated entity.
    */
