@@ -59,11 +59,13 @@ abstract class EuMigration extends Migration {
     parent::__construct();
 
     // Set destination class.
-    if ($this->entityType == 'node') {
-      $destination_class = 'MigrateDestinationNode';
-    }
-    else {
+    $destination_class = 'MigrateDestinationNode';
+
+    if ($this->entityType == 'user') {
       $destination_class = 'MigrateDestinationUser';
+    }
+    elseif ($this->entityType == 'comment') {
+      $destination_class = 'MigrateDestinationComment';
     }
 
     // Set map object.
