@@ -3,7 +3,7 @@
 ## Pre-setup
 
 1. Setup path of directory that contain source files.  
-`drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/c4d/expoted-images/"`
+`drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`
 2. Patch drupal __dbtng__ module.  
 In file __/sites/all/modules/contrib/dbtng/database/query.inc__ fix `__clone` method.  
 ```php
