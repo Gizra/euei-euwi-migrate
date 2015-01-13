@@ -28,6 +28,7 @@ class ExportNodeBase extends ExportBase {
       'promote' => '%d',
       'sticky' => '%d',
       'gid' => '%s',
+      'tags' => '%s',
     );
   }
 
@@ -109,19 +110,20 @@ class ExportNodeBase extends ExportBase {
    * {@inheritdoc}
    */
   protected function getValues($entity) {
-    // First value for unique ID.
-    $values = $this->getEntityUniqueId($entity);
-    foreach($this->getFields() as $key => $directive) {
+    $values = parent::getValues($entity);
+    foreach($values as $key => $directive) {
       if ($key == 'gid') {
         $values[$key] = $this->getGroupIdFromEntity($entity);
       }
       elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
-      else {
-        $values[$key] = $entity->$key;
+      elseif ($key == 'tags') {
+        $values[$key] = $this->getTagsFromNode($entity);
       }
-
+      elseif ($key == 'path') {
+        $values[$key] = $this->getPathFromNode($entity);
+      }
     }
     return $values;
   }
@@ -162,5 +164,40 @@ class ExportNodeBase extends ExportBase {
       }
     }
   }
+
+  /**
+   * Return the tags of the node.
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return string
+   */
+  protected function getTagsFromNode($entity) {
+    if (empty($entity->tags)) {
+      return;
+    }
+
+    $tags = array();
+    foreach(reset($entity->tags) as $tag) {
+      $tags[] = $tag->name;
+    }
+    return implode ('|', $tags);
+  }
+
+  /**
+   * Return prepared path. Remove first prefix.
+   *
+   * @param $entity
+   *   The entity object.
+   *
+   * @return string
+   */
+  protected function getPathFromNode($entity) {
+    $path = explode('/', $entity->path);
+    unset($path[0]);
+    return implode('/', $path);
+  }
+
 }
 

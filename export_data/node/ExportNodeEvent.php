@@ -5,7 +5,7 @@
  * Contains \ExportNodeEvent.
  */
 
-class ExportNodeEvent extends  ExportNodeBase {
+class ExportNodeEvent extends ExportNodeBase {
 
   // Bundle name for new table
   protected $bundle = 'event';

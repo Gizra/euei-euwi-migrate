@@ -12,6 +12,7 @@ CREATE TABLE `_gizra_node_blog_post` (
   `promote` int(11) NOT NULL DEFAULT '0',
   `sticky` int(11) NOT NULL DEFAULT '0',
   `gid` varchar(254) NOT NULL DEFAULT '0',
+  `tags` varchar (254) DEFAULT NULL,
   PRIMARY KEY (`unique_id`),
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -27,6 +28,7 @@ CREATE TABLE `_gizra_node_document` (
   `promote` int(11) NOT NULL DEFAULT '0',
   `sticky` int(11) NOT NULL DEFAULT '0',
   `gid` varchar(254) NOT NULL DEFAULT '0',
+  `tags` varchar (254) DEFAULT NULL,
   `file_path` varchar (255),
   `file_name` varchar (128),
   PRIMARY KEY (`unique_id`),
@@ -50,9 +52,9 @@ DROP TABLE IF EXISTS `_gizra_comment`;
 CREATE TABLE IF NOT EXISTS `_gizra_comment` (
   `unique_id` varchar (64) NOT NULL,
   `cid` int(11) NOT NULL,
-  `pid` int(11) NOT NULL DEFAULT '0',
-  `nid` int(11) NOT NULL DEFAULT '0',
-  `uid` int(11) NOT NULL DEFAULT '0',
+  `pid` varchar (64) NOT NULL DEFAULT '0',
+  `nid` varchar (64) NOT NULL DEFAULT '0',
+  `uid` varchar (64) NOT NULL DEFAULT '0',
   `subject` varchar(64) NOT NULL DEFAULT '',
   `comment` longtext NOT NULL,
   `timestamp` int(11) NOT NULL DEFAULT '0',
@@ -76,6 +78,7 @@ CREATE TABLE `_gizra_node_event` (
   `promote` int(11) NOT NULL DEFAULT '0',
   `sticky` int(11) NOT NULL DEFAULT '0',
   `gid` varchar(254) NOT NULL DEFAULT '0',
+  `tags` varchar (254) DEFAULT NULL,
   `event_start` int(10) unsigned NOT NULL DEFAULT '0',
   `event_end` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`unique_id`),
@@ -96,12 +99,3 @@ CREATE TABLE IF NOT EXISTS `_gizra_og_membership` (
   PRIMARY KEY (`unique_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `_gizra_files`;
-
-CREATE TABLE IF NOT EXISTS `_gizra_files` (
-  `fid` int(10) NOT NULL AUTO_INCREMENT,
-  `unique_id` varchar(254) NOT NULL,
-  `file_path` varchar(255),
-  `file_name` varchar(128),
-  PRIMARY KEY (`fid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;

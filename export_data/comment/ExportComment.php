@@ -13,11 +13,14 @@ class ExportComment extends ExportBase {
   // Fields to export for comments.
   protected $fields = array(
     'cid' => '%d',
-    'pid' => '%d',
-    'nid' => '%d',
-    'uid' => '%d', // Change this line if type of uid col in comments table also changed.
+    'pid' => '%s',
+    'nid' => '%s',
+    'uid' => '%s',
     'subject' => '%s',
     'comment' => '%s',
+    'timestamp' => '%d',
+    'name' => '%s',
+    'mail' => '%s',
   );
 
   /**
@@ -62,6 +65,39 @@ class ExportComment extends ExportBase {
    */
   protected function getEntityId($entity) {
     return $entity->cid;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getValues($entity) {
+
+    $values = parent::getValues($entity);
+    foreach ($values as $key => $directive) {
+      if (in_array($key, array('uid', 'nid', 'pid'))) {
+        $values[$key] = $this->getSiteName() . ':' . $entity->$key;
+      }
+    }
+    return $values;
+  }
+  /**
+   * Check necessity of exporting data.
+   *
+   * @param $entity
+   *   Verifiable entity
+   *
+   * @return bool
+   */
+  protected function isExportable($entity) {
+    $node = node_load($entity->nid);
+    if (empty($node->og_groups)) {
+      return;
+    }
+    foreach ($node->og_groups as $og_group) {
+      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+        return TRUE;
+      }
+    }
   }
 }
 
