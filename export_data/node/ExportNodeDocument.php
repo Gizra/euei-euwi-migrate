@@ -151,7 +151,6 @@ class ExportNodeDocument extends ExportNodeBase {
     if ($this->getSiteName() == 'euwi') {
       // The document is not part of the valid groups but we will still export
       // it to the mother group (EUWI Community Space).
-      print_r("set_to: euwi:21098 ");
       return 'euwi:21098';
     }
   }
