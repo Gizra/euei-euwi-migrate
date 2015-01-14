@@ -29,6 +29,7 @@ class EuUserMigration extends EuMigration {
       'mail',
     ));
     $this->addFieldMapping('pass', 'password');
+
   }
 
   /**
