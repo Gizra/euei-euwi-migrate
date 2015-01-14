@@ -2,7 +2,9 @@
 
 ## Pre-setup
 1. Protect user emails. (add .test to end of a users emails)  
-`drush scr export_data/prepare/protect_email.php`
+`drush scr export_data/prepare/protect_email.php`  
+For remove .test run this script with `--unprotect=1` option  
+`drush scr export_data/prepare/protect_email.php --unprotect=1`
 2. Setup path of directory that contain source files.  
 `drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`
 3. Patch drupal __dbtng__ module.  
