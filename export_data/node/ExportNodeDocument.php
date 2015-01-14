@@ -117,4 +117,41 @@ class ExportNodeDocument extends ExportNodeBase {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function isExportable($entity) {
+    if (empty($entity->og_groups)) {
+      // Node is not associated with any group.
+      return;
+    }
+    if ($this->getSiteName() == 'euwi') {
+      // The document is not part of the valid groups but we will still export
+      // it to the mother group.
+      return TRUE;
+    }
+
+    foreach ($entity->og_groups as $og_group) {
+      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+        return TRUE;
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getGroupIdFromEntity($entity) {
+    foreach ($entity->og_groups as $og_group) {
+      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+        return $this->getSiteName() . ':' . $og_group;
+      }
+    }
+
+    if ($this->getSiteName() == 'euwi') {
+      // The document is not part of the valid groups but we will still export
+      // it to the mother group (EUWI Community Space).
+      return 'euwi:21098';
+    }
+  }
 }
