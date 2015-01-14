@@ -12,7 +12,7 @@ class EuUserMigration extends EuMigration {
   public function __construct() {
     parent::__construct();
 
-    $this->description = t('Migrate users');
+    $this->description = t('Migration of the Users');
 
     // Set source object.
     $query = db_select('_gizra_user', 'user')

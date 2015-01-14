@@ -14,7 +14,7 @@ class EuEventMigration extends EuMigration {
   public function __construct() {
     parent::__construct();
 
-    $this->description = t('Migrate events');
+    $this->description = t('Migration of the Events');
     $this->dependencies = array('EuUser');
 
     // Set source object.
@@ -40,6 +40,8 @@ class EuEventMigration extends EuMigration {
       ->defaultValue(array('group_event'));
 
   }
+
+
 
   public function prepare($entity, $row) {
     parent::prepare($entity, $row);

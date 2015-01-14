@@ -9,3 +9,4 @@ files[] = handlers/user/user.inc
 files[] = handlers/node/news.inc
 files[] = handlers/node/event.inc
 files[] = handlers/node/document.inc
+files[] = handlers/comment/comment.inc
