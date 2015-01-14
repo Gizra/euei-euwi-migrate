@@ -36,7 +36,8 @@ class EuDocumentMigration extends EuMigration {
 
     // Map file.
     $this
-      ->addFieldMapping('field_file_file', 'file_path');
+      ->addFieldMapping('field_file_file', 'file_path')
+      ->separator('|');
 
     $this
       ->addFieldMapping('field_file_file:file_replace')
