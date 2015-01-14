@@ -1,7 +1,7 @@
 # Integration of EUEI and EUWI communities of practice on Capacity4dev
 
 ## Pre-setup
-1. Protect user email. (add .test to end of an email)
+1. Protect user emails. (add .test to end of a users emails)  
 `drush scr export_data/prepare/protect_email.php`
 2. Setup path of directory that contain source files.  
 `drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`
