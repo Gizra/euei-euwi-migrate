@@ -1,11 +1,11 @@
 # Integration of EUEI and EUWI communities of practice on Capacity4dev
 
 ## Pre-setup
-0. Protect user email. (add .test to end of an email)
+1. Protect user email. (add .test to end of an email)
 `drush scr export_data/prepare/protect_email.php`
-1. Setup path of directory that contain source files.  
+2. Setup path of directory that contain source files.  
 `drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`
-2. Patch drupal __dbtng__ module.  
+3. Patch drupal __dbtng__ module.  
 In file __/sites/all/modules/contrib/dbtng/database/query.inc__ fix `__clone` method.  
 ```php
 function __clone() {
@@ -17,7 +17,7 @@ function __clone() {
   }
 }
 ```
-3. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
+4. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
 https://github.com/drupal/drupal/blob/6.x/.htaccess
 
 ## Stuff
