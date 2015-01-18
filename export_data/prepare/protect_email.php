@@ -29,23 +29,23 @@ while ($count < $total){
   }
 }
 
-function protect($user) {
-  $mail = explode('.', $user->mail);
+function protect($account) {
+  $mail = explode('.', $account->mail);
   if (end($mail) == 'test') {
     return;
   }
 
   $user->mail .= '.test';
-  db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $user->mail, $user->uid);
+  db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $account->mail, $account->uid);
 }
 
-function unprotect($user) {
-  $mail = explode('.', $user->mail);
+function unprotect($account) {
+  $mail = explode('.', $account->mail);
   if (end($mail) != 'test') {
     return;
   }
 
   array_pop($mail);
   $user->mail = implode('.', $mail);
-  db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $user->mail, $user->uid);
+  db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $account->mail, $account->uid);
 }
