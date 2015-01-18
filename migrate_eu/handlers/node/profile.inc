@@ -43,11 +43,11 @@ class EuProfileMigration extends EuMigration {
   public function prepare($entity, $row) {
     // Test that user of the entity didn't migrated
     // because already exist in system.
-    if (empty($entity->uid) && $row->uid) {
+    if (empty($entity->uid) && $row->unique_id) {
       // Fetch a name of existing user in dump.
       $user_name = db_select('_gizra_user', 'u')
         ->fields('u', array('name'))
-        ->condition('unique_id', $row->uid)
+        ->condition('unique_id', $row->unique_id)
         ->execute()
         ->fetchField();
 
@@ -61,5 +61,7 @@ class EuProfileMigration extends EuMigration {
       // Set uid for entity.
       $entity->uid = $user_id;
     }
+
+    dsm($entity);
   }
 }
