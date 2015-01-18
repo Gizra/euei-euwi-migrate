@@ -119,17 +119,17 @@ class EuMigrationNode extends EuMigration {
    *   Id of founded tag or false.
    */
   public function searchTagInVocabulary($tag_name, $vocabulary_id) {
-    $tree = taxonomy_get_tree($vocabulary_id);
-    // Find
-    if ($tree) {
-      foreach ($tree as $tag) {
-        if(strtolower($tag->name) == strtolower($tag_name)) {
-          return $tag->tid;
-        }
+    if (!$tree = taxonomy_get_tree($vocabulary_id)) {
+      return FALSE;
+    }
+
+    foreach ($tree as $tag) {
+      if(strtolower($tag->name) == strtolower($tag_name)) {
+        return $tag->tid;
       }
     }
 
-    return false;
+    return FALSE;
   }
 
   /**
