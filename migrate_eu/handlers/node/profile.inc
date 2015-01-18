@@ -40,8 +40,7 @@ class EuProfileMigration extends EuMigration {
 
   }
 
-  public function prepare($entity, $row)
-  {
+  public function prepare($entity, $row) {
     // Test that user of the entity didn't migrated
     // because already exist in system.
     if (empty($entity->uid) && $row->uid) {
