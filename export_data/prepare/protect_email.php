@@ -11,7 +11,6 @@ $unprotect = drush_get_option('unprotect', 0);
 $total = db_result(db_query("SELECT COUNT(uid) FROM {users} u WHERE uid != 0 ORDER BY u.uid ", $id));
 $range = 50;
 $count = 0;
-
 while ($count < $total){
   $result = db_query("SELECT uid FROM {users} u WHERE uid != 0 ORDER BY u.uid LIMIT %d OFFSET %d ", $range, $count);
   while ($account = user_load(db_fetch_array($result))) {
@@ -32,6 +31,7 @@ while ($count < $total){
  * Add to all users email ".test".
  *
  * @param $account
+ *   The user object.
  */
 function protect($account) {
   $mail = explode('.', $account->mail);
@@ -47,6 +47,7 @@ function protect($account) {
  * Remove if exist ".test" from all users mail.
  *
  * @param $account
+ *   The user object.
  */
 function unprotect($account) {
   $mail = explode('.', $account->mail);
