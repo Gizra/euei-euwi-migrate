@@ -14,7 +14,8 @@ class ExportUser extends ExportBase {
     'name' => '%s',
     'password' => '%s',
     'mail' => '%s',
-    'full_name' => '%s',
+    'first_name' => '%s',
+    'last_name' => '%s',
     'organization' => '%s',
     'organization_category' => '%s',
     'country' => '%s',
@@ -35,8 +36,11 @@ class ExportUser extends ExportBase {
       if ($key == 'password') {
         $values[$key] = $entity->pass;
       }
-      elseif ($key == 'full_name') {
-        $values[$key] = $entity->profile_name . ' ' . $entity->profile_lastname;
+      elseif ($key == 'first_name') {
+        $values[$key] = $entity->profile_name;
+      }
+      elseif ($key == 'last_name') {
+        $values[$key] = $entity->profile_lastname;
       }
       elseif ($key == 'organization') {
         $values[$key] = $entity->profile_organization;
