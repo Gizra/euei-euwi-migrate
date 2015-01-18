@@ -27,9 +27,6 @@ class EuProfileMigration extends EuMigration {
     // Set destination object.
     $this->destination = new MigrateDestinationNode($this->bundle);
 
-    $this->addFieldMapping('uid', 'uid')
-      ->sourceMigration('EuUser');
-
     $this->addFieldMapping('field_lastname', 'full_name');
     $this->addFieldMapping('field_firstname', 'full_name');
     $this->addFieldMapping('field_organisation', 'organization');
