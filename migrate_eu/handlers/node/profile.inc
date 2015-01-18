@@ -30,8 +30,11 @@ class EuProfileMigration extends EuMigration {
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('EuUser');
 
-    $this->addFieldMapping('title', 'full_name');
-
+    $this->addFieldMapping('field_lastname', 'full_name');
+    $this->addFieldMapping('field_firstname', 'full_name');
+    $this->addFieldMapping('field_organisation', 'organization');
+    $this->addFieldMapping('field_organisation_type_of', 'organization_category');
+    $this->addFieldMapping('field_country', 'country');
 
   }
 
