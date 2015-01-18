@@ -19,7 +19,7 @@ class EuProfileMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_user', 'user')
-      ->fields('user', array('unique_id', 'full_name', 'organization', 'organization_category', 'country'))
+      ->fields('user', array('unique_id', 'first_name', 'last_name', 'organization', 'organization_category', 'country'))
       ->orderBy('unique_id', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
@@ -32,8 +32,8 @@ class EuProfileMigration extends EuMigration {
       ->addFieldMapping('uid', 'unique_id')
       ->sourceMigration('EuUser');
 
-    $this->addFieldMapping('field_lastname', 'full_name');
-    $this->addFieldMapping('field_firstname', 'full_name');
+    $this->addFieldMapping('field_lastname', 'first_name');
+    $this->addFieldMapping('field_firstname', 'last_name');
     $this->addFieldMapping('field_organisation', 'organization');
     $this->addFieldMapping('field_organisation_type_of', 'organization_category');
     $this->addFieldMapping('field_country', 'country');
@@ -42,8 +42,6 @@ class EuProfileMigration extends EuMigration {
 
   public function prepare($entity, $row)
   {
-    dsm ($row);
-    dsm ($entity);
     // Test that user of the entity didn't migrated
     // because already exist in system.
     if (empty($entity->uid) && $row->uid) {
@@ -64,8 +62,5 @@ class EuProfileMigration extends EuMigration {
       // Set uid for entity.
       $entity->uid = $user_id;
     }
-
-    dsm ($entity);
-
   }
 }
