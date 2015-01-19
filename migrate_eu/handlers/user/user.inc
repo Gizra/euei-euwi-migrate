@@ -28,7 +28,12 @@ class EuUserMigration extends EuMigration {
       'name',
       'mail',
     ));
+
     $this->addFieldMapping('pass', 'password');
+
+    // Map user init.
+    $this->addFieldMapping('init', 'mail');
+
   }
 
   /**

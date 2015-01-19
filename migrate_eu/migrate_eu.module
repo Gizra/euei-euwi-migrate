@@ -22,6 +22,9 @@ function migrate_eu_migrate_api() {
       'EuDocument' => array(
         'class_name' => 'EuDocumentMigration',
       ),
+      'EuProfile' => array(
+        'class_name' => 'EuProfileMigration',
+      )
     ),
   );
 
