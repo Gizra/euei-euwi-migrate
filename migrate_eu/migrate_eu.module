@@ -30,10 +30,6 @@ function migrate_eu_migrate_api() {
       ),
     ),
   );
-
-// Patch for the EuMembership migration. Apply before start process.
-// $ret = array();
-// db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int', 'length' => 11));
-
+  
   return $api;
 }
