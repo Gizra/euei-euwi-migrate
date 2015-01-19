@@ -40,7 +40,18 @@ class EuProfileMigration extends EuMigration {
 
   }
 
+  /**
+   * 
+   *
+   * @param $entity
+   * @param $row
+   */
   public function prepare($entity, $row) {
+    // Make title for a Profile page.
+    // Be sure that auto title generation is disabled
+    // in Content-type -> People type.
+    $entity->title = $row->first_name . ' ' . $row->last_name;
+
     // Test that user of the entity didn't migrated
     // because already exist in system.
     if (empty($entity->uid) && $row->unique_id) {
