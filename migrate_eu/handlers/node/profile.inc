@@ -40,14 +40,26 @@ class EuProfileMigration extends EuMigration {
 
   }
 
+  /**
+   * Generate title for a profile page.
+   * Attach a user to a profile if a user already exist.
+   *
+   * @param $entity
+   * @param $row
+   */
   public function prepare($entity, $row) {
+    // Make title for a Profile page.
+    // Be sure that auto title generation is disabled
+    // in Content-type -> People type.
+    $entity->title = $row->first_name . ' ' . $row->last_name;
+
     // Test that user of the entity didn't migrated
     // because already exist in system.
-    if (empty($entity->uid) && $row->uid) {
+    if (empty($entity->uid) && $row->unique_id) {
       // Fetch a name of existing user in dump.
       $user_name = db_select('_gizra_user', 'u')
         ->fields('u', array('name'))
-        ->condition('unique_id', $row->uid)
+        ->condition('unique_id', $row->unique_id)
         ->execute()
         ->fetchField();
 
