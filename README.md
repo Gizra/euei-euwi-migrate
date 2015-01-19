@@ -26,6 +26,7 @@ https://github.com/drupal/drupal/blob/6.x/.htaccess
 $ret = array();
 db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int', 'length' => 11));
 ```
+6. Before migrate `EuProfile` disable auto title generation for `People` type in `Content-type -> People -> Edit`.
 
 ## Stuff
 
