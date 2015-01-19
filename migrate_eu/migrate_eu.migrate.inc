@@ -61,9 +61,5 @@ abstract class EuMigration extends Migration {
       call_user_func(array($destination_class, 'getKeySchema'))
     );
 
-    // Make sure only a single alias is created.
-    $this->addFieldMapping('pathauto_perform_alias')
-      ->defaultValue(FALSE);
-
   }
 }

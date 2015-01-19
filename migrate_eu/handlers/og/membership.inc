@@ -69,14 +69,16 @@ class EuMembershipMigration extends EuMigration {
     // Map original group id with new group id.
     $entity->nid = $this->groupConnect[$row->nid];
 
+    dsm ($row);
   }
 
   /**
-   * Update `created` and `updated` cols. 
+   * Update `created` and `updated` cols.
    *
    * @param $entity
    */
   public function complete($entity) {
     $entity->created = $entity->changed = time();
+    dsm ($entity);
   }
 }
