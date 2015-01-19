@@ -36,7 +36,8 @@ class EuEventMigration extends EuMigrationNode {
     ));
 
     // Set "Group event" as default value for all migrated groups.
-    $this->addFieldMapping('field_event_type')
+    $this
+      ->addFieldMapping('field_event_type')
       ->defaultValue(array('group_event'));
 
   }

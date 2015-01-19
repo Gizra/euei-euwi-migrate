@@ -36,6 +36,10 @@ class EuMigrationNode extends EuMigration {
       ->addFieldMapping('uid', 'uid')
       ->sourceMigration('EuUser');
 
+    // Make sure only a single alias is created.
+    $this->addFieldMapping('pathauto_perform_alias')
+      ->defaultValue(FALSE);
+
   }
 
   /**
