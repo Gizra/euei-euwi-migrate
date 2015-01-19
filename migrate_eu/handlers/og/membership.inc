@@ -7,6 +7,8 @@
 
 class EuMembershipMigration extends EuMigration {
 
+  protected $entityType = 'og';
+
   public function __construct() {
     parent::__construct();
 
@@ -29,7 +31,9 @@ class EuMembershipMigration extends EuMigration {
       ->sourceMigration('EuUser');
 
     $this
-      ->addSimpleMappings('og_role', 'is_active', 'is_admin');
+      ->addSimpleMappings(array('og_role',
+        'is_active',
+        'is_admin'));
 
   }
 
@@ -65,7 +69,14 @@ class EuMembershipMigration extends EuMigration {
     // Map original group id with new group id.
     $entity->nid = $this->groupConnect[$row->nid];
 
-    dsm ($entity);
-    dsm ($row);
+  }
+
+  /**
+   * Update `created` and `updated` cols. 
+   *
+   * @param $entity
+   */
+  public function complete($entity) {
+    $entity->created = $entity->changed = time();
   }
 }

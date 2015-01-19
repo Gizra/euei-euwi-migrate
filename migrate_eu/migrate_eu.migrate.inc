@@ -51,6 +51,9 @@ abstract class EuMigration extends Migration {
     elseif ($this->entityType == 'comment') {
       $destination_class = 'MigrateDestinationComment';
     }
+    elseif ($this->entityType == 'og') {
+      $destination_class = 'MigrateDestinationTable';
+    }
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
