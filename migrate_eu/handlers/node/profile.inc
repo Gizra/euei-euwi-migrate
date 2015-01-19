@@ -41,7 +41,8 @@ class EuProfileMigration extends EuMigration {
   }
 
   /**
-   * 
+   * Generate title for a profile page.
+   * Attach a user to a profile if a user already exist.
    *
    * @param $entity
    * @param $row
@@ -72,7 +73,5 @@ class EuProfileMigration extends EuMigration {
       // Set uid for entity.
       $entity->uid = $user_id;
     }
-
-    dsm($entity);
   }
 }
