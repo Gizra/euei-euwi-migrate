@@ -5,8 +5,10 @@ default:
     Behat\MinkExtension\Extension:
       goutte: ~
       selenium2: ~
-      base_url: http://localhost/c4d
     Drupal\DrupalExtension\Extension:
       blackbox: ~
       drush:
         root: /var/www/html/c4d
+imports:
+  - behat.local.yml
+
