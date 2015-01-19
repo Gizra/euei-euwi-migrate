@@ -21,6 +21,11 @@ function __clone() {
 ```
 4. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
 https://github.com/drupal/drupal/blob/6.x/.htaccess
+5. Before migrate `EuMembership` apply next path:  
+```php
+$ret = array();
+db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int', 'length' => 11));
+```
 
 ## Stuff
 
