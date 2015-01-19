@@ -1,10 +1,13 @@
 # Integration of EUEI and EUWI communities of practice on Capacity4dev
 
 ## Pre-setup
-
-1. Setup path of directory that contain source files.  
+1. Protect user emails. (add .test to end of a users emails)  
+`drush scr export_data/prepare/protect_email.php`  
+For remove .test run this script with `--unprotect=1` option  
+`drush scr export_data/prepare/protect_email.php --unprotect=1`
+2. Setup path of directory that contain source files.  
 `drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`
-2. Patch drupal __dbtng__ module.  
+3. Patch drupal __dbtng__ module.  
 In file __/sites/all/modules/contrib/dbtng/database/query.inc__ fix `__clone` method.  
 ```php
 function __clone() {
@@ -16,8 +19,14 @@ function __clone() {
   }
 }
 ```
-3. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
+4. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
 https://github.com/drupal/drupal/blob/6.x/.htaccess
+5. Before migrate `EuMembership` apply next path:  
+```php
+$ret = array();
+db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int', 'length' => 11));
+```
+6. Before migrate `EuProfile` disable auto title generation for `People` type in `Content-type -> People -> Edit`.
 
 ## Stuff
 

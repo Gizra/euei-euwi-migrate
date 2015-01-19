@@ -3,31 +3,59 @@
 /**
  * @file
  * Protect email.
+ *
+ * For unprotect emails use: drush scr protect.php --unprotect=1
  */
 
-$id = drush_get_option('id', 1);
-$total = db_result(db_query("SELECT COUNT(uid) FROM {users} u ORDER BY u.uid", $id));
+$unprotect = drush_get_option('unprotect', 0);
+$total = db_result(db_query("SELECT COUNT(uid) FROM {users} u WHERE uid != 0 ORDER BY u.uid ", $id));
 $range = 50;
 $count = 0;
-
 while ($count < $total){
-  $result = db_query("SELECT uid FROM {users} u  ORDER BY u.uid LIMIT %d OFFSET %d", $range, $count);
-  while ($user = user_load(db_fetch_array($result))) {
+  $result = db_query("SELECT uid FROM {users} u WHERE uid != 0 ORDER BY u.uid LIMIT %d OFFSET %d ", $range, $count);
+  while ($account = user_load(db_fetch_array($result))) {
 
-    $mail = $user->mail;
-    $mail = explode('.', $mail);
-    if (end($mail) != 'test') {
-      $user->mail .= '.test';
-      $insert = db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $user->mail, $user->uid);
-    }
+    $unprotect == 1 ? unprotect($account) : protect($account);
 
     $count++;
     $params = array(
       '@count' => $count,
       '@total' => $total,
-      '@id' => $user->uid,
+      '@id' => $account->uid,
     );
 
     drush_print(dt('(@count / @total) Processed user ID @id.', $params));
   }
+}
+/**
+ * Add to all users email ".test".
+ *
+ * @param $account
+ *   The user object.
+ */
+function protect($account) {
+  $mail = explode('.', $account->mail);
+  if (end($mail) == 'test') {
+    return;
+  }
+
+  $account->mail .= '.test';
+  db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $account->mail, $account->uid);
+}
+
+/**
+ * Remove if exist ".test" from all users mail.
+ *
+ * @param $account
+ *   The user object.
+ */
+function unprotect($account) {
+  $mail = explode('.', $account->mail);
+  if (end($mail) != 'test') {
+    return;
+  }
+
+  array_pop($mail);
+  $account->mail = implode('.', $mail);
+  db_query("UPDATE users SET mail = '%s' WHERE uid = '%d'", $account->mail, $account->uid);
 }

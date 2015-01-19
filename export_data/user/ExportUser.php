@@ -14,6 +14,11 @@ class ExportUser extends ExportBase {
     'name' => '%s',
     'password' => '%s',
     'mail' => '%s',
+    'first_name' => '%s',
+    'last_name' => '%s',
+    'organization' => '%s',
+    'organization_category' => '%s',
+    'country' => '%s',
   );
 
   /**
@@ -29,7 +34,22 @@ class ExportUser extends ExportBase {
     $values = parent::getValues($entity);
     foreach ($values as $key => $directive) {
       if ($key == 'password') {
-        $values[$key] =  $entity->pass;
+        $values[$key] = $entity->pass;
+      }
+      elseif ($key == 'first_name') {
+        $values[$key] = $entity->profile_name;
+      }
+      elseif ($key == 'last_name') {
+        $values[$key] = $entity->profile_lastname;
+      }
+      elseif ($key == 'organization') {
+        $values[$key] = $entity->profile_organization;
+      }
+      elseif ($key == 'organization_category') {
+        $values[$key] = $entity->profile_organization_category;
+      }
+      elseif ($key == 'country') {
+        $values[$key] = $entity->profile_country;
       }
     }
     return $values;

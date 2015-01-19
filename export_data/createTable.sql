@@ -43,6 +43,11 @@ CREATE TABLE `_gizra_user` (
   `name` varchar(64) DEFAULT NULL,
   `password` varchar(64),
   `mail` varchar(64) DEFAULT NULL,
+  `first_name` varchar (254),
+  `last_name` varchar (254),
+  `organization` varchar (254),
+  `organization_category` varchar (254),
+  `country` varchar (254),
   PRIMARY KEY (`unique_id`),
   KEY `uid` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -59,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `_gizra_comment` (
   `comment` longtext NOT NULL,
   `timestamp` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `name` varchar(60) DEFAULT NULL,
+  `name` varchar(64) DEFAULT NULL,
   `mail` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`unique_id`),
   KEY `lid` (`nid`)
