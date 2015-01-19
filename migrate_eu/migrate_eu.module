@@ -24,9 +24,12 @@ function migrate_eu_migrate_api() {
       ),
       'EuProfile' => array(
         'class_name' => 'EuProfileMigration',
-      )
+      ),
+      'EuMembership' => array(
+        'class_name' => 'EuMembershipMigration',
+      ),
     ),
   );
-
+  
   return $api;
 }

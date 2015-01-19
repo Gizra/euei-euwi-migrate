@@ -51,16 +51,15 @@ abstract class EuMigration extends Migration {
     elseif ($this->entityType == 'comment') {
       $destination_class = 'MigrateDestinationComment';
     }
+    elseif ($this->entityType == 'og') {
+      $destination_class = 'MigrateDestinationTable';
+    }
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
       $this->uniqueIdSetting,
       call_user_func(array($destination_class, 'getKeySchema'))
     );
-
-    // Make sure only a single alias is created.
-    $this->addFieldMapping('pathauto_perform_alias')
-      ->defaultValue(FALSE);
 
   }
 }

@@ -15,3 +15,5 @@ files[] = handlers/node/profile.inc
 files[] = handlers/user/user.inc
 
 files[] = handlers/comment/comment.inc
+
+files[] = handlers/og/membership.inc
