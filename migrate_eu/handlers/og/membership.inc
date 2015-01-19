@@ -12,7 +12,7 @@ class EuMembershipMigration extends EuMigration {
   public function __construct() {
     parent::__construct();
 
-    $this->description = t('Migration of the Membership');
+    $this->description = t('Migration of the OG Membership');
     $this->dependencies = array('EuUser');
 
     // Set source object.
@@ -68,14 +68,5 @@ class EuMembershipMigration extends EuMigration {
 
     // Map original group id with new group id.
     $entity->nid = $this->groupConnect[$row->nid];
-  }
-
-  /**
-   * Update `created` and `updated` cols.
-   *
-   * @param $entity
-   */
-  public function complete($entity) {
-    $entity->created = $entity->changed = time();
   }
 }
