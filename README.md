@@ -28,6 +28,11 @@ db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int',
 ```
 6. Before migrate `EuProfile` disable auto title generation for `People` type in `Content-type -> People -> Edit`.
 
+## Post-setup
+1. Enable auto title generation for the `People` contenty type via `Content-type -> People -> Edit`.
+2. Remove .test on the end of email for all users  
+`drush scr export_data/prepare/protect_email.php --unprotect=1`
+
 ## Stuff
 
 On current step all groups should be made manually.
