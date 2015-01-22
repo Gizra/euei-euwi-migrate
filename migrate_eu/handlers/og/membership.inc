@@ -46,11 +46,13 @@ class EuMembershipMigration extends EuMigration {
   public function prepareRow($row) {
     // Skip row if a group is not in list of importing groups.
     if (!isset($this->groupConnect[$row->nid])) {
+      $this->saveMessage('Group is not in the list of migration groups');
       return FALSE;
     }
 
     // Skip row if a user is empty.
     if (!$row->uid) {
+      $this->saveMessage('The UID is empty for this row.');
       return FALSE;
     }
 
@@ -62,6 +64,7 @@ class EuMembershipMigration extends EuMigration {
 
     // Skip row if a user not exists in the EuUser migration.
     if (!$user_name) {
+      $this->saveMessage('The UID is not exists in EuUser migration');
       return FALSE;
     }
 
@@ -74,6 +77,7 @@ class EuMembershipMigration extends EuMigration {
 
     // Skip row if a user not exists in C4D.
     if (!$user_id) {
+      $this->saveMessage('The user with name ' . $user_name . ' is not exists in C4D.');
       return FALSE;
     }
 
@@ -87,6 +91,7 @@ class EuMembershipMigration extends EuMigration {
 
     // It's mean that user - group already mapped. Then skip it.
     if ($og_uid_id) {
+      $this->saveMessage('The user already mapped with the group.');
       return FALSE;
     }
 
