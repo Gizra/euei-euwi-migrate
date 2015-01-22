@@ -37,6 +37,33 @@ class EuMembershipMigration extends EuMigration {
 
   }
 
+  public function prepareRow($row) {
+    // Skip row if a group is not in list of importing groups.
+    if (!isset($this->groupConnect[$row->nid])) return FALSE;
+
+    // Skip row if a user is empty.
+    if (!$row->uid) return FALSE;
+
+    $user_name = db_select('_gizra_user', 'u')
+      ->fields('u', array('name'))
+      ->condition('unique_id', $row->uid)
+      ->execute()
+      ->fetchField();
+
+    // Skip entity if a user not exists in EuUser.
+    if (!$user_name) return FALSE;
+
+    // Fetch a uid of existing user in c4d.
+    $user_id = db_select('users', 'u')
+      ->fields('u', array('uid'))
+      ->condition('name', $user_name)
+      ->execute()
+      ->fetchField();
+
+    // Save additional col with a user id in c4d.
+    $row->c4d_uid = $user_id;
+  }
+
   /**
    * Map a user if it's not did automatically.
    * Map a group.
@@ -45,26 +72,8 @@ class EuMembershipMigration extends EuMigration {
    * @param $row
    */
   public function prepare($entity, $row) {
-    // Test that user of the entity didn't migrated
-    // because already exist in system.
-    if (empty($entity->uid) && $row->uid) {
-      // Fetch a name of existing user in dump.
-      $user_name = db_select('_gizra_user', 'u')
-        ->fields('u', array('name'))
-        ->condition('unique_id', $row->uid)
-        ->execute()
-        ->fetchField();
-
-      // Fetch a uid of existing user in c4d.
-      $user_id = db_select('users', 'u')
-        ->fields('u', array('uid'))
-        ->condition('name', $user_name)
-        ->execute()
-        ->fetchField();
-
-      // Set uid for entity.
-      $entity->uid = $user_id;
-    }
+    // Map og membership with a user.
+    $entity->uid = $row->c4d_uid;
 
     // Map original group id with new group id.
     $entity->nid = $this->groupConnect[$row->nid];
