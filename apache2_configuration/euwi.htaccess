@@ -1,0 +1,85 @@
+RewriteEngine On
+
+# Setup redirects for the Community Space group.
+RewriteRule ^wg/community-space-cs* http://capacity4dev.ec.europa.eu/euwi-community-space [L,R=301]
+RewriteRule ^wg/euwi-community-space-cs* http://capacity4dev.ec.europa.eu/euwi-community-space [L,R=301]
+
+RewriteRule ^wg/track/21098/news.html* http://capacity4dev.ec.europa.eu/euwi-community-space/blogs [L,R=301]
+RewriteRule ^wg/channel/document/21098.html* http://capacity4dev.ec.europa.eu/euwi-community-space/documents [L,R=301]
+RewriteRule ^wg/track/21098/events.html* http://capacity4dev.ec.europa.eu/euwi-community-space/calendar [L,R=301]
+
+# Setup redirects for the Africa group.
+RewriteRule ^wg/africa* http://capacity4dev.ec.europa.eu/euwi-africa [L,R=301]
+
+RewriteRule ^wg/track/21244/news.html* http://capacity4dev.ec.europa.eu/euwi-africa/blogs [L,R=301]
+RewriteRule ^wg/channel/document/21244.html* http://capacity4dev.ec.europa.eu/euwi-africa/documents [L,R=301]
+RewriteRule ^wg/track/21244/events.html* http://capacity4dev.ec.europa.eu/euwi-africa/calendar [L,R=301]
+
+# Setup redirects for the Eastern Europe, Caucasus and Central Asia group.
+RewriteRule ^wg/eecca* http://capacity4dev.ec.europa.eu/euwi-eastern-europe-caucasus-central-asia [L,R=301]
+RewriteRule ^wg/eastern-europe-caucasus-and-central-asia* http://capacity4dev.ec.europa.eu/euwi-eastern-europe-caucasus-central-asia [L,R=301]
+
+RewriteRule ^wg/track/20336/news.html* http://capacity4dev.ec.europa.eu/euwi-eastern-europe-caucasus-central-asia/blogs [L,R=301]
+RewriteRule ^wg/channel/document/20336.html* http://capacity4dev.ec.europa.eu/euwi-eastern-europe-caucasus-central-asia/documents [L,R=301]
+RewriteRule ^wg/track/20336/events.html* http://capacity4dev.ec.europa.eu/euwi-eastern-europe-caucasus-central-asia/calendar [L,R=301]
+
+# Setup redirects for the Finance Working group.
+RewriteRule ^node/20532* http://capacity4dev.ec.europa.eu/euwi-fwg [L,R=301]
+
+RewriteRule ^wg/track/20532/news.html* http://capacity4dev.ec.europa.eu/euwi-fwg/blogs [L,R=301]
+RewriteRule ^wg/channel/document/20532.html* http://capacity4dev.ec.europa.eu/euwi-fwg/documents [L,R=301]
+RewriteRule ^wg/track/20532/events.html* http://capacity4dev.ec.europa.eu/euwi-fwg/calendar [L,R=301]
+
+# Setup redirects for the Latin America Water Supply and Sanitation group.
+RewriteRule ^wg/la* http://capacity4dev.ec.europa.eu/euwi-latin-america [L,R=301]
+RewriteRule ^wg/latin-america-water-supply-and-sanitation* http://capacity4dev.ec.europa.eu/euwi-latin-america [L,R=301]
+
+RewriteRule ^wg/track/21019/news.html* http://capacity4dev.ec.europa.eu/euwi-latin-america/blogs [L,R=301]
+RewriteRule ^wg/channel/document/21019.html* http://capacity4dev.ec.europa.eu/euwi-latin-america/documents [L,R=301]
+RewriteRule ^wg/track/21019/events.html* http://capacity4dev.ec.europa.eu/euwi-latin-america/calendar [L,R=301]
+
+# Setup redirects for the Mediterranean group.
+RewriteRule ^wg/mediterranean* http://capacity4dev.ec.europa.eu/euwi-mediterranean [L,R=301]
+
+RewriteRule ^wg/track/20691/news.html* http://capacity4dev.ec.europa.eu/euwi-mediterranean/blogs [L,R=301]
+RewriteRule ^wg/channel/document/20691.html* http://capacity4dev.ec.europa.eu/euwi-mediterranean/documents [L,R=301]
+RewriteRule ^wg/track/20691/events.html* http://capacity4dev.ec.europa.eu/euwi-mediterranean/calendar [L,R=301]
+
+# Setup redirects for the Monitoring group.
+RewriteRule ^wg/monitoring* http://capacity4dev.ec.europa.eu/euwi-monitoring [L,R=301]
+
+RewriteRule ^wg/track/20488/news.html* http://capacity4dev.ec.europa.eu/euwi-monitoring/blogs [L,R=301]
+RewriteRule ^wg/channel/document/20488.html* http://capacity4dev.ec.europa.eu/euwi-monitoring/documents [L,R=301]
+RewriteRule ^wg/track/20488/events.html* http://capacity4dev.ec.europa.eu/euwi-monitoring/calendar [L,R=301]
+
+# Setup redirects for the Multi-Stakeholder Forum group.
+RewriteRule ^node/20733* http://capacity4dev.ec.europa.eu/euwi-multi-stakeholder-forum [L,R=301]
+
+RewriteRule ^wg/track/20733/news.html* http://capacity4dev.ec.europa.eu/euwi-multi-stakeholder-forum/blogs [L,R=301]
+RewriteRule ^wg/channel/document/20733.html* http://capacity4dev.ec.europa.eu/euwi-multi-stakeholder-forum/documents [L,R=301]
+RewriteRule ^wg/track/20733/events.html* http://capacity4dev.ec.europa.eu/euwi-multi-stakeholder-forum/calendar [L,R=301]
+
+# Setup redirects for the Research group.
+RewriteRule ^wg/research* http://capacity4dev.ec.europa.eu/euwi-research [L,R=301]
+
+RewriteRule ^wg/track/20451/news.html* http://capacity4dev.ec.europa.eu/euwi-research/blogs [L,R=301]
+RewriteRule ^wg/channel/document/20451.html* http://capacity4dev.ec.europa.eu/euwi-research/documents [L,R=301]
+RewriteRule ^wg/track/20451/events.html* http://capacity4dev.ec.europa.eu/euwi-research/calendar [L,R=301]
+
+# Setup redirects for the Secretariat group.
+RewriteRule ^node/21010* http://capacity4dev.ec.europa.eu/euwi-coordination [L,R=301]
+
+RewriteRule ^wg/track/21010/news.html* http://capacity4dev.ec.europa.eu/euwi-coordination/blogs [L,R=301]
+RewriteRule ^wg/channel/document/21010.html* http://capacity4dev.ec.europa.eu/euwi-coordination/documents [L,R=301]
+RewriteRule ^wg/track/21010/events.html* http://capacity4dev.ec.europa.eu/euwi-coordination/calendar [L,R=301]
+
+# Setup redirects for the Coordination group.
+RewriteRule ^wg/sg* http://capacity4dev.ec.europa.eu/euwi-coordination [L,R=301]
+RewriteRule ^wg/coordination-group* http://capacity4dev.ec.europa.eu/euwi-coordination [L,R=301]
+
+RewriteRule ^wg/track/20868/news.html* http://capacity4dev.ec.europa.eu/euwi-coordination/blogs [L,R=301]
+RewriteRule ^wg/channel/document/20868.html* http://capacity4dev.ec.europa.eu/euwi-coordination/documents [L,R=301]
+RewriteRule ^wg/track/20868/events.html* http://capacity4dev.ec.europa.eu/euwi-coordination/calendar [L,R=301]
+
+# Uncomment next line for redirect any unknown request to EUWI.NET to the main page of C4D site.  
+RewriteRule ^(.*)$ http://capacity4dev.ec.europa.eu/ [L,R=301]
