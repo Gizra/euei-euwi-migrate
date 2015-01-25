@@ -17,6 +17,8 @@ class ExportOgMembership extends ExportBase {
     'is_active' => '%d',
     'is_admin' => '%d',
     'uid' => '%s',
+    'created' => '%d',
+    'changed' => '%d',
   );
 
   /**
