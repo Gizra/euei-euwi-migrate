@@ -27,12 +27,14 @@ class ExportOgMembership extends ExportBase {
    * @return integer
    */
   protected function getTotal() {
+    // Check that user has name, password, mail, active status
+    // and belongs to certain group.
     return db_result(db_query("SELECT COUNT(*) FROM {og_uid} og LEFT JOIN {users} u
       ON og.uid = u.uid
       WHERE og.nid IN (%s)
-      AND u.name !=''
-      AND u.pass  !=''
-      AND u.mail  !=''
+      AND u.name != ''
+      AND u.pass  != ''
+      AND u.mail  != ''
       AND u.status != 0", implode(', ', $this->groupForExport[$this->getSiteName()])));
   }
 
@@ -44,13 +46,14 @@ class ExportOgMembership extends ExportBase {
    * @return array
    */
   protected function getResults($offset = 0) {
-    //return db_query("SELECT nid, uid FROM og_uid ORDER BY nid, uid LIMIT %d OFFSET %d", $this->getRange(), $offset);
+    // Check that user has name, password, mail, active status
+    // and belongs to certain group.
     return db_query("SELECT og.nid, og.uid FROM {og_uid} og LEFT JOIN {users} u
       ON og.uid = u.uid
       WHERE og.nid IN (%s)
-      AND u.name !=''
-      AND u.pass  !=''
-      AND u.mail  !=''
+      AND u.name != ''
+      AND u.pass  != ''
+      AND u.mail  != ''
       AND u.status != 0
       ORDER BY nid, uid LIMIT %d OFFSET %d",
       implode(', ', $this->groupForExport[$this->getSiteName()]),
