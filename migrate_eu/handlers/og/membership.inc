@@ -33,7 +33,9 @@ class EuMembershipMigration extends EuMigration {
     $this
       ->addSimpleMappings(array('og_role',
         'is_active',
-        'is_admin'));
+        'is_admin',
+        'created',
+        'changed'));
 
   }
 
