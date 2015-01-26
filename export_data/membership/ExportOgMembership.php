@@ -17,26 +17,49 @@ class ExportOgMembership extends ExportBase {
     'is_active' => '%d',
     'is_admin' => '%d',
     'uid' => '%s',
+    'created' => '%d',
+    'changed' => '%d',
   );
 
   /**
-   * Get amount membership records.
+   * Get amount membership records for valid, active users.
    *
    * @return integer
    */
   protected function getTotal() {
-    return db_result(db_query("SELECT COUNT(*) FROM og_uid"));
+    // Check that user has name, password, mail, active status
+    // and belongs to certain group.
+    return db_result(db_query("SELECT COUNT(*) FROM {og_uid} og LEFT JOIN {users} u
+      ON og.uid = u.uid
+      WHERE og.nid IN (%s)
+      AND u.name != ''
+      AND u.pass  != ''
+      AND u.mail  != ''
+      AND u.status != 0", implode(', ', $this->groupForExport[$this->getSiteName()])));
   }
 
   /**
-   * Get the results by a certain offset.
+   * Get the results by a certain offset for valid, active users.
    *
    * @param int $offset
    *
    * @return array
    */
   protected function getResults($offset = 0) {
-    return db_query("SELECT nid, uid FROM og_uid ORDER BY nid, uid LIMIT %d OFFSET %d", $this->getRange(), $offset);
+    // Check that user has name, password, mail, active status
+    // and belongs to certain group.
+    return db_query("SELECT og.nid, og.uid FROM {og_uid} og LEFT JOIN {users} u
+      ON og.uid = u.uid
+      WHERE og.nid IN (%s)
+      AND u.name != ''
+      AND u.pass  != ''
+      AND u.mail  != ''
+      AND u.status != 0
+      ORDER BY nid, uid LIMIT %d OFFSET %d",
+      implode(', ', $this->groupForExport[$this->getSiteName()]),
+      $this->getRange(),
+      $offset
+    );
   }
 
   /**

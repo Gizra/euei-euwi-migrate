@@ -5,7 +5,7 @@
  * Contains \EuEventMigration
  */
 
-class EuEventMigration extends EuMigration {
+class EuEventMigration extends EuMigrationNode {
 
   protected $entityType = 'node';
 
@@ -36,7 +36,8 @@ class EuEventMigration extends EuMigration {
     ));
 
     // Set "Group event" as default value for all migrated groups.
-    $this->addFieldMapping('field_event_type')
+    $this
+      ->addFieldMapping('field_event_type')
       ->defaultValue(array('group_event'));
 
   }

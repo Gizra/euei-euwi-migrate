@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# Setup redirects for African Renewable Energy Technology Platform - AFRETEP group. 
+RewriteRule ^wg/african-renewable-energy-technology-platform-afretep* http://capacity4dev.ec.europa.eu/afretep [L,R=301]
+RewriteRule ^wg/track/54/news* http://capacity4dev.ec.europa.eu/afretep/blogs [L,R=301]
+RewriteRule ^wg/54/channel/document* http://capacity4dev.ec.europa.eu/afretep/documents [L,R=301]
+RewriteRule ^wg/track/54/events* http://capacity4dev.ec.europa.eu/afretep/calendar [L,R=301]
+
+# Setup redirects for CEREEECA Project group.
+RewriteRule ^wg/cereeeca-project* http://capacity4dev.ec.europa.eu/cereeeca [L,R=301]
+RewriteRule ^wg/track/10772/news* http://capacity4dev.ec.europa.eu/cereeeca/blogs [L,R=301]
+RewriteRule ^wg/10772/channel/document* http://capacity4dev.ec.europa.eu/cereeeca/documents [L,R=301]
+RewriteRule ^wg/track/10772/events* http://capacity4dev.ec.europa.eu/cereeeca/calendar [L,R=301]
+
+# Uncomment next line for redirect any unknown request to EUEI.NET to the main page of C4D site.  
+RewriteRule ^(.*)$ http://capacity4dev.ec.europa.eu/ [L,R=301]

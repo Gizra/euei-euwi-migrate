@@ -5,7 +5,7 @@
  * Contains \EuDocumentMigration
  */
 
-class EuDocumentMigration extends EuMigration {
+class EuDocumentMigration extends EuMigrationNode {
 
   protected $entityType = 'node';
 
