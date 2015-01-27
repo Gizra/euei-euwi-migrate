@@ -31,4 +31,12 @@ class FeatureContext extends DrupalContext {
     );
   }
 
+  /**
+   * @Given /^I should see the text "([^"]*)" in the body$/
+   */
+  public function iShouldSeeTheTextInTheBody($text) {
+    $this->assertElementContains('.node-content', $text);
+  }
+
+
 }
