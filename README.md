@@ -24,7 +24,7 @@ https://github.com/drupal/drupal/blob/6.x/.htaccess
 5. Order of run migration:  
 ``First Part: EuUser -> EuProfile -> EuMembership``  
 ``Second Part: EuNews -> EuEvent -> EuDocument -> EuComment``  
-6. Before migrate `EuMembership` apply next path:  
+6. Before migrate `EuMembership` apply next path via ``/devel/php`` link:  
 ```php
 $ret = array();
 db_add_field($ret, 'migrate_map_eumembership', 'destid1', array('type' => 'int', 'length' => 11));
