@@ -162,10 +162,11 @@ class EuMigrationNode extends EuMigration {
    *
    * @param $entity
    *  The entity of type node.
-   * @param stdClass $row
+   * @param $row
    *  stdClass object containing the raw data as provided by the source.
    */
-  public function complete($entity, stdClass $row) {
-      $entity->format = 5;
-    }
+  public function complete($entity, $row) {
+    $entity->format = 5;
+  }
+
 }
