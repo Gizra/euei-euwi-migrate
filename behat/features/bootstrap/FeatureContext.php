@@ -44,7 +44,7 @@ class FeatureContext extends DrupalContext {
    */
   public function iAmLoggingInAs($username) {
     try {
-      $password = $this->drupalUsers[$username];
+      $password = 'admin';
     }
     catch (Exception $e) {
       throw new Exception("Password not found for '$username'.");
