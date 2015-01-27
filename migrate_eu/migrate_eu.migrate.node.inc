@@ -156,4 +156,16 @@ class EuMigrationNode extends EuMigration {
 
     return $entity;
   }
+
+  /**
+   * Set attribute format = 5 to display node correctly.
+   *
+   * @param $entity
+   *  The entity of type node.
+   * @param stdClass $row
+   *  stdClass object containing the raw data as provided by the source.
+   */
+  public function complete($entity, stdClass $row) {
+      $entity->format = 5;
+    }
 }
