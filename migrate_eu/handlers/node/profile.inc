@@ -53,6 +53,11 @@ class EuProfileMigration extends EuMigration {
     // in Content-type -> People type.
     $entity->title = $row->first_name . ' ' . $row->last_name;
 
+    // If first_name and last_name is empty then use name as title.
+    if (empty($entity->title)) {
+      $entity->title = $row->name;
+    }
+
     // Test that user of the entity didn't migrated
     // because already exist in system.
     if (empty($entity->uid) && $row->unique_id) {
