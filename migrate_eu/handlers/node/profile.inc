@@ -54,6 +54,7 @@ class EuProfileMigration extends EuMigration {
     $entity->title = $row->first_name . ' ' . $row->last_name;
 
     // If first_name and last_name is empty then use name as title.
+    $entity->title = trim($entity->title);
     if (empty($entity->title)) {
       $entity->title = $row->name;
     }
