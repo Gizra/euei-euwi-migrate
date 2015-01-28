@@ -37,7 +37,13 @@ class ExportUser extends ExportBase {
         $values[$key] = $entity->pass;
       }
       elseif ($key == 'first_name') {
-        $values[$key] = $entity->profile_name;
+        if (empty($entity->profile_name) && empty($entity->profile_lastname)) {
+          $values[$key] =  $entity->name;
+        }
+        else {
+          $profile_name = trim($entity->profile_name);
+          $values[$key] = empty($profile_name) ? $entity->name : $profile_name;
+        }
       }
       elseif ($key == 'last_name') {
         $values[$key] = $entity->profile_lastname;
