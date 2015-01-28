@@ -110,6 +110,13 @@ class EuMigrationNode extends EuMigration {
       }
     }
 
+    // Set entity format property equal to 5 that mean entity body edited in
+    // WYSIWYG editor and will support special format tags. This option
+    // actually only for News (blog) and Events.
+    if ($this->bundle == 'blog' || $this->bundle == 'event') {
+      $entity->format = 5;
+    }
+
   }
 
   /**
@@ -156,4 +163,5 @@ class EuMigrationNode extends EuMigration {
 
     return $entity;
   }
+
 }
