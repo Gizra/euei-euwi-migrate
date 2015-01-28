@@ -19,7 +19,7 @@ class EuProfileMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_user', 'user')
-      ->fields('user', array('unique_id', 'first_name', 'last_name', 'organization', 'organization_category', 'country'))
+      ->fields('user', array('unique_id', 'name', 'first_name', 'last_name', 'organization', 'organization_category', 'country'))
       ->orderBy('unique_id', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
