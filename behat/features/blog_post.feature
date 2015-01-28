@@ -20,3 +20,4 @@ Feature: Blog post
     | news/project-lom-pangar-30-mw-hydroelectric-dam                                        | Cameroon - Project Lom Pangar:             | Project Lom Pangar: donors reveal their intentions. This article presents the results of the round       |              | Girbau Garcia Zaira |
     | news/caroline-jackson-join-waste-management-forum-speaker                              | Caroline Jackson to join the Waste Management forum as a speaker| <p><strong>John P. Foden</strong> will speak about the history of waste   |              | Via Expo            |
     | news/cg-coordination-meeting-10june-2010                                               | CG coordination meeting -10June 2010       | The documentation of the CG held in Brussels on the 10th June is gathered                                |              | Celine Dondeynaz    |
+
