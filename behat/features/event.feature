@@ -3,7 +3,7 @@ Feature: Event
   As an anonymous user
   We need to be able to have access to an event page
 
-  @api @foo
+  @api
   Scenario Outline: Visit event dashboard
     Given I logging in as "admin"
     When   I visit "<url>"
@@ -12,11 +12,13 @@ Feature: Event
 
   Examples:
     | url                                  | upcoming                                      | past |
-    | public-water_and_sanitation/calendar | Regulation of public services: national and local perspectives |  Water Thematic Regional Seminar - Astana, Kazakhstan      |
-    | afretep/calendar                     | No upcoming events found.                                      |   1st Announcement for ARPEDAC Clean Development Mechanism |
+    | public-water_and_sanitation/calendar | Regulation of public services: national and local perspectives | Water Thematic Regional Seminar - Astana, Kazakhstan       |
+    | afretep/calendar                     | No upcoming events found.                                      | 1st Announcement for ARPEDAC Clean Development Mechanism   |
+    | euwi-mediterranean/calendar          | No upcoming events found.                                      | EU Water Framework Directive and Med-EUWI                  |
+    | euwi-eastern-europe-caucasus-central-asia/calendar |  No upcoming events found.                       | EU Water Initiative - EECCA Component Working Group        |
 
 
-  @api @wip
+  @api
   Scenario Outline: Visit an event page
     Given I logging in as "admin"
     When   I visit "<url>"
@@ -27,10 +29,9 @@ Feature: Event
     And   I should see the text "<author>"
 
   Examples:
-    | url                                                                                    | title                                      | body                                                                                                     | categories   | author              |
-    | public-water_and_sanitation/blog/bill-gates-boit-de-leau-produite-à-partir-dexcréments | Bill Gates boit de l'eau produite à partir | http://www.franceinfo.fr/actu/monde/article/bill-gates-boit-de-l-eau-produite-partir-d-excrements-628153 | Water supply | Antoine Saintraint  |
-    | news/csp-alive-and-well-america                                                        | CSP is alive and well in America!          | <strong>SolarReserve </strong>                                               | Solar Energy | Gonzalez Bea        |
-    | news/project-lom-pangar-30-mw-hydroelectric-dam                                        | Cameroon - Project Lom Pangar:             | Project Lom Pangar: donors reveal their intentions. This article presents the results of the round       |              | Girbau Garcia Zaira |
-    | news/caroline-jackson-join-waste-management-forum-speaker                              | Caroline Jackson to join the Waste Management forum as a speaker| <p><strong>John P. Foden</strong> will speak about the history of waste   |              | Via Expo            |
-    | news/cg-coordination-meeting-10june-2010                                               | CG coordination meeting -10June 2010       | The documentation of the CG held in Brussels on the 10th June is gathered                                |              | Celine Dondeynaz    |
-
+    | url                                                                | title                                                       | body                                                                                     | categories                     | author           |
+    | afretep/event/botswana-renewable-energy-expo-2013                  | Botswana Renewable Energy Expo 2013                         | Botswana Renewable Energy Expo 2013, the country’s Leading renewable energy event        | Botswana Renewable Energy Expo | Duncan Douglas   |
+    | euwi-eastern-europe-caucasus-central-asia/event/joint-meeting-euwi-eecca-working-group-and-eap-task-force-group-senior-officials | Joint meeting of EUWI EECCA | Joint meeting of EUWI EECCA Working Group                  |                                | Celine Dondeynaz |
+    | euwi-mediterranean/event/eu-water-framework-directive-and-med-euwi | EU Water Framework Directive and Med-EUWI                   | This meeting will focus on finalising                                                    | monitoring, pollution, water   | Celine Dondeynaz |
+    | euwi-community-space/event/smart-cities                            | SMART CITIES                                                | We kindly invite you to become a part of Smart Cities                                    | smart cities                   |                  |
+    | euwi-coordination/event/euwi-coordination-group-june-2010          | EUWI Coordination group - June 2010                         | You are also welcome to join the EUWI Finance Working Group                              |                                | Vink maria       |

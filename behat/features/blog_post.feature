@@ -6,7 +6,7 @@ Feature: Blog post
   @api
   Scenario Outline: Visit a blog post page
     Given I logging in as "admin"
-    When   I visit "<url>"
+    And   I visit "<url>"
     Then  I should get a "200" HTTP response
     And   I should see the text "<title>"
     And   I should see the text "<body>" in the body
