@@ -1,10 +1,23 @@
-Feature: Blog post
-  In order to be able to view a blog post
+Feature: Event
+  In order to be able to view an event
   As an anonymous user
-  We need to be able to have access to a blog post page
+  We need to be able to have access to an event page
 
-  @api
-  Scenario Outline: Visit a blog post page
+  @api @foo
+  Scenario Outline: Visit event dashboard
+    Given I logging in as "admin"
+    When   I visit "<url>"
+    Then I should see "<upcoming>" under events
+    And I should see "<past>" under events
+
+  Examples:
+    | url                                  | upcoming                                      | past |
+    | public-water_and_sanitation/calendar | Regulation of public services: national and local perspectives |  Water Thematic Regional Seminar - Astana, Kazakhstan      |
+    | afretep/calendar                     | No upcoming events found.                                      |   1st Announcement for ARPEDAC Clean Development Mechanism |
+
+
+  @api @wip
+  Scenario Outline: Visit an event page
     Given I logging in as "admin"
     When   I visit "<url>"
     Then  I should get a "200" HTTP response

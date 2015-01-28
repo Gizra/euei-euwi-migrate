@@ -38,5 +38,13 @@ class FeatureContext extends DrupalContext {
     $this->assertElementContains('.node-content', $text);
   }
 
+  /**
+   * @Then /^I should see "([^"]*)" under events$/
+   */
+  public function iShouldSeeUnderEvents($text) {
+    $this->assertElementContains('.view-ec-calendar', $text);
+  }
+
+
 
 }
