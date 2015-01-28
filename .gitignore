@@ -1,0 +1,5 @@
+/dump.sql
+behat/vendor
+behat/behat.local.yml
+behat/bin/
+behat/composer.phar
