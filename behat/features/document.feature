@@ -3,20 +3,23 @@ Feature: Document
   As an anonymous user
   We need to be able to have access to a document page
 
-  @api @wip
+  @api
   Scenario Outline: Visit Document dashboard
     Given   I logging in as "admin"
     When    I visit "<url>"
-    Then    I should see "<upcoming>" under events
-    And     I should see "<past>" under events
+    Then    I should the link "<link>" under documents
+    And     I should see the text "<author>"
 
   Examples:
-    | url                                  | upcoming                                                       | past  |
-    | public-water_and_sanitation/calendar | Regulation of public services: national and local perspectives | Water Thematic Regional Seminar - Astana, Kazakhstan       |
+    | url                                                 | link                                                                                  | author             |
+    | euwi-africa/documents                               | Report of the meeting of the EUWI AWG in Stockholm                                    |  Le Deunff Hélène  |
+    | euwi-eastern-europe-caucasus-central-asia/documents | National Policy Dialogues in Armenia related to Integrated Water Resources Management | Diderich ecaterina |
+    | euwi-fwg/documents                                  | A Primer for Practitioners and Students in Developing Countries                       | Celine Dondeynaz   |
+    | euwi-multi-stakeholder-forum/documents              | EU Council Resolution Water management in developing countries: Policy and            |  Vink maria        |
 
 
 
-  @api @foo
+  @api 
   Scenario Outline: Visit a document page
     Given I logging in as "admin"
     When  I visit "<url>"
