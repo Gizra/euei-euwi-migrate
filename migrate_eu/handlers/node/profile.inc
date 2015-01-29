@@ -19,7 +19,7 @@ class EuProfileMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_user', 'user')
-      ->fields('user', array('unique_id', 'first_name', 'last_name', 'organization', 'organization_category', 'country'))
+      ->fields('user', array('unique_id', 'name', 'first_name', 'last_name', 'organization', 'organization_category', 'country'))
       ->orderBy('unique_id', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
@@ -52,6 +52,12 @@ class EuProfileMigration extends EuMigration {
     // Be sure that auto title generation is disabled
     // in Content-type -> People type.
     $entity->title = $row->first_name . ' ' . $row->last_name;
+
+    // If first_name and last_name is empty then use name as title.
+    $entity->title = trim($entity->title);
+    if (empty($entity->title)) {
+      $entity->title = $row->name;
+    }
 
     // Test that user of the entity didn't migrated
     // because already exist in system.
