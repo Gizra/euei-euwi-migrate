@@ -45,6 +45,21 @@ class FeatureContext extends DrupalContext {
     $this->assertElementContains('.view-ec-calendar', $text);
   }
 
+  /**
+   * @Then /^I should the link "([^"]*)" under documents$/
+   */
+  public function iShouldTheLinkUnderDocuments($text) {
+    $this->assertElementContains('.view-ec-documents', $text);
+  }
+
+  /**
+   * @Given /^I should see the download "([^"]*)"$/
+   */
+  public function iShouldSeeTheDownload($text) {
+    $this->assertElementContains('.document-download', $text);
+  }
+
+
 
 
 }
