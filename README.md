@@ -21,9 +21,6 @@ function __clone() {
 ```
 4. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
 https://github.com/drupal/drupal/blob/6.x/.htaccess
-5. Order of run migration:  
-``First Part: EuUser -> EuProfile -> EuMembership``  
-``Second Part: EuNews -> EuEvent -> EuDocument -> EuComment``  
 6. Before migrate `EuMembership` apply next path via ``/devel/php`` link:  
 ```php
 $ret = array();
@@ -32,6 +29,9 @@ $ret = array();
 db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int', 'length' => 11));
 ```
 7. Before migrate `EuProfile` disable auto title generation for `People` type in `Content-type -> People -> Edit`.
+5. Order of run migration:  
+``First Part: EuUser -> EuProfile -> EuMembership``  
+``Second Part: EuNews -> EuEvent -> EuDocument -> EuComment``  
 
 ## Post-setup
 1. Enable auto title generation for the `People` contenty type via `Content-type -> People -> Edit`.
