@@ -48,6 +48,7 @@ CREATE TABLE `_gizra_user` (
   `organization` varchar (254),
   `organization_category` varchar (254),
   `country` varchar (254),
+  `created` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`unique_id`),
   KEY `uid` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
