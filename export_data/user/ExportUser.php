@@ -19,6 +19,7 @@ class ExportUser extends ExportBase {
     'organization' => '%s',
     'organization_category' => '%s',
     'country' => '%s',
+    'created' => '%d'
   );
 
   /**
