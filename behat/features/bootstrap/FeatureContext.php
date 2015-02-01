@@ -60,6 +60,24 @@ class FeatureContext extends DrupalContext {
   }
 
 
+  /**
+   * @Then /^I should see "([^"]*)" under profile$/
+   */
+  public function iShouldSeeUnderProfile($text) {
+    $this->assertElementContains('#profile-main-info', $text);
+  }
+
+  /**
+   * @Given /^I should see "([^"]*)" under groups$/
+   */
+  public function iShouldSeeUnderGroups($groups) {
+    $groups = explode(';', $groups);
+    foreach ($groups as $group) {
+      $group = trim($group);
+      $this->assertElementContains('#block-views-ec_people_groups-block_3', $group);
+    }
+  }
+
 
 
 }
