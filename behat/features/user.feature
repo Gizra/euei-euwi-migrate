@@ -3,13 +3,13 @@ Feature: Event
   As an anonymous user
   We need to be able to have access to an event page
 
-  @api 
+  @api
   Scenario Outline: Visit event dashboard
     Given I logging in as "admin"
     When  I visit "<url>"
     Then  I should see "<name>" under profile
-    And  I should see "<country>" under profile
-    And  I should see "<date>" under profile
+    And   I should see "<country>" under profile
+    And   I should see "<date>" under profile
     And   I should see "<groups>" under groups
 
   Examples:
