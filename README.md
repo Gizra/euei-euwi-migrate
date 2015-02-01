@@ -53,7 +53,7 @@ yes | drush sql-drop
 
 # Import a dump of live C4D database.
 echo "Import a new database.\n"
-drush sql-cli < ~/projects/migrate/c4d/c4d-with-exported-data.sql # Dump without groups
+drush sql-cli < ~/projects/migrate/distr/C4D_original_dump_last.sql
 # drush sql-cli < ~/projects/migrate/distr/C4D.sql
 
 # Change password for admin to 'admin'.
