@@ -1,10 +1,10 @@
-Feature: Event
-  In order to be able to view an event
+Feature: User profile
+  In order to be able to view an user profile
   As an anonymous user
-  We need to be able to have access to an event page
+  We need to be able to have access to an user profile page
 
   @api
-  Scenario Outline: Visit event dashboard
+  Scenario Outline: Visit user profile page.
     Given I logging in as "admin"
     When  I visit "<url>"
     Then  I should see "<name>" under profile
