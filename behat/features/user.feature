@@ -3,7 +3,7 @@ Feature: Event
   As an anonymous user
   We need to be able to have access to an event page
 
-  @api @foo
+  @api 
   Scenario Outline: Visit event dashboard
     Given I logging in as "admin"
     When  I visit "<url>"
