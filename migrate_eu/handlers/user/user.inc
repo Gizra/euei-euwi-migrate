@@ -16,7 +16,7 @@ class EuUserMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_user', 'user')
-      ->fields('user', array('unique_id', 'uid', 'name', 'password', 'mail'))
+      ->fields('user', array('unique_id', 'uid', 'name', 'password', 'mail', 'created'))
       ->orderBy('uid', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
@@ -27,6 +27,7 @@ class EuUserMigration extends EuMigration {
     $this->addSimpleMappings(array(
       'name',
       'mail',
+      'created',
     ));
 
     $this->addFieldMapping('pass', 'password');
