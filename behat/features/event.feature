@@ -30,7 +30,7 @@ Feature: Event
 
   Examples:
     | url                                                                | title                                                       | body                                                                                     | categories                     | author           |
-    | afretep/event/botswana-renewable-energy-expo-2013                  | Botswana Renewable Energy Expo 2013                         | Botswana Renewable Energy Expo 2013, the country’s Leading renewable energy event        | Botswana Renewable Energy Expo | Duncan Douglas   |
+    | afretep/event/botswana-renewable-energy-expo-2013                  | Botswana Renewable Energy Expo 2013                         | Botswana Renewable Energy Expo 2013</a>, the country’s Leading renewable energy event ho | Botswana Renewable Energy Expo | Duncan Douglas   |
     | euwi-eastern-europe-caucasus-central-asia/event/joint-meeting-euwi-eecca-working-group-and-eap-task-force-group-senior-officials | Joint meeting of EUWI EECCA | Joint meeting of EUWI EECCA Working Group                  |                                | Celine Dondeynaz |
     | euwi-mediterranean/event/eu-water-framework-directive-and-med-euwi | EU Water Framework Directive and Med-EUWI                   | This meeting will focus on finalising                                                    | monitoring, pollution, water   | Celine Dondeynaz |
     | euwi-community-space/event/smart-cities                            | SMART CITIES                                                | We kindly invite you to become a part of Smart Cities                                    | smart cities                   | Via Expo         |
