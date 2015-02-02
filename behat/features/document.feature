@@ -31,7 +31,7 @@ Feature: Document
     And   I should see the download "<download-link>"
 
   Examples:
-    | url                                                                                            | title                                                             | link                            | filetype                     | author              | download-link |
+    | url                                                                                            | title                                                             | link                            | filetype                     | author              | download-link                                                       |
     | euwi-community-space/document/eecca-regional/armenia-npd-steering-group-meetings               | Armenia NPD Steering Group Meetings                               | Download this document          | Filetype: msword             | Diderich ecaterina  | files/file/26/01/2015_-_1300/SC_1__meeting__22.03.07_Agenda_eng.doc |
     | euwi-africa/document/newsletter/euwi-awg-newsletter-august-2012-bulletin-de-liee-gta-août-2012 | EUWI AWG Newsletter August 2012 // Bulletin de l'IEE GTA août     | EUWI AWG Newsletter August 2012 | Filetype:                    | Sjödin Johanna      |                                                                     |
     | euwi-africa/document/eu-water-initiative-africa-working-group-newsletter-september-2013        | Report of the meeting of the EUWI AWG in Stockholm                | Download this document          | Filetype: pdf                | Le Deunff Hélène    | files/file/26/01/2015_-_1301/Appendix_II_AWG_progress_report.pdf    |
