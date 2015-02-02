@@ -1,11 +1,9 @@
 # Integration of EUEI and EUWI communities of practice on Capacity4dev
 
 ## Pre-setup
-1. Protect user emails. (add .test to end of a users emails)  
-`drush scr export_data/prepare/protect_email.php`  
-For remove .test run this script with `--unprotect=1` option  
-`drush scr export_data/prepare/protect_email.php --unprotect=1`
-2. Setup path of directory that contain source files.  
+1. ~~Protect user emails. (add .test to end of a users emails)~~ (Already in startup script)  
+~~`drush scr export_data/prepare/protect_email.php`~~  
+2. Setup path of directory that contain migration files.  
 `drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`
 3. Patch drupal __dbtng__ module.  
 In file __/sites/all/modules/contrib/dbtng/database/query.inc__ fix `__clone` method.  
@@ -37,13 +35,13 @@ db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int',
 1. Enable auto title generation for the `People` contenty type via `Content-type -> People -> Edit`.
 2. Remove .test on the end of email for all users  
 `drush scr export_data/prepare/protect_email.php --unprotect=1`
-3. Put .htaccess files to EUEI and EUWI server for make redirects from old groups to new on C4D.
+3. Put `.htaccess` files to EUEI and EUWI server for make redirects from old groups to new on C4D.
 
-## Stuff
+## Dev
 
 On current step all groups should be made manually.
 
-### Script for setup C4D system from zero on dev machine. 
+### Startup script for setup C4D system from zero on dev machine. 
 ```bash
 #!/bin/sh
 
@@ -51,30 +49,22 @@ On current step all groups should be made manually.
 echo "Drop old database\n";
 yes | drush sql-drop
 
-# Import a dump of live C4D database.
+# Import a backuped database.
 echo "Import a new database.\n"
+# drush sql-cli < ~/projects/migrate/c4d/c4d-with-exported-data.sql # Dump without groups
 drush sql-cli < ~/projects/migrate/distr/C4D_original_dump_last.sql
-# drush sql-cli < ~/projects/migrate/distr/C4D.sql
 
 # Change password for admin to 'admin'.
 echo "Update password for the admin\n"
 drush sql-query "UPDATE users SET pass='21232f297a57a5a743894a0e4a801fc3' WHERE uid='1'"
 
+# Protect users by append .test to their mails.
+echo "Protect users by append .test to their mails."
+drush scr sites/all/modules/custom/euei-euwi-migrate/export_data/prepare/protect_email.php
+
 # Import a 'exported tables'.
 echo "Import 'exported tables'"
 drush sql-cli < ~/projects/migrate/distr/exported-data.sql
-
-# Import a new users. (Limited version)
-#echo "Import _gizra_user_limit\n"
-#drush sql-cli < ~/projects/migrate/distr/_gizra_user_limit.sql
-
-# Import a new news. (Limited version)
-#echo "Import _gizra_node_blog_post_limit\n"
-#drush sql-cli < ~/projects/migrate/distr/_gizra_node_blog_post_limit.sql
-
-# Import a new events. (Limited version)
-#echo "Import _gizra_node_event_limit\n"
-#drush sql-cli < ~/projects/migrate/distr/_gizra_node_event_limit.sql
 
 # And clean a cache.
 echo "Clean a cache\n"
