@@ -19,7 +19,7 @@ Feature: Document
 
 
 
-  @api @foo
+  @api 
   Scenario Outline: Visit a document page
     Given I logging in as "admin"
     When  I visit "<url>"
