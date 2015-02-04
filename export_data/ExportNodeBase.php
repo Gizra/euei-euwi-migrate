@@ -207,7 +207,14 @@ class ExportNodeBase extends ExportBase {
     return implode('/', $path);
   }
   protected function getTaxonomyFromNode($entity) {
-    
+    if (!$entity->taxonomy) {
+      return;
+    }
+    $taxonomy = array();
+    foreach ($entity->taxonomy as $term) {
+      $taxonomy[] = $term->name. ':' .$term->description;
+    }
+    return implode('|', $taxonomy);
   }
 
   protected function getHighlightedStatus($entity) {
