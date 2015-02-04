@@ -126,8 +126,7 @@ class ExportNodeBase extends ExportBase {
         $values[$key] = $this->getPathFromNode($entity);
       }
       elseif ($key == 'promote') {
-        $values[$key] = $this->getHighlightedStatus($entity);
-        print_r($values[$key]);
+        $values[$key] = $this->isHighlighted($entity);
       }
       elseif ($key == 'taxonomy') {
         $values[$key] = $this->getTaxonomyFromNode($entity);
@@ -206,6 +205,15 @@ class ExportNodeBase extends ExportBase {
     unset($path[0]);
     return implode('/', $path);
   }
+
+  /**
+   * Return taxonomy as string with format "name:description" separated by pipe.
+   *
+   * @param $entity
+   *  The entity object of type node.
+   *
+   * @return string
+   */
   protected function getTaxonomyFromNode($entity) {
     if (!$entity->taxonomy) {
       return;
@@ -217,7 +225,15 @@ class ExportNodeBase extends ExportBase {
     return implode('|', $taxonomy);
   }
 
-  protected function getHighlightedStatus($entity) {
+  /**
+   * Check if the node is highlighted.
+   *
+   * @param $entity
+   *  The entity object of type node.
+   *
+   * @return bool
+   */
+  protected function isHighlighted($entity) {
     if ($this->getSiteName() == 'euwi') {
       // 1379 taxonomy term  is 'Highlighted'
       return (in_array(1379, array_keys($entity->taxonomy)));

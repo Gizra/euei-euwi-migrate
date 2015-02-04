@@ -19,21 +19,21 @@ $handler = new ExportNodeDocument();
 $handler->export();
 
 // News
-//$handler = new ExportNodeNews();
-//$handler->export();
+$handler = new ExportNodeNews();
+$handler->export();
 
 // Comments
-//$handler = new ExportComment();
-//$handler->export();
+$handler = new ExportComment();
+$handler->export();
 
 // Events
-//$handler = new ExportNodeEvent();
-//$handler->export();
+$handler = new ExportNodeEvent();
+$handler->export();
 
 // Users
-//$handler = new ExportUser();
-//$handler->export();
+$handler = new ExportUser();
+$handler->export();
 
 // Membership
-//$handler = new ExportOgMembership();
-//$handler->export();
+$handler = new ExportOgMembership();
+$handler->export();
