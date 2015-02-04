@@ -29,6 +29,7 @@ class ExportNodeBase extends ExportBase {
       'sticky' => '%d',
       'gid' => '%s',
       'tags' => '%s',
+      'taxonomy' => '%s',
     );
   }
 
@@ -124,6 +125,13 @@ class ExportNodeBase extends ExportBase {
       elseif ($key == 'path') {
         $values[$key] = $this->getPathFromNode($entity);
       }
+      elseif ($key == 'promote') {
+        $values[$key] = $this->getHighlightedStatus($entity);
+        print_r($values[$key]);
+      }
+      elseif ($key == 'taxonomy') {
+        $values[$key] = $this->getTaxonomyFromNode($entity);
+      }
     }
     return $values;
   }
@@ -197,6 +205,25 @@ class ExportNodeBase extends ExportBase {
     $path = explode('/', $entity->path);
     unset($path[0]);
     return implode('/', $path);
+  }
+  protected function getTaxonomyFromNode($entity) {
+    
+  }
+
+  protected function getHighlightedStatus($entity) {
+    if ($this->getSiteName() == 'euwi') {
+      // 1379 taxonomy term  is 'Highlighted'
+      return (in_array(1379, array_keys($entity->taxonomy)));
+
+    }
+    elseif ($this->getSiteName() == 'euei') {
+      // Nodes marked as highlited in the {nodequeue_nodes} with Queue ID 15.
+      $higtlighted_nodes = array(9514, 7900, 7899);
+      return in_array($entity->nid, $higtlighted_nodes);
+    }
+    else {
+      return;
+    }
   }
 
 }
