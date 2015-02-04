@@ -244,9 +244,6 @@ class ExportNodeBase extends ExportBase {
       $higtlighted_nodes = array(9514, 7900, 7899);
       return in_array($entity->nid, $higtlighted_nodes);
     }
-    else {
-      return;
-    }
   }
 
 }
