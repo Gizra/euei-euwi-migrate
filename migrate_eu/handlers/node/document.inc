@@ -26,14 +26,6 @@ class EuDocumentMigration extends EuMigrationNode {
     // Set destination object.
     $this->destination = new MigrateDestinationNode($this->bundle);
 
-    $this->addSimpleMappings(array(
-      'title',
-      'body',
-      'path',
-      'promote',
-      'sticky',
-    ));
-
     // Map file.
     $this
       ->addFieldMapping('field_file_file', 'file_path')

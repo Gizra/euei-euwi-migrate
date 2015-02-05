@@ -21,6 +21,8 @@ class EuMigrationNode extends EuMigration {
       'sticky',
       'gid',
       'tags',
+      'created',
+      'changed',
     );
   }
 
@@ -40,6 +42,18 @@ class EuMigrationNode extends EuMigration {
     $this
       ->addFieldMapping('pathauto_perform_alias')
       ->defaultValue(FALSE);
+
+    // Make mapping for all simple fields.
+    $this
+      ->addSimpleMappings(array(
+      'title',
+      'body',
+      'path',
+      'promote',
+      'sticky',
+      'created',
+      'changed',
+    ));
 
   }
 
