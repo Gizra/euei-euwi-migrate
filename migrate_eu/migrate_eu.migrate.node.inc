@@ -23,6 +23,7 @@ class EuMigrationNode extends EuMigration {
       'tags',
       'created',
       'changed',
+      'taxonomy',
     );
   }
 
@@ -121,6 +122,40 @@ class EuMigrationNode extends EuMigration {
             }
           }
         }
+      }
+    }
+
+    // If a node have taxonomy then parse it.
+    if ($row->taxonomy) {
+      $tags = explode('|', $row->taxonomy);
+      $entity->taxonomy = array();
+      foreach ($tags as $tag) {
+        list ($tag_name, $tag_description) = explode(':', $tag);
+
+        // Search tag in Categories.
+        $tag_id = $this->searchTagInVocabulary($tag_name, $entity->vocabs[0]);
+        if ($tag_id) {
+          $entity = $this->addTagToEntity($tag_id, $entity);
+        }
+        else {
+          // Search tag in Additional tags.
+          $tag_id = $this->searchTagInVocabulary($tag_name, $entity->vocabs[1]);
+          if ($tag_id) {
+            $entity = $this->addTagToEntity($tag_id, $entity);
+          }
+          else {
+            // Create a new tag and safe in Additional tags.
+            $new_term = array(
+              'vid' => $entity->vocabs[1],
+              'name' => $tag_name,
+              'description' => $tag_description,
+            );
+            if (taxonomy_save_term($new_term)) {
+              $entity = $this->addTagToEntity($new_term['tid'], $entity);
+            }
+          }
+        }
+
       }
     }
 
