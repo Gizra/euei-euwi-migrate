@@ -32,6 +32,8 @@ CREATE TABLE `_gizra_node_document` (
   `tags` varchar (254) DEFAULT NULL,
   `file_path` varchar (255),
   `file_name` varchar (128),
+  `file_mime` varchar(255),
+  `file_size` varchar(255),
   `taxonomy` varchar (254) DEFAULT NULL,
   PRIMARY KEY (`unique_id`),
   KEY `nid` (`title`)
