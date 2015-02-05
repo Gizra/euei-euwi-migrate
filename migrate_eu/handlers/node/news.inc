@@ -27,14 +27,6 @@ class EuNewsMigration extends EuMigrationNode {
     // Set destination object.
     $this->destination = new MigrateDestinationNode($this->bundle);
 
-    $this->addSimpleMappings(array(
-      'title',
-      'body',
-      'path',
-      'promote',
-      'sticky',
-    ));
-
   }
 
 }

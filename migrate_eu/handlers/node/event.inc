@@ -27,14 +27,6 @@ class EuEventMigration extends EuMigrationNode {
     // Set destination object.
     $this->destination = new MigrateDestinationNode($this->bundle);
 
-    $this->addSimpleMappings(array(
-      'title',
-      'body',
-      'path',
-      'promote',
-      'sticky',
-    ));
-
     // Set "Group event" as default value for all migrated groups.
     $this
       ->addFieldMapping('field_event_type')
