@@ -30,6 +30,9 @@ class ExportNodeBase extends ExportBase {
       'gid' => '%s',
       'tags' => '%s',
       'taxonomy' => '%s',
+      'created' => '%d',
+      'changed' => '%d',
+      'counter' => '%d',
     );
   }
 
@@ -130,6 +133,9 @@ class ExportNodeBase extends ExportBase {
       }
       elseif ($key == 'taxonomy') {
         $values[$key] = $this->getTaxonomyFromNode($entity);
+      }
+      elseif ($key == 'counter') {
+        $values[$key] = $this->getCounterFromNode($entity);
       }
     }
     return $values;
@@ -245,6 +251,10 @@ class ExportNodeBase extends ExportBase {
       return in_array($entity->nid, $higtlighted_nodes);
     }
   }
+  protected function getCounterFromNode($entity) {
+    return db_result(db_query("SELECT totalcount FROM node_counter WHERE nid = '%d'", $entity->nid));
+  }
+
 
 }
 

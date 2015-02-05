@@ -16,6 +16,7 @@ CREATE TABLE `_gizra_node_blog_post` (
   `taxonomy` varchar (254) DEFAULT NULL,
   `created` int(11) NOT NULL DEFAULT '0',
   `changed` int(11) NOT NULL DEFAULT '0',
+  `counter` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`unique_id`),
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -37,6 +38,7 @@ CREATE TABLE `_gizra_node_document` (
   `taxonomy` varchar (254) DEFAULT NULL,
   `created` int(11) NOT NULL DEFAULT '0',
   `changed` int(11) NOT NULL DEFAULT '0',
+  `counter` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`unique_id`),
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -96,6 +98,7 @@ CREATE TABLE `_gizra_node_event` (
   `taxonomy` varchar (254) DEFAULT NULL,
   `created` int(11) NOT NULL DEFAULT '0',
   `changed` int(11) NOT NULL DEFAULT '0',
+  `counter` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`unique_id`),
   KEY `nid` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
