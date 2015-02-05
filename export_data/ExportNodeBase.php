@@ -254,7 +254,5 @@ class ExportNodeBase extends ExportBase {
   protected function getCounterFromNode($entity) {
     return db_result(db_query("SELECT totalcount FROM node_counter WHERE nid = '%d'", $entity->nid));
   }
-
-
 }
 

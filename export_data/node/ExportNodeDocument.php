@@ -92,41 +92,6 @@ class ExportNodeDocument extends ExportNodeBase {
   }
 
   /**
-   * Check files.
-   */
-  protected function checkFiles() {
-    if (!$total = $this->getTotal()) {
-      throw new Exception('No total count for entity type');
-    }
-
-    $count = 0;
-
-    while($count < $total) {
-      $result = $this->getResults($count);
-
-      while ($row = db_fetch_array($result)) {
-        $entity = $this->getEntityFromRow($row);
-        if ($entity->files) {
-          if (count($entity->files) > 1) {
-            // @todo: Deal with multiple files.
-          }
-        }
-
-        ++$count;
-
-        $params = array(
-          '@entity_type' => $this->getEntityType(),
-          '@count' => $count,
-          '@total' => $total,
-          '@id' => $this->getEntityId($entity),
-        );
-
-        drush_print(dt('(@count / @total) Processed @entity_type ID @id.', $params));
-      }
-    }
-  }
-
-  /**
    * {@inheritdoc}
    */
   protected function isExportable($entity) {
