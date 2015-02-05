@@ -32,6 +32,7 @@ db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int',
 9. Order of run migration:  
 ``First Part: EuUser -> EuProfile -> EuMembership``  
 ``Second Part: EuNews -> EuEvent -> EuDocument -> EuComment``  
+``Third part: EuCounter``
 
 ## Post-setup
 1. Enable auto title generation for the `People` contenty type via `Content-type -> People -> Edit`.
