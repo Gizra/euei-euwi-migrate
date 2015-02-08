@@ -3,8 +3,8 @@
 ## Pre-setup
 1. ~~Protect user emails. (add .test to end of a users emails)~~ (Already in startup script)  
 ~~`drush scr export_data/prepare/protect_email.php`~~  
-2. Setup path of directory that contain migration files.  
-`drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`
+2. ~~Setup path of directory that contain migration files.~~  (Already in startup script)
+~~`drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`~~
 3. Patch drupal __dbtng__ module.  
 In file __/sites/all/modules/contrib/dbtng/database/query.inc__ fix `__clone` method.  
 ```php
