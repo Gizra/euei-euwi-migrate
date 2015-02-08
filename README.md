@@ -3,7 +3,7 @@
 ## Pre-setup
 1. ~~Protect user emails. (add .test to end of a users emails)~~ (Already in startup script)  
 ~~`drush scr export_data/prepare/protect_email.php`~~  
-2. ~~Setup path of directory that contain migration files.~~  (Already in startup script)
+2. ~~Setup path of directory that contain migration files.~~  (Already in startup script)  
 ~~`drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`~~
 3. Patch drupal __dbtng__ module.  
 In file __/sites/all/modules/contrib/dbtng/database/query.inc__ fix `__clone` method.  
@@ -55,7 +55,7 @@ yes | drush sql-drop
 # Import a backuped database.
 echo "Import a new database.\n"
 # drush sql-cli < ~/projects/migrate/c4d/c4d-with-exported-data.sql # Dump without groups
-drush sql-cli < ~/projects/migrate/distr/C4D_original_dump_last.sql
+pv ~/projects/migrate/distr/C4D_original_dump_last.sql | drush sql-cli
 
 # Change password for admin to 'admin'.
 echo "Update password for the admin\n"
@@ -85,6 +85,10 @@ yes | drush en migrate_eu
 # Enable devel module.
 echo "Enable devel module\n"
 yes | drush en devel
+
+# Set patch for migration files.
+echo "Set path for migration files\n"
+drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"
 
 # finish
 echo "Finished!\n"
