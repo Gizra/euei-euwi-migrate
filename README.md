@@ -18,13 +18,6 @@ function __clone() {
 ```
 4. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
 https://github.com/drupal/drupal/blob/6.x/.htaccess
-6. Before migrate `EuMembership` apply next path via ``/devel/php`` link:  
-```php
-$ret = array();
-db_add_field($ret, 'migrate_map_eumembership', 'destid1', array('type' => 'int', 'length' => 11));
-$ret = array();
-db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int', 'length' => 11));
-```
 7. Before migrate `EuProfile` disable auto title generation for `People` type in `Content-type -> People -> Edit`.
 9. Order of run migration:  
 ``First Part: EuUser -> EuProfile -> EuMembership``  
@@ -82,6 +75,18 @@ yes | drush en migrate_eu
 # Enable devel module.
 echo "Enable devel module\n"
 yes | drush en devel
+
+# Run migration once to make all working tables.
+echo "Run migration"
+drush ms
+
+# Apply path for the EuMembership migration.
+drush ev '
+$ret = array();
+db_add_field($ret, "migrate_map_eumembership", "destid1", array("type" => "int", "length" => 11));
+$ret = array();
+db_add_field($ret, "migrate_map_eumembership", "destid2", array("type" => "int", "length" => 11));
+'
 
 # finish
 echo "Finished!\n"
