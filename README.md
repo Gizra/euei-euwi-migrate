@@ -26,8 +26,6 @@ $ret = array();
 db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int', 'length' => 11));
 ```
 7. Before migrate `EuProfile` disable auto title generation for `People` type in `Content-type -> People -> Edit`.
-8. Before migrate `EuDocument` allow write to everybody to files folder.  
-``chmod a+w -R sites/default/files/``  
 9. Order of run migration:  
 ``First Part: EuUser -> EuProfile -> EuMembership``  
 ``Second Part: EuNews -> EuEvent -> EuDocument -> EuComment``  
