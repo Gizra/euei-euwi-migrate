@@ -3,7 +3,7 @@
 ## Pre-setup
 1. ~~Protect user emails. (add .test to end of a users emails)~~ (Already in startup script)  
 ~~`drush scr export_data/prepare/protect_email.php`~~  
-2. Put `export_data` folder with migrated files to `sites/default/files`
+2. Put `export_data` folder with migrated files to `sites/default/files`  
 3. Patch drupal __dbtng__ module.  
 In file __/sites/all/modules/contrib/dbtng/database/query.inc__ fix `__clone` method.  
 ```php
