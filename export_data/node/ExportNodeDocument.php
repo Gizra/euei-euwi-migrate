@@ -13,8 +13,6 @@ class ExportNodeDocument extends ExportNodeBase {
   protected $fields = array(
     'file_path' => '%s',
     'file_name' => '%s',
-    'file_mime' => '%s',
-    'file_size' => '%s',
   );
 
   /**
@@ -22,15 +20,13 @@ class ExportNodeDocument extends ExportNodeBase {
    */
   protected function getValues($entity) {
 
-    $file_path = $file_name = $file_mime = $file_size = array();
+    $file_path = $file_name = array();
     if (!empty ($entity->files)) {
       foreach ($entity->files as $file){
 
         if ($path = $this->exportFile($file)) {
           $file_path[] = $path;
           $file_name[] = $file->filename;
-          $file_mime[] = $file->filemime;
-          $file_size[] = $file->filesize;
         };
       }
     }
@@ -43,12 +39,6 @@ class ExportNodeDocument extends ExportNodeBase {
       }
       elseif ($key == 'file_name') {
         $values[$key] = implode ('|', $file_name);
-      }
-      elseif ($key == 'file_mime') {
-        $values[$key] = implode ('|', $file_mime);
-      }
-      elseif ($key == 'file_size') {
-        $values[$key] = implode ('|', $file_size);
       }
     }
     return $values;
@@ -69,6 +59,7 @@ class ExportNodeDocument extends ExportNodeBase {
    *   message if destination directory not exist.
    */
   protected function exportFile($file, $destination = 'export_data/files/euei/') {
+    $file = is_array($file) ? (object)$file : $file;
     if ($this->getSiteName() == 'euwi') {
       $destination = '../euei/export_data/files/euwi';
     }
@@ -78,7 +69,10 @@ class ExportNodeDocument extends ExportNodeBase {
     }
 
     $source = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
-    $path = 'export_data/files/' . $this->getSiteName() . '/' . $file->filename;
+    //Set a different folders for different content type.
+    $path = $this->getOriginalBundle()=='news'?
+      'export_data/images/' . $this->getSiteName() . '/' . $file->filename:
+      'export_data/files/' . $this->getSiteName() . '/' . $file->filename;
     if (!file_exists($source)) {
       drush_print(dt('File @source could not be found.', array('@source' => $source)));
     }
