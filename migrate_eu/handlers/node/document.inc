@@ -31,21 +31,15 @@ class EuDocumentMigration extends EuMigrationNode {
       ->addFieldMapping('field_file_file', 'file_path')
       ->separator('|');
 
-    $this
-      ->addFieldMapping('field_file_file:file_replace')
-      ->defaultValue(FILE_EXISTS_REPLACE);
-
     // Explicitly set the file function.
     $this
       ->addFieldMapping('field_file_file:file_function')
-      ->defaultValue('file_copy');
+      ->defaultValue(' ');
 
-    $files_path = variable_get('c4d_migrate_files_path', NULL);
-
+    // Set path to folder that contain all migrated files.
     $this
       ->addFieldMapping('field_file_file:source_path')
-      ->defaultValue($files_path);
-
+      ->defaultValue('sites/default/files');
   }
 
 }
