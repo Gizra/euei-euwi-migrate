@@ -103,22 +103,22 @@ class EuMigrationNode extends EuMigration {
         // Search tag in Categories.
         $tag_id = $this->searchTagInVocabulary($tag_name, $entity->vocabs[0]);
         if ($tag_id) {
-          $entity = $this->addTagToEntity($tag_id, $entity);
+          $this->addTagToEntity($tag_id, $entity);
         }
         else {
-          // Search tag in Additional tags.
+          // Search tag in custom tags.
           $tag_id = $this->searchTagInVocabulary($tag_name, $entity->vocabs[1]);
           if ($tag_id) {
-            $entity = $this->addTagToEntity($tag_id, $entity);
+           $this->addTagToEntity($tag_id, $entity);
           }
           else {
-            // Create a new tag and safe in Additional tags.
+            // Create a new tag and safe in custom tags.
             $new_term = array(
               'vid' => $entity->vocabs[1],
               'name' => $tag_name,
             );
             if (taxonomy_save_term($new_term)) {
-              $entity = $this->addTagToEntity($new_term['tid'], $entity);
+              $this->addTagToEntity($new_term['tid'], $entity);
             }
           }
         }
@@ -135,13 +135,13 @@ class EuMigrationNode extends EuMigration {
         // Search tag in Categories.
         $tag_id = $this->searchTagInVocabulary($tag_name, $entity->vocabs[0]);
         if ($tag_id) {
-          $entity = $this->addTagToEntity($tag_id, $entity);
+          $this->addTagToEntity($tag_id, $entity);
         }
         else {
-          // Search tag in Additional tags.
+          // Search tag in custom tags.
           $tag_id = $this->searchTagInVocabulary($tag_name, $entity->vocabs[1]);
           if ($tag_id) {
-            $entity = $this->addTagToEntity($tag_id, $entity);
+            $this->addTagToEntity($tag_id, $entity);
           }
           else {
             // Create a new tag and safe in Additional tags.
@@ -151,7 +151,7 @@ class EuMigrationNode extends EuMigration {
               'description' => $tag_description,
             );
             if (taxonomy_save_term($new_term)) {
-              $entity = $this->addTagToEntity($new_term['tid'], $entity);
+              $this->addTagToEntity($new_term['tid'], $entity);
             }
           }
         }
@@ -180,13 +180,18 @@ class EuMigrationNode extends EuMigration {
    *   Id of founded tag or false.
    */
   public function searchTagInVocabulary($tag_name, $vocabulary_id) {
-    if (!$tree = taxonomy_get_tree($vocabulary_id)) {
-      return FALSE;
-    }
+    $terms = db_select('term_data', 't')
+      ->fields('t')
+      ->condition('vid', $vocabulary_id)
+      ->execute()
+      ->fetchAllAssoc('tid');
 
-    foreach ($tree as $tag) {
-      if(strtolower($tag->name) == strtolower($tag_name)) {
-        return $tag->tid;
+    if (count($terms) == 0)
+      return FALSE;
+
+    foreach ($terms as $term) {
+      if (strtolower(trim($term->name)) == strtolower(trim($tag_name))) {
+        return $term->tid;
       }
     }
 
@@ -203,14 +208,12 @@ class EuMigrationNode extends EuMigration {
    * @return obect
    *   Return updated entity.
    */
-  public function addTagToEntity($tag_id, $entity) {
+  public function addTagToEntity($tag_id, &$entity) {
     if (!is_array($entity->taxonomy)) {
       $entity->taxonomy = array();
     }
     $term = taxonomy_get_term($tag_id);
     $entity->taxonomy[$tag_id] = $term;
-
-    return $entity;
   }
 
 }
