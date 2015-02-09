@@ -33,6 +33,7 @@ class ExportNodeBase extends ExportBase {
       'created' => '%d',
       'changed' => '%d',
       'counter' => '%d',
+      'ref_documents' => '%s'
     );
   }
 
@@ -136,6 +137,9 @@ class ExportNodeBase extends ExportBase {
       }
       elseif ($key == 'counter') {
         $values[$key] = $this->getCounterFromNode($entity);
+      }
+      elseif ($key == 'ref_documents') {
+        $values[$key] = $this->addReferenceDocument($entity);
       }
     }
     return $values;
@@ -284,7 +288,6 @@ class ExportNodeBase extends ExportBase {
     }
 
     $filename = array_pop(explode('/', $file->filepath));
-    print_r($filename);
     $path = $destination . '/' . $filename;
     if (copy($source, $path)){
       $path = explode('/', $path);
@@ -292,8 +295,23 @@ class ExportNodeBase extends ExportBase {
       $path = array_slice($path, 2);
       return implode('/', $path);
     }
+  }
 
-    return;
+  /**
+   * Add Id for reference document in the 'ref_documents' field.
+   * separated by pipe.
+   *
+   * A document is already migrated in ExportNodeDocumentImage.
+   *
+   * @param $entity
+   *  The entity object of type node.
+   *
+   * @return bool.
+   */
+  protected function addReferenceDocument($entity) {
+    if (!empty($entity->field_image[0])) {
+      return $this->getSiteName() . ':image:' . $this->getEntityId($entity);
+    }
   }
 }
 
