@@ -33,6 +33,7 @@ class ExportNodeBase extends ExportBase {
       'created' => '%d',
       'changed' => '%d',
       'counter' => '%d',
+      'ref_documents' => '%s'
     );
   }
 
@@ -136,6 +137,9 @@ class ExportNodeBase extends ExportBase {
       }
       elseif ($key == 'counter') {
         $values[$key] = $this->getCounterFromNode($entity);
+      }
+      elseif ($key == 'ref_documents') {
+        $values[$key] = $this->addReferenceDocument($entity);
       }
     }
     return $values;
@@ -255,6 +259,59 @@ class ExportNodeBase extends ExportBase {
     return db_result(db_query("SELECT totalcount FROM node_counter WHERE nid = '%d'", $entity->nid));
   }
 
+  /**
+   * Export a file object.
+   *
+   * @param object $file
+   *   The object file.
+   *
+   * @return string
+   *   Path to exported file or empty if unsuccsessfull.
+   *
+   * @throws Exception
+   *   message if destination directory not exist.
+   */
+  protected function exportFile($file) {
+    $file = is_array($file) ? (object)$file : $file;
+    //Set a different folders for different content type.
+    $folder = $this->getOriginalBundle() == 'news' ? 'images' : 'files';
+    $destination = "../euei/export_data/" . $folder . "/" . $this->getSiteName();
 
+    if (!file_check_directory($destination, FILE_CREATE_DIRECTORY)) {
+      throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
+    }
+
+    $source = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
+
+    if (!file_exists($source)) {
+      drush_print(dt('File @source could not be found.', array('@source' => $source)));
+    }
+
+    $filename = array_pop(explode('/', $file->filepath));
+    $path = $destination . '/' . $filename;
+    if (copy($source, $path)){
+      $path = explode('/', $path);
+      //remove the "../euei/" prefix.
+      $path = array_slice($path, 2);
+      return implode('/', $path);
+    }
+  }
+
+  /**
+   * Add Id for reference document in the 'ref_documents' field.
+   * separated by pipe.
+   *
+   * A document is already migrated in ExportNodeDocumentImage.
+   *
+   * @param $entity
+   *  The entity object of type node.
+   *
+   * @return bool.
+   */
+  protected function addReferenceDocument($entity) {
+    if (!empty($entity->field_image[0])) {
+      return $this->getSiteName() . ':image:' . $this->getEntityId($entity);
+    }
+  }
 }
 
