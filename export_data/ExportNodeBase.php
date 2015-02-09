@@ -254,5 +254,46 @@ class ExportNodeBase extends ExportBase {
   protected function getCounterFromNode($entity) {
     return db_result(db_query("SELECT totalcount FROM node_counter WHERE nid = '%d'", $entity->nid));
   }
+
+  /**
+   * Export a file object.
+   *
+   * @param object $file
+   *   The object file.
+   *
+   * @return string
+   *   Path to exported file or empty if unsuccsessfull.
+   *
+   * @throws Exception
+   *   message if destination directory not exist.
+   */
+  protected function exportFile($file) {
+    $file = is_array($file) ? (object)$file : $file;
+    //Set a different folders for different content type.
+    $folder = $this->getOriginalBundle() == 'news' ? 'images' : 'files';
+    $destination = "../euei/export_data/" . $folder . "/" . $this->getSiteName();
+
+    if (!file_check_directory($destination, FILE_CREATE_DIRECTORY)) {
+      throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
+    }
+
+    $source = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
+
+    if (!file_exists($source)) {
+      drush_print(dt('File @source could not be found.', array('@source' => $source)));
+    }
+
+    $filename = array_pop(explode('/', $file->filepath));
+    print_r($filename);
+    $path = $destination . '/' . $filename;
+    if (copy($source, $path)){
+      $path = explode('/', $path);
+      //remove the "../euei/" prefix.
+      $path = array_slice($path, 2);
+      return implode('/', $path);
+    }
+
+    return;
+  }
 }
 

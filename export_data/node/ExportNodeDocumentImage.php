@@ -4,9 +4,15 @@
  * Contains \ExportNodeDocumentImage.
  */
 
-class ExportNodeDocumentImage extends ExportNodeDocument {
+class ExportNodeDocumentImage extends ExportNodeBase {
 
   protected $originalBundle = 'news';
+  protected $bundle = "document";
+
+  protected $fields = array(
+    'file_path' => '%s',
+    'file_name' => '%s',
+  );
 
   /**
    * {@inheritdoc}
@@ -45,11 +51,6 @@ class ExportNodeDocumentImage extends ExportNodeDocument {
 
   protected function getValues($entity) {
 
-      if ($path = $this->exportFile($entity->field_image[0])) {
-        $file_path = $path;
-        $file_name = $entity->field_image[0]['filename'];
-      };
-
     //First value for uniaue ID
     $values = parent::getValues($entity);
     foreach($values as $key => $directive) {
@@ -62,10 +63,10 @@ class ExportNodeDocumentImage extends ExportNodeDocument {
         $values[$key] = '';
       }
       elseif ($key == 'file_path') {
-        $values[$key] = $file_path;
+        $values[$key] = $this->exportFile($entity->field_image[0]);
       }
       elseif ($key == 'file_name') {
-        $values[$key] = $file_name;
+        $values[$key] = $entity->field_image[0]['filename'];
       }
     }
     return $values;
@@ -77,6 +78,35 @@ class ExportNodeDocumentImage extends ExportNodeDocument {
   }
 
   protected function getEntityUniqueId($entity) {
-    return array('unique_id' => $this->getSiteName() . ':images:' . $this->getEntityId($entity));
+    return array('unique_id' => $this->getSiteName() . ':image:' . $this->getEntityId($entity));
   }
+
+
+  protected function insertQuery($entity) {
+    if(parent::insertQuery($entity)) {
+      //Add ID to ref_document
+      $uniqueID = $this->getSiteName() . ":" . $entity->nid;
+      $this->addReferenceDocument($this->getEntityUniqueId(), $uniqueID, '_gizra_node_blog_post')
+    }
+  }
+
+    protected function addReferenceDocument($ref_document, $uniqueID, $table) {
+
+      $query = "SELECT 'ref_document' FROM  '%s' WHERE 'unique_id' = '%s'";
+      if(!$ref_document = db_result(db_query($query, $table, $uniqueID))){
+        $ref_document = $this->getEntityUniqueId();
+      }
+      else {
+        $ref_document = explpode('|', $ref_document);
+        array_push($ref_document, $this->getEntityUniqueId());
+        $ref_document = implode('|', $ref_document);
+      }
+
+      $query = "UPDATE '_gizra_node_blog_post' SET 'ref_document'='%s' WHERE 'unique_id' = '%s' ";
+      if (!db_query($query, $ref_document, $uniqueID)) {
+        throw new Exception(strstr('Request  @query failed.', array('@query' => $query)));
+      }
+
+  }
+
 }
