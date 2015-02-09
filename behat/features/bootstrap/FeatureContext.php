@@ -39,6 +39,13 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * @Given /^I should see the text "([^"]*)" in the date$/
+   */
+  public function iShouldSeeTheTextInTheDate($text) {
+    $this->assertElementContains('.node-submitted', $text);
+  }
+
+  /**
    * @Then /^I should see "([^"]*)" under events$/
    */
   public function iShouldSeeUnderEvents($text) {
@@ -78,6 +85,20 @@ class FeatureContext extends DrupalContext {
     }
   }
 
+  /**
+   * @Given /^I should see counter number more than "([^"]*)"$/
+   */
+  public function iShouldSeeCounterNumberMoreThan($counter) {
+    $label_xpath = ".node-totalcount";
+
+    $fields = $this->getSession()->getDriver()->find($label_xpath);
+    print_r($fields);
+
+    $page = $this->getSession()->getPage();
+    $sorts = $page->find('css', '.node-totalcount');
+    print_r(count($sorts));
+//    $value = $fields[0]->getValue();
+  }
 
 
 }
