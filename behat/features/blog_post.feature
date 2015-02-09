@@ -3,7 +3,7 @@ Feature: Blog post
   As an anonymous user
   We need to be able to have access to a blog post page
 
-  @api @foo
+  @api
   Scenario Outline: Visit a blog post page
     Given I logging in as "admin"
     And   I visit "<url>"
