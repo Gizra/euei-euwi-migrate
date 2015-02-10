@@ -321,7 +321,7 @@ class ExportNodeBase extends ExportBase {
 
     if (!empty($entity->files)) {
       if(count($entity->files) > 1) {
-        $file = $this->createZip($entity->files);
+        $file = $this->createZip($entity);
       }
       else {
         $file =  $entity->files[0];
@@ -334,11 +334,18 @@ class ExportNodeBase extends ExportBase {
   }
 
   /**
-   * Create zip archive
+   * Create zip archive from related node files.
    *
+   * @param $entity
+   *   The entity object of type node.
    *
+   * @return array
+   *   The array with  the 'filename' and 'filepath' elements for new zip file.
+   *
+   * @throws Exception
+   *   Message if zip file could not be created.
    */
-  public function createZip($entity)
+  protected function createZip($entity)
   {
     $valid_files = array();
     foreach ($entity->files as $file) {
@@ -360,7 +367,6 @@ class ExportNodeBase extends ExportBase {
         $name = "/" . end(explode('/', $file));
         $zip->addFile($file, $name);
       }
-      echo 'The zip archive contains ',$zip->numFiles,' files with a status of ',$zip->status;
       $zip->close();
       if (file_exists($destination)) {
         $destination = explode('/', $destination);
