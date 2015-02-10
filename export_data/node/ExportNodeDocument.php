@@ -20,26 +20,33 @@ class ExportNodeDocument extends ExportNodeBase {
    */
   protected function getValues($entity) {
 
-    $file_path = $file_name = array();
+    $file = array();
     if (!empty ($entity->files)) {
-      foreach ($entity->files as $file){
-
-        if ($path = $this->exportFile($file)) {
-          $file_path[] = $path;
-          $file_name[] = $file->filename;
-        };
+      $file = array();
+      if(count($entity->files)>1){
+        $file = $this->createZip($entity);
+      }
+      else {
+        $path = $this->exportFile(reset($entity->files));
+        $file = array (
+          'file_name'=> end(explode('/', $path)),
+          'file_path'=> $path,
+        );
       }
     }
 
     $values = parent::getValues($entity);
-    foreach($values as $key => $directive) {
-      if ($key == 'file_path') {
-        $values[$key] = implode ('|', $file_path);
-      }
-      elseif ($key == 'file_name') {
-        $values[$key] = implode ('|', $file_name);
+    if(count($file)){
+      foreach($values as $key => $directive) {
+        if ($key == 'file_path') {
+          $values[$key] = $file['file_path'];
+        }
+        elseif ($key == 'file_name') {
+          $values[$key] = $file['file_name'];
+        }
       }
     }
+
     return $values;
   }
 

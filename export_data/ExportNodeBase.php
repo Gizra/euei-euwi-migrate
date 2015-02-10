@@ -275,7 +275,6 @@ class ExportNodeBase extends ExportBase {
   protected function exportFile($file, $folder='files') {
     $file = is_array($file) ? (object)$file : $file;
     //todo: Set a different folders for different content type.
-    $folder = $this->getOriginalBundle() == 'news' ? 'images' : 'files';
     $destination = "../euei/export_data/" . $folder . "/" . $this->getSiteName();
 
     if (!file_check_directory($destination, FILE_CREATE_DIRECTORY)) {
@@ -324,10 +323,15 @@ class ExportNodeBase extends ExportBase {
         $file = $this->createZip($entity);
       }
       else {
-        $file =  $entity->files[0];
+        $path = $this->exportFile(reset($entity->files));
+        $file = array (
+          'file_name'=> end(explode('/', $path)),
+          'file_path'=> $path,
+        );
       }
-      //Add file to documents table
-      //$ref_documents[] = $addFileAsDocument($file, $entity);
+
+      $ref_documents[] = $this->addFileAsDocument($file, $entity);
+
     }
 
     return count($ref_documents)? implode('|', $ref_documents) : FALSE;
@@ -345,8 +349,7 @@ class ExportNodeBase extends ExportBase {
    * @throws Exception
    *   Message if zip file could not be created.
    */
-  protected function createZip($entity)
-  {
+  protected function createZip($entity) {
     $valid_files = array();
     foreach ($entity->files as $file) {
       $filepath = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
@@ -358,7 +361,7 @@ class ExportNodeBase extends ExportBase {
     }
 
     if (count($valid_files)) {
-      $destination = "../euei/export_data/files/" . $this->getSiteName() . "/" . $this->getSiteName() . '_' . $this->getEntityId($entity) . ".zip";
+      $destination = '../euei/export_data/files/' . $this->getSiteName() . '/' . $this->getSiteName() . '_' . $this->getEntityId($entity) . '.zip';
       $zip = new ZipArchive();
       if($zip->open($destination, ZIPARCHIVE::OVERWRITE) !== true) {
         throw new Exception(strstr('Cannot create zip file @dest ', array('@dest' => $destination)));
@@ -372,13 +375,63 @@ class ExportNodeBase extends ExportBase {
         $destination = explode('/', $destination);
         $destination = array_slice($destination, 2);
         $zipfile = array(
-          'filename' => end($destination),
-          'filepath' => implode('/', $destination),
+          'file_name' => end($destination),
+          'file_path' => implode('/', $destination),
         );
 
         return $zipfile;
       }
     }
   }
+
+
+  /**
+   * @param $file
+   *  Array contains 'file_name" and "file_path" elements.
+   * @param $entity
+   *   The entity ID object.
+   *
+   * @return string
+   *   The uniqueID
+   */
+  protected function addFileAsDocument($file, $entity) {
+
+    $fields = array(
+      'unique_id' => '%s',
+      'title' => '%s',
+      'uid' => '%s',
+      'created' => '%d',
+      'file_name' => '%s',
+      'file_path' => '%s',
+    );
+
+    $directives = array();
+    foreach ($fields as $directive) {
+      $directives[] = "'" . $directive . "'";
+    }
+
+    $values = array();
+    foreach($fields as $key => $directive) {
+      if ($key == 'unique_id') {
+        $values[$key] = $this->getSiteName() . ':file:' . $this->getEntityId($entity);
+      }
+      elseif ($key == 'title') {
+        $values[$key] = $file['file_name'];
+      }
+      elseif ($key == 'uid') {
+        $values[$key] = $this->getSiteName() . ':' . $entity->uid;
+      }
+      elseif ($key == 'created') {
+        $values[$key] = $entity->created;
+      }
+      else {
+        $values[$key] = $file[$key];
+      }
+    }
+
+    $query = "INSERT INTO euei._gizra_node_document(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
+    return db_query($query, $values) ? $values['unique_id'] : FALSE ;
+  }
+
 }
 
