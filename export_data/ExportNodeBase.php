@@ -338,7 +338,7 @@ class ExportNodeBase extends ExportBase {
    *
    *
    */
-  protected function protected function createZip($entity)
+  public function createZip($entity)
   {
     $valid_files = array();
     foreach ($entity->files as $file) {
@@ -351,13 +351,14 @@ class ExportNodeBase extends ExportBase {
     }
 
     if (count($valid_files)) {
-      $destination = "../euei/export_data/files/" . $this->getSiteName() . '_' . $this->getEntityId($entity);
+      $destination = "../euei/export_data/files/" . $this->getSiteName() . "/" . $this->getSiteName() . '_' . $this->getEntityId($entity) . ".zip";
       $zip = new ZipArchive();
-      if($zip->open($destination, ZIPARCHIVE::CREATE) !== true) {
+      if($zip->open($destination, ZIPARCHIVE::OVERWRITE) !== true) {
         throw new Exception(strstr('Cannot create zip file @dest ', array('@dest' => $destination)));
       }
       foreach($valid_files as $file) {
-        $zip->addFile($file);
+        $name = "/" . end(explode('/', $file));
+        $zip->addFile($file, $name);
       }
       echo 'The zip archive contains ',$zip->numFiles,' files with a status of ',$zip->status;
       $zip->close();
