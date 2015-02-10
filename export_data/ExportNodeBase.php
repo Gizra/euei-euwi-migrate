@@ -139,7 +139,8 @@ class ExportNodeBase extends ExportBase {
         $values[$key] = $this->getCounterFromNode($entity);
       }
       elseif ($key == 'ref_documents') {
-        $values[$key] = $this->addReferenceDocument($entity);
+        //Documents hasn't images and files exports as document.
+        $values[$key] = $this->getOriginalBundle()=='ipaper' ? "" : $this->getReferenceDocument($entity);
       }
     }
     return $values;
@@ -271,9 +272,9 @@ class ExportNodeBase extends ExportBase {
    * @throws Exception
    *   message if destination directory not exist.
    */
-  protected function exportFile($file) {
+  protected function exportFile($file, $folder="files") {
     $file = is_array($file) ? (object)$file : $file;
-    //Set a different folders for different content type.
+    //todo: Set a different folders for different content type.
     $folder = $this->getOriginalBundle() == 'news' ? 'images' : 'files';
     $destination = "../euei/export_data/" . $folder . "/" . $this->getSiteName();
 
@@ -302,15 +303,74 @@ class ExportNodeBase extends ExportBase {
    * separated by pipe.
    *
    * A document is already migrated in ExportNodeDocumentImage.
+   * And files related to node (News, Event).
    *
    * @param $entity
    *  The entity object of type node.
    *
-   * @return bool.
+   * @return string.
+   *  The ID documents separated by pipe or false.
    */
-  protected function addReferenceDocument($entity) {
+  protected function getReferenceDocument($entity) {
+
+    $ref_documents = array();
+
     if (!empty($entity->field_image[0])) {
-      return $this->getSiteName() . ':image:' . $this->getEntityId($entity);
+      $ref_documents[] = $this->getSiteName() . ':image:' . $this->getEntityId($entity);
+    }
+
+    if (!empty($entity->files)) {
+      if(count($entity->files) > 1) {
+        $file = $this->createZip($entity->files);
+      }
+      else {
+        $file =  $entity->files[0];
+      }
+      //Add file to documents table
+      //$ref_documents[] = $addFileAsDocument($file, $entity);
+    }
+
+    return count($ref_documents)? implode('|', $ref_documents) : FALSE;
+  }
+
+  /**
+   * Create zip archive
+   *
+   *
+   */
+  protected function protected function createZip($entity)
+  {
+    $valid_files = array();
+    foreach ($entity->files as $file) {
+      $filepath = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
+      if (file_exists($filepath)) {
+        $valid_files[] = $filepath;
+      } else {
+        drush_print(dt('Reference file @source could not be found.', array('@source' => $filepath)));
+      }
+    }
+
+    if (count($valid_files)) {
+      $destination = "../euei/export_data/files/" . $this->getSiteName() . '_' . $this->getEntityId($entity);
+      $zip = new ZipArchive();
+      if($zip->open($destination, ZIPARCHIVE::CREATE) !== true) {
+        throw new Exception(strstr('Cannot create zip file @dest ', array('@dest' => $destination)));
+      }
+      foreach($valid_files as $file) {
+        $zip->addFile($file);
+      }
+      echo 'The zip archive contains ',$zip->numFiles,' files with a status of ',$zip->status;
+      $zip->close();
+      if (file_exists($destination)) {
+        $destination = explode('/', $destination);
+        $destination = array_slice($destination, 2);
+        $zipfile = array(
+          'filename' => end($destination),
+          'filepath' => implode('/', $destination),
+        );
+
+        return $zipfile;
+      }
     }
   }
 }
