@@ -25,7 +25,7 @@ CREATE TABLE `_gizra_node_blog_post` (
 DROP TABLE IF EXISTS `_gizra_node_document`;
 CREATE TABLE `_gizra_node_document` (
   `unique_id` varchar (64) NOT NULL,
-  `nid` int(11) unsigned NOT NULL,
+  `nid` int(11) unsigned,
   `title` varchar(255) DEFAULT NULL,
   `body` longtext,
   `uid` varchar(254) NOT NULL,
