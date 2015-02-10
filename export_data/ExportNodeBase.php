@@ -272,7 +272,7 @@ class ExportNodeBase extends ExportBase {
    * @throws Exception
    *   message if destination directory not exist.
    */
-  protected function exportFile($file, $folder="files") {
+  protected function exportFile($file, $folder='files') {
     $file = is_array($file) ? (object)$file : $file;
     //todo: Set a different folders for different content type.
     $folder = $this->getOriginalBundle() == 'news' ? 'images' : 'files';
