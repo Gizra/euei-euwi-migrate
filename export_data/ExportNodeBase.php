@@ -424,6 +424,9 @@ class ExportNodeBase extends ExportBase {
       elseif ($key == 'created') {
         $values[$key] = $entity->created;
       }
+      elseif ($key == 'gid') {
+        $values[$key] = $this->getGroupIdFromEntity($entity);
+      }
       else {
         $values[$key] = $file[$key];
       }
