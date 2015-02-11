@@ -23,6 +23,7 @@ class ExportNodeBase extends ExportBase {
       'nid' => '%d',
       'title' => '%s',
       'body' => '%s',
+      'teaser' => '%s',
       'uid' => '%s',
       'path' => '%s',
       'promote' => '%d',
