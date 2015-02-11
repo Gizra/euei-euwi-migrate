@@ -25,6 +25,7 @@ class EuMigrationNode extends EuMigration {
       'created',
       'changed',
       'taxonomy',
+      'ref_documents',
     );
   }
 
