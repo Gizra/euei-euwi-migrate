@@ -148,7 +148,7 @@ class ExportNodeBase extends ExportBase {
   }
 
   /**
-   * Check if the node belongs certain groups and needs to export.
+   * Check if the node belongs certain groups or don't belong to any group.
    *
    * @param $entity
    *   The entity object.
