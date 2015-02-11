@@ -21,7 +21,7 @@ https://github.com/drupal/drupal/blob/6.x/.htaccess
 7. Before migrate `EuProfile` disable auto title generation for `People` type in `Content-type -> People -> Edit`.
 9. Order of run migration:  
 ``First Part: EuUser -> EuProfile -> EuMembership``  
-``Second Part: EuNews -> EuEvent -> EuDocument -> EuComment``  
+``Second Part: EuDocument -> EuEvent -> EuNews -> EuComment``  
 ``Third part: EuCounter``
 
 ## Post-setup
