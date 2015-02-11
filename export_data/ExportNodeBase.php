@@ -157,8 +157,8 @@ class ExportNodeBase extends ExportBase {
    */
   protected function isExportable($entity) {
     if (empty($entity->og_groups)) {
-      // Node is not associated with any group.
-      return;
+      // Node is not associated with any group, will migrate to mother group.
+      return TRUE;
     }
     foreach ($entity->og_groups as $og_group) {
       if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
@@ -177,6 +177,10 @@ class ExportNodeBase extends ExportBase {
    *
    */
   protected function getGroupIdFromEntity($entity) {
+    if (empty($entity->og_groups)){
+      //Set ID of mother group.
+      return $this->getSiteName() == 'euwi' ? 'euwi:21098' : 'euei:global' ;
+    }
     foreach ($entity->og_groups as $og_group) {
       if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
         return $this->getSiteName() . ':' . $og_group;

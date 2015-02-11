@@ -50,27 +50,11 @@ class ExportNodeDocument extends ExportNodeBase {
     return $values;
   }
 
-
-
   /**
    * {@inheritdoc}
    */
   protected function isExportable($entity) {
-    if (empty($entity->og_groups)) {
-      // Node is not associated with any group.
-      return;
-    }
-    if ($this->getSiteName() == 'euwi') {
-      // The document is not part of the valid groups but we will still export
-      // it to the mother group.
-      return TRUE;
-    }
-
-    foreach ($entity->og_groups as $og_group) {
-      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
-        return TRUE;
-      }
-    }
+    return TRUE;
   }
 
   /**
@@ -82,11 +66,8 @@ class ExportNodeDocument extends ExportNodeBase {
         return $this->getSiteName() . ':' . $og_group;
       }
     }
-
-    if ($this->getSiteName() == 'euwi') {
-      // The document is not part of the valid groups but we will still export
-      // it to the mother group (EUWI Community Space).
-      return 'euwi:21098';
-    }
+    // The document is not part of the valid groups but we will still export
+    // it to the mother group (EUWI Community Space, EUEI group).
+    return $this->getSiteName() == 'euwi' ? 'euwi:21098' : 'euei:global' ;
   }
 }
