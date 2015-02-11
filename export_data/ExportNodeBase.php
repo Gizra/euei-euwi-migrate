@@ -422,11 +422,11 @@ class ExportNodeBase extends ExportBase {
       elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->uid;
       }
-      elseif ($key == 'created') {
-        $values[$key] = $entity->created;
-      }
       elseif ($key == 'gid') {
         $values[$key] = $this->getGroupIdFromEntity($entity);
+      }
+      elseif ($key == 'created') {
+        $values[$key] = $entity->created;
       }
       else {
         $values[$key] = $file[$key];
