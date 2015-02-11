@@ -15,6 +15,7 @@ class EuMigrationNode extends EuMigration {
       'nid',
       'title',
       'body',
+      'teaser',
       'uid',
       'path',
       'promote',
@@ -49,6 +50,7 @@ class EuMigrationNode extends EuMigration {
       ->addSimpleMappings(array(
       'title',
       'body',
+      'teaser',
       'path',
       'promote',
       'sticky',
