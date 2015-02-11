@@ -156,8 +156,8 @@ class ExportNodeBase extends ExportBase {
    * @return bool
    */
   protected function isExportable($entity) {
-    if (empty($entity->og_groups)) {
-      // Node is not associated with any group, will migrate to mother group.
+    if (empty($entity->og_groups) && $this->getSiteName() == 'euwi') {
+      // Node is not associated with any group, will migrate to mother group for EUWI.
       return TRUE;
     }
     foreach ($entity->og_groups as $og_group) {

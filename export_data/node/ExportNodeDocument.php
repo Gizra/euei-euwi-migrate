@@ -66,8 +66,10 @@ class ExportNodeDocument extends ExportNodeBase {
         return $this->getSiteName() . ':' . $og_group;
       }
     }
-    // The document is not part of the valid groups but we will still export
-    // it to the mother group (EUWI Community Space, EUEI group).
-    return $this->getSiteName() == 'euwi' ? 'euwi:21098' : 'euei:global' ;
+    if ($this->getSiteName() == 'euwi') {
+      // The document is not part of the valid groups but we will still export
+      // it to the mother group (EUWI Community Space).
+      return 'euwi:21098';
+    }
   }
 }
