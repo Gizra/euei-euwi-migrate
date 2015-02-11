@@ -400,6 +400,7 @@ class ExportNodeBase extends ExportBase {
       'unique_id' => '%s',
       'title' => '%s',
       'uid' => '%s',
+      'gid' => '%s',
       'created' => '%d',
       'file_name' => '%s',
       'file_path' => '%s',
