@@ -92,7 +92,7 @@ class ExportComment extends ExportBase {
   protected function isExportable($entity) {
     $node = node_load($entity->nid);
     if (empty($node->og_groups)) {
-      return $node->type == 'ipaper' ? TRUE : FALSE ;
+      return $node->type == 'ipaper';
     }
     foreach ($node->og_groups as $og_group) {
       if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
