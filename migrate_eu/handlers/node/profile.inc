@@ -38,6 +38,20 @@ class EuProfileMigration extends EuMigration {
     $this->addFieldMapping('field_organisation_type_of', 'organization_category');
     $this->addFieldMapping('field_country', 'country');
 
+    // Map picture of a User.
+    $this
+      ->addFieldMapping('field_file_file', 'picture_path');
+
+    // Explicitly set the file function.
+    $this
+      ->addFieldMapping('field_file_file:file_function')
+      ->defaultValue(' ');
+
+    // Set path to folder that contain all migrated files.
+    $this
+      ->addFieldMapping('field_file_file:source_path')
+      ->defaultValue('sites/default/files');
+
   }
 
   /**
