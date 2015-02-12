@@ -80,5 +80,25 @@ class ExportComment extends ExportBase {
     }
     return $values;
   }
+
+  /**
+  * Check necessity of exporting data.
+  *
+  * @param $entity
+  *   Verifiable entity
+  *
+  * @return bool
+  */
+  protected function isExportable($entity) {
+    $node = node_load($entity->nid);
+    if (empty($node->og_groups)) {
+      return $node->type == 'ipaper' ? TRUE : FALSE ;
+    }
+    foreach ($node->og_groups as $og_group) {
+      if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
+        return TRUE;
+      }
+    }
+  }
 }
 
