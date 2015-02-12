@@ -400,6 +400,7 @@ class ExportNodeBase extends ExportBase {
       'unique_id' => '%s',
       'title' => '%s',
       'uid' => '%s',
+      'gid' => '%s',
       'created' => '%d',
       'file_name' => '%s',
       'file_path' => '%s',
@@ -420,6 +421,9 @@ class ExportNodeBase extends ExportBase {
       }
       elseif ($key == 'uid') {
         $values[$key] = $this->getSiteName() . ':' . $entity->uid;
+      }
+      elseif ($key == 'gid') {
+        $values[$key] = $this->getGroupIdFromEntity($entity);
       }
       elseif ($key == 'created') {
         $values[$key] = $entity->created;
