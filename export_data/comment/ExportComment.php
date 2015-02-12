@@ -80,14 +80,15 @@ class ExportComment extends ExportBase {
     }
     return $values;
   }
+
   /**
-   * Check necessity of exporting data.
-   *
-   * @param $entity
-   *   Verifiable entity
-   *
-   * @return bool
-   */
+  * Check necessity of exporting data.
+  *
+  * @param $entity
+  *   Verifiable entity
+  *
+  * @return bool
+  */
   protected function isExportable($entity) {
     $node = node_load($entity->nid);
     if (empty($node->og_groups)) {
