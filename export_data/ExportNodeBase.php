@@ -178,8 +178,10 @@ class ExportNodeBase extends ExportBase {
    */
   protected function getGroupIdFromEntity($entity) {
     if (empty($entity->og_groups)){
-      //Set ID of mother group.
-      return $this->getSiteName() == 'euwi' ? 'euwi:21098' : 'euei:global' ;
+      //Set ID of mother group for EUWI.
+      if($this->getSiteName() == 'euwi') {
+        return 'euwi:21098';
+      }
     }
     foreach ($entity->og_groups as $og_group) {
       if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {
