@@ -8,6 +8,8 @@
 class ExportComment extends ExportBase {
 
   // The entity name.
+  protected $bundle = NULL;
+
   protected $entityType = 'comment';
 
   // Fields to export for comments.
