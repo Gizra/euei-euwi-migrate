@@ -47,7 +47,7 @@ class ExportBase implements ExportInterface {
    */
   public function export() {
     // Remove any existing data if the EUEI site.
-    // Couse of export images and documents runs for the same table.
+    // Cause of export images runs before documents for the same table.
     // IT need not be trancated before export documents.
     if ($this->getSiteName() == 'euei' && $this->getBundle() != 'document') {
       $this->truncateTable();
