@@ -16,6 +16,7 @@ class ExportUser extends ExportBase {
     'mail' => '%s',
     'first_name' => '%s',
     'last_name' => '%s',
+    'picture_path' => '%s',
     'organization' => '%s',
     'organization_category' => '%s',
     'country' => '%s',
@@ -25,7 +26,7 @@ class ExportUser extends ExportBase {
   /**
    * Get values from entity.
    *
-   * @param stdClass $account
+   * @param object $entity
    *   The entity to process and extract the values.
    *
    * @return array
@@ -42,6 +43,9 @@ class ExportUser extends ExportBase {
       }
       elseif ($key == 'last_name') {
         $values[$key] = $entity->profile_lastname;
+      }
+      elseif ($key == 'picture_path') {
+        $values[$key] = $this->getPicturePath($entity);
       }
       elseif ($key == 'organization') {
         $values[$key] = $entity->profile_organization;
@@ -118,6 +122,13 @@ class ExportUser extends ExportBase {
       if (in_array($og_key, $this->groupForExport[$this->getSiteName()])) {
         return TRUE;
       }
+    }
+  }
+
+  protected function getPicturePath($entity) {
+    if (!empty($entity->picture)) {
+      $file['filepath'] = $entity->picture;
+      return $this->exportFile($file, 'pictures');
     }
   }
 }

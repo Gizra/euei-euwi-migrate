@@ -20,9 +20,7 @@ class ExportNodeDocument extends ExportNodeBase {
    */
   protected function getValues($entity) {
 
-    $file = array();
     if (!empty ($entity->files)) {
-      $file = array();
       if(count($entity->files)>1){
         $file = $this->createZip($entity);
       }

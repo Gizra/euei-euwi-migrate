@@ -57,6 +57,7 @@ CREATE TABLE `_gizra_user` (
   `mail` varchar(64) DEFAULT NULL,
   `first_name` varchar (254),
   `last_name` varchar (254),
+  `picture_path` varchar (254) DEFAULT NULL,
   `organization` varchar (254),
   `organization_category` varchar (254),
   `country` varchar (254),
