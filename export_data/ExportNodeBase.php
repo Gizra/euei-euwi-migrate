@@ -139,10 +139,6 @@ class ExportNodeBase extends ExportBase {
       elseif ($key == 'counter') {
         $values[$key] = $this->getCounterFromNode($entity);
       }
-      elseif ($key == 'ref_documents') {
-        //Documents hasn't images and files exports as document.
-        $values[$key] = $this->getOriginalBundle()=='ipaper' ? "" : $this->getReferenceDocument($entity);
-      }
     }
     return $values;
   }
