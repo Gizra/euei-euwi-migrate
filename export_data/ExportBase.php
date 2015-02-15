@@ -47,7 +47,7 @@ class ExportBase implements ExportInterface {
    */
   public function export() {
     // Remove any existing data if the EUEI site.
-    if ($this->getSiteName() == 'euei') {
+    if ($this->getSiteName() == 'euei' && $this->getBundle() != 'document') {
       $this->truncateTable();
     }
 
