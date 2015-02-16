@@ -147,8 +147,22 @@ class ExportBase implements ExportInterface {
     return array('unique_id' => $this->getSiteName() . ':' . $this->getEntityId($entity));
   }
 
+  /**
+   * Get the site name.
+   *
+   * @return string
+   */
   protected function getSiteName() {
     return $this->siteName;
+  }
+
+  /**
+   * Get the bundle name.
+   *
+   * @return string
+   */
+  protected function getBundle() {
+    return $this->bundle;
   }
 
   /**

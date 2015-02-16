@@ -50,15 +50,6 @@ class ExportNodeBase extends ExportBase {
   }
 
   /**
-   * Get the bundle name.
-   *
-   * @return string
-   */
-  protected function getBundle() {
-    return $this->bundle;
-  }
-
-  /**
    * Return the destination table.
    *
    * @return string
