@@ -19,6 +19,7 @@ class ExportUser extends ExportBase {
     'picture_path' => '%s',
     'organization' => '%s',
     'organization_category' => '%s',
+    'about_me' => '%s',
     'country' => '%s',
     'created' => '%d'
   );
@@ -55,6 +56,9 @@ class ExportUser extends ExportBase {
       }
       elseif ($key == 'country') {
         $values[$key] = $entity->profile_country;
+      }
+      elseif ($key == 'about_me') {
+        $values[$key] = $entity->profile_selfprojection;
       }
     }
     return $values;
