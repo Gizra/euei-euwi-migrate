@@ -224,8 +224,7 @@ class ExportBase implements ExportInterface {
       throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
     }
 
-    $source = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
-
+    $source = $this->getSiteName() == 'euwi' ? 'sites/default/' . $file->filepath : $file->filepath;
     if (!file_exists($source)) {
       drush_print(dt('File @source could not be found.', array('@source' => $source)));
     }
@@ -238,5 +237,14 @@ class ExportBase implements ExportInterface {
       $path = array_slice($path, 2);
       return implode('/', $path);
     }
+  }
+
+  /**
+   * Get the bundle name.
+   *
+   * @return string
+   */
+  protected function getBundle() {
+    return $this->bundle;
   }
 }
