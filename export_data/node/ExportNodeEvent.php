@@ -18,4 +18,17 @@ class ExportNodeEvent extends ExportNodeBase {
     'event_start' => '%d',
     'event_end' => '%d',
   );
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getValues($entity) {
+    $values = parent::getValues($entity);
+    foreach ($values as $key => $directive) {
+      if ($key == 'ref_documents') {
+        $values[$key] = $this->getReferenceDocument($entity);
+      }
+    }
+    return $values;
+  }
 }

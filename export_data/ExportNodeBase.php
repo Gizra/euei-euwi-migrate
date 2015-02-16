@@ -130,10 +130,6 @@ class ExportNodeBase extends ExportBase {
       elseif ($key == 'counter') {
         $values[$key] = $this->getCounterFromNode($entity);
       }
-      elseif ($key == 'ref_documents') {
-        //Documents hasn't images and files exports as document.
-        $values[$key] = $this->getOriginalBundle()=='ipaper' ? "" : $this->getReferenceDocument($entity);
-      }
     }
     return $values;
   }
@@ -275,7 +271,7 @@ class ExportNodeBase extends ExportBase {
     }
 
     if (!empty($entity->files)) {
-      if(count($entity->files) > 1) {
+      if (count($entity->files) > 1) {
         $file = $this->createZip($entity);
       }
       else {
@@ -285,9 +281,9 @@ class ExportNodeBase extends ExportBase {
           'file_path'=> $path,
         );
       }
-
-      $ref_documents[] = $this->addFileAsDocument($file, $entity);
-
+      if (!empty($file)) {
+        $ref_documents[] = $this->addFileAsDocument($file, $entity);
+      }
     }
 
     return count($ref_documents)? implode('|', $ref_documents) : FALSE;
@@ -308,7 +304,7 @@ class ExportNodeBase extends ExportBase {
   protected function createZip($entity) {
     $valid_files = array();
     foreach ($entity->files as $file) {
-      $filepath = $this->getSiteName() == 'euwi' ? file_directory_path() . '/' . $file->filepath : $file->filepath;
+      $filepath = $this->getSiteName() == 'euwi' ? 'sites/default' . '/' . $file->filepath : $file->filepath;
       if (file_exists($filepath)) {
         $valid_files[] = $filepath;
       } else {
