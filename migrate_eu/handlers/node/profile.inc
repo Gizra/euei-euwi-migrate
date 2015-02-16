@@ -49,16 +49,16 @@ class EuProfileMigration extends EuMigration {
 
     // Map picture of a User.
     $this
-      ->addFieldMapping('field_file_file', 'picture_path');
+      ->addFieldMapping('field_picture', 'picture_path');
 
     // Explicitly set the file function.
     $this
-      ->addFieldMapping('field_file_file:file_function')
+      ->addFieldMapping('field_picture:file_function')
       ->defaultValue(' ');
 
     // Set path to folder that contain all migrated files.
     $this
-      ->addFieldMapping('field_file_file:source_path')
+      ->addFieldMapping('field_picture:source_path')
       ->defaultValue('sites/default/files');
 
   }
