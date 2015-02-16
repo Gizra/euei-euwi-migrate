@@ -15,7 +15,7 @@ class EuEventMigration extends EuMigrationNode {
     parent::__construct();
 
     $this->description = t('Migration of the Events');
-    $this->dependencies = array('EuUser');
+    $this->dependencies = array('EuUser', 'EuDocument');
 
     // Set source object.
     $query = db_select('_gizra_node_event', 'event')
@@ -31,6 +31,12 @@ class EuEventMigration extends EuMigrationNode {
     $this
       ->addFieldMapping('field_event_type')
       ->defaultValue(array('group_event'));
+
+    // Map additional documents to this Event.
+    $this
+      ->addFieldMapping('field_ref_document', 'ref_documents')
+      ->separator('|')
+      ->sourceMigration('EuDocument');
 
   }
 
