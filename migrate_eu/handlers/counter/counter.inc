@@ -29,7 +29,7 @@ class EuCounterMigration extends EuMigration {
     $this->source = new MigrateSourceSQL($result_query);
 
     // Set destination object.
-    $this->destination = new MigrateDestinationTable('node_counter');
+    $this->destination = new MigrateDestinationNode('node_counter');
 
     // Map Node user with uid.
     $this
