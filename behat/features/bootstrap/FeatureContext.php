@@ -86,19 +86,14 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see counter number more than "([^"]*)"$/
+   * @Given /^I should see the text "([^"]*)" in the terms$/
    */
-  public function iShouldSeeCounterNumberMoreThan($counter) {
-    $label_xpath = ".node-totalcount";
-
-    $fields = $this->getSession()->getDriver()->find($label_xpath);
-    print_r($fields);
-
-    $page = $this->getSession()->getPage();
-    $sorts = $page->find('css', '.node-totalcount');
-    print_r(count($sorts));
-//    $value = $fields[0]->getValue();
+  public function iShouldSeeTheTextInTheTerms($terms) {
+    $terms = explode(';', $terms);
+    foreach ($terms as $term) {
+      $term = trim($term);
+      $this->assertElementContains('.node-terms', $term);
+    }
   }
-
 
 }
