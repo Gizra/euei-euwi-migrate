@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \EuDocumentMigration
+ * Contains \EuBodyLinkMigration
  */
 
 class EuBodyLinkMigration extends EuMigration {
@@ -33,7 +33,6 @@ class EuBodyLinkMigration extends EuMigration {
 
     // Wrapper for mysql union to fix error with wrong count columns.
     $result_query = db_select($event_table, 'q')->fields('q', array('unique_id', 'body'));
-//    $result_query = db_select('_gizra_node_event', 'e')->fields('e', array('unique_id', 'body'));
 
     $this->source = new MigrateSourceSQL($result_query);
 
@@ -51,10 +50,7 @@ class EuBodyLinkMigration extends EuMigration {
 
   public function prepare($node, stdClass $row) {
 
-    dsm($row);
-    dsm($node->nid);
-
-    // Safe time and memory. Search for links in body.
+    // Safe time and memory. Process only if links exists in a body.
     if (!strpos($row->body, '<a'))
       return FALSE;
 
@@ -72,7 +68,11 @@ class EuBodyLinkMigration extends EuMigration {
         || strpos($href, 'euei.net') || strpos($href, 'euwi.net')
       ) {
 
-        if (strpos($href, '@')) continue; // Filter for emails.
+        if (strpos($href, '@')) {
+          // Filter for emails.
+          continue;
+        }
+
 
         dsm($href);
         $href_part = explode('/', $href);
@@ -85,8 +85,8 @@ class EuBodyLinkMigration extends EuMigration {
           ->fetchAssoc();
 
         dsm($source_node);
-        if ($source_node['src']) {
-          $link->setAttribute('href', '/' . $source_node['src']);
+        if ($source_node['dst']) {
+          $link->setAttribute('href', '/' . $source_node['dst']);
         }
 
       }
