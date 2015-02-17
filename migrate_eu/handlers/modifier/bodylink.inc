@@ -49,15 +49,15 @@ class EuBodyLinkMigration extends EuMigration {
   }
 
   public function prepare($node, stdClass $row) {
-
     // Safe time and memory. Process only if links exists in a body.
     if (!strpos($row->body, '<a'))
       return FALSE;
 
     $dom = new DOMDocument();
-    @$dom->loadHTML($row->body);
+    // Prevent to add doctype.
+    @$dom->loadHTML($row->body, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
-    /*** remove silly white space ***/
+    // Remove silly white space
     $dom->preserveWhiteSpace = false;
 
     $links = $dom->getElementsByTagName('a');
@@ -73,8 +73,6 @@ class EuBodyLinkMigration extends EuMigration {
           continue;
         }
 
-
-        dsm($href);
         $href_part = explode('/', $href);
         $needle_part = '%' . array_pop($href_part) . '%';
 
@@ -84,7 +82,6 @@ class EuBodyLinkMigration extends EuMigration {
           ->execute()
           ->fetchAssoc();
 
-        dsm($source_node);
         if ($source_node['dst']) {
           $link->setAttribute('href', '/' . $source_node['dst']);
         }
@@ -93,9 +90,7 @@ class EuBodyLinkMigration extends EuMigration {
     }
 
     $node->body = $dom->saveHTML();
-//    dsm($node->body);
 
   }
-
 
 }
