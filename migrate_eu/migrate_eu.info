@@ -19,3 +19,5 @@ files[] = handlers/comment/comment.inc
 files[] = handlers/og/membership.inc
 
 files[] = handlers/counter/counter.inc
+
+files[] = handlers/modifier/bodylink.inc
