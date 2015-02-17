@@ -22,7 +22,7 @@ https://github.com/drupal/drupal/blob/6.x/.htaccess
 9. Order of run migration:  
 ``First Part: EuUser -> EuProfile -> EuMembership``  
 ``Second Part: EuDocument -> EuEvent -> EuNews -> EuComment``  
-``Third part: EuCounter``
+``Third part: EuCounter -> EuBodyLink``
 
 ## Post-setup
 1. Enable auto title generation for the `People` contenty type via `Content-type -> People -> Edit`.
