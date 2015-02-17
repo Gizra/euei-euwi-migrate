@@ -60,6 +60,8 @@ CREATE TABLE `_gizra_user` (
   `picture_path` varchar (254) DEFAULT NULL,
   `organization` varchar (254),
   `organization_category` varchar (254),
+  `about_me` text DEFAULT NULL,
+  `taxonomy` text DEFAULT NULL,
   `country` varchar (254),
   `created` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`unique_id`),

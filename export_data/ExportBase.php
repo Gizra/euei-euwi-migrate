@@ -252,13 +252,4 @@ class ExportBase implements ExportInterface {
       return implode('/', $path);
     }
   }
-
-  /**
-   * Get the bundle name.
-   *
-   * @return string
-   */
-  protected function getBundle() {
-    return $this->bundle;
-  }
 }
