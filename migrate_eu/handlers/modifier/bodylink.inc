@@ -54,8 +54,8 @@ class EuBodyLinkMigration extends EuMigration {
       return FALSE;
 
     $dom = new DOMDocument();
-    // Prevent to add doctype.
-    @$dom->loadHTML($row->body, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    // Turns off the automatic adding html/body tags and doctype.
+    @$dom->loadHTML($row->body, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOENT);
 
     // Remove silly white space
     $dom->preserveWhiteSpace = false;
