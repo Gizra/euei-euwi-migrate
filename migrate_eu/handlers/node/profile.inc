@@ -66,7 +66,7 @@ class EuProfileMigration extends EuMigration {
     // Map description for a user.
     $this
       ->addFieldMapping('field_description', 'about_me');
-    
+
   }
 
   /**
@@ -108,5 +108,11 @@ class EuProfileMigration extends EuMigration {
       // Set uid for entity.
       $entity->uid = $user_id;
     }
+
+    // Change format of description input to WYSWYG editor.
+    if (isset($entity->field_description[0]['format'])) {
+      $entity->field_description[0]['format'] = 4;
+    }
   }
+
 }
