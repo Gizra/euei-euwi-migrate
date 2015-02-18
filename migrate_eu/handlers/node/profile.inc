@@ -27,6 +27,7 @@ class EuProfileMigration extends EuMigration {
         'picture_path',
         'organization',
         'organization_category',
+        'about_me',
         'country'
       ))
       ->orderBy('unique_id', 'ASC');
@@ -60,6 +61,10 @@ class EuProfileMigration extends EuMigration {
     $this
       ->addFieldMapping('field_picture:source_path')
       ->defaultValue('sites/default/files');
+
+    // Map description for a user.
+    $this
+      ->addFieldMapping('field_description', 'about_me');
 
   }
 
@@ -102,5 +107,11 @@ class EuProfileMigration extends EuMigration {
       // Set uid for entity.
       $entity->uid = $user_id;
     }
+
+    // Change format of description input to WYSWYG editor.
+    if (isset($entity->field_description[0]['format'])) {
+      $entity->field_description[0]['format'] = 4;
+    }
   }
+
 }
