@@ -60,5 +60,27 @@ class EuCommentMigration extends EuMigration {
       ->addFieldMapping('pid', 'pid')
       ->sourceMigration('EuComment');
 
+    // Map the user.
+    $this
+      ->addFieldMapping('uid', 'uid')
+      ->sourceMigration('EuUser');
+
   }
+
+  public function prepare($entity, $row) {
+    // If user not found for the comment, try to find it by name.
+    if (empty($entity->uid)) {
+      $uid = db_select('users', 'u')
+        ->fields('u', array('uid'))
+        ->condition('name', $row->name)
+        ->execute()
+        ->fetchField();
+
+      // Attach user to a comment if a user exist.
+      if ($uid) {
+        $entity->uid = $uid;
+      }
+    }
+  }
+
 }
