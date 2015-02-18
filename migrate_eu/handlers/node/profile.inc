@@ -28,7 +28,6 @@ class EuProfileMigration extends EuMigration {
         'organization',
         'organization_category',
         'about_me',
-        'taxonomy',
         'country'
       ))
       ->orderBy('unique_id', 'ASC');
