@@ -13,7 +13,7 @@ Feature: Blog post
     And   I should see the text "<categories>"
     And   I should see the text "<author>"
     And   I should see the text "<date>" in the date
-    And   I should see the text "<terms>" in the terms
+    And   I should see the text "<terms>" in terms
 
   Examples:
     | url                                                                                    | title                                      | body                                                                                                     | categories                                                                            | author              | date       | terms                                                                                                                                                          |

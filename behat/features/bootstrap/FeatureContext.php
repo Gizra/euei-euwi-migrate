@@ -86,9 +86,9 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
-   * @Given /^I should see the text "([^"]*)" in the terms$/
+   * @Given /^I should see the text "([^"]*)" in terms$/
    */
-  public function iShouldSeeTheTextInTheTerms($terms) {
+  public function iShouldSeeTheTextInTerms($terms) {
     $terms = explode(';', $terms);
     foreach ($terms as $term) {
       $term = trim($term);
