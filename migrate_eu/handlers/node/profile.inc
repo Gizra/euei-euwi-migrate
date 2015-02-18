@@ -27,6 +27,8 @@ class EuProfileMigration extends EuMigration {
         'picture_path',
         'organization',
         'organization_category',
+        'about_me',
+        'taxonomy',
         'country'
       ))
       ->orderBy('unique_id', 'ASC');
