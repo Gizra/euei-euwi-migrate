@@ -16,8 +16,11 @@ class ExportUser extends ExportBase {
     'mail' => '%s',
     'first_name' => '%s',
     'last_name' => '%s',
+    'picture_path' => '%s',
     'organization' => '%s',
     'organization_category' => '%s',
+    'about_me' => '%s',
+    'taxonomy' => '%s',
     'country' => '%s',
     'created' => '%d'
   );
@@ -25,7 +28,7 @@ class ExportUser extends ExportBase {
   /**
    * Get values from entity.
    *
-   * @param stdClass $account
+   * @param object $entity
    *   The entity to process and extract the values.
    *
    * @return array
@@ -43,6 +46,9 @@ class ExportUser extends ExportBase {
       elseif ($key == 'last_name') {
         $values[$key] = $entity->profile_lastname;
       }
+      elseif ($key == 'picture_path') {
+        $values[$key] = $this->getPicturePath($entity);
+      }
       elseif ($key == 'organization') {
         $values[$key] = $entity->profile_organization;
       }
@@ -51,6 +57,12 @@ class ExportUser extends ExportBase {
       }
       elseif ($key == 'country') {
         $values[$key] = $entity->profile_country;
+      }
+      elseif ($key == 'about_me') {
+        $values[$key] = $entity->profile_selfprojection;
+      }
+      elseif ($key == 'taxonomy') {
+        $values[$key] = $this->getTaxonomyFromAccount($entity);
       }
     }
     return $values;
@@ -119,5 +131,45 @@ class ExportUser extends ExportBase {
         return TRUE;
       }
     }
+  }
+
+  /**
+   * Returns path to copied file.
+   *
+   * @param $entity
+   *   The account.
+   *
+   * @return string
+   *   Path to copied file.
+   *
+   * @throws Exception
+   *   Message if something is wrong.
+   */
+  protected function getPicturePath($entity) {
+    if (!empty($entity->picture)) {
+      $file['filepath'] = $entity->picture;
+      return $this->exportFile($file, 'pictures');
+    }
+  }
+
+  /**
+   * Return taxonomy term of account.
+   *
+   * @param $entity
+   *   The account.
+   *
+   * @return string
+   *   Taxonomy terms as string separated by pipe.
+   */
+
+  protected function getTaxonomyFromAccount($entity) {
+    if (empty($entity->taxonomy)) {
+      return;
+    }
+    $taxonomy=array();
+    foreach ($entity->taxonomy as $term) {
+      $taxonomy[] = $term->name;
+    }
+    return implode('|', $taxonomy);
   }
 }

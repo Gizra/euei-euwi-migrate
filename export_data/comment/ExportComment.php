@@ -8,6 +8,8 @@
 class ExportComment extends ExportBase {
 
   // The entity name.
+  protected $bundle = NULL;
+
   protected $entityType = 'comment';
 
   // Fields to export for comments.
@@ -91,7 +93,7 @@ class ExportComment extends ExportBase {
   protected function isExportable($entity) {
     $node = node_load($entity->nid);
     if (empty($node->og_groups)) {
-      return;
+      return $node->type == 'ipaper';
     }
     foreach ($node->og_groups as $og_group) {
       if (in_array($og_group, $this->groupForExport[$this->getSiteName()])) {

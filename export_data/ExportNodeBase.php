@@ -23,6 +23,7 @@ class ExportNodeBase extends ExportBase {
       'nid' => '%d',
       'title' => '%s',
       'body' => '%s',
+      'teaser' => '%s',
       'uid' => '%s',
       'path' => '%s',
       'promote' => '%d',
@@ -33,6 +34,7 @@ class ExportNodeBase extends ExportBase {
       'created' => '%d',
       'changed' => '%d',
       'counter' => '%d',
+      'ref_documents' => '%s'
     );
   }
 
@@ -45,15 +47,6 @@ class ExportNodeBase extends ExportBase {
    */
   protected function getResults($offset = 0) {
     return db_query("SELECT nid FROM {node} n WHERE n.type = '%s' ORDER BY n.nid LIMIT %d OFFSET %d", $this->getOriginalBundle(), $this->getRange(), $offset);
-  }
-
-  /**
-   * Get the bundle name.
-   *
-   * @return string
-   */
-  protected function getBundle() {
-    return $this->bundle;
   }
 
   /**
@@ -255,6 +248,146 @@ class ExportNodeBase extends ExportBase {
     return db_result(db_query("SELECT totalcount FROM node_counter WHERE nid = '%d'", $entity->nid));
   }
 
+
+  /**
+   * Add Id for reference document in the 'ref_documents' field.
+   * separated by pipe.
+   *
+   * A document is already migrated in ExportNodeDocumentImage.
+   * And files related to node (News, Event).
+   *
+   * @param $entity
+   *  The entity object of type node.
+   *
+   * @return string.
+   *  The ID documents separated by pipe or false.
+   */
+  protected function getReferenceDocument($entity) {
+
+    $ref_documents = array();
+
+    if (!empty($entity->field_image[0])) {
+      $ref_documents[] = $this->getSiteName() . ':image:' . $this->getEntityId($entity);
+    }
+
+    if (!empty($entity->files)) {
+      if (count($entity->files) > 1) {
+        $file = $this->createZip($entity);
+      }
+      else {
+        $path = $this->exportFile(reset($entity->files));
+        $file = array (
+          'file_name'=> end(explode('/', $path)),
+          'file_path'=> $path,
+        );
+      }
+      if (!empty($file)) {
+        $ref_documents[] = $this->addFileAsDocument($file, $entity);
+      }
+    }
+
+    return count($ref_documents)? implode('|', $ref_documents) : FALSE;
+  }
+
+  /**
+   * Create zip archive from related node files.
+   *
+   * @param $entity
+   *   The entity object of type node.
+   *
+   * @return array
+   *   The array with  the 'filename' and 'filepath' elements for new zip file.
+   *
+   * @throws Exception
+   *   Message if zip file could not be created.
+   */
+  protected function createZip($entity) {
+    $valid_files = array();
+    foreach ($entity->files as $file) {
+      $filepath = $this->getSiteName() == 'euwi' ? 'sites/default' . '/' . $file->filepath : $file->filepath;
+      if (file_exists($filepath)) {
+        $valid_files[] = $filepath;
+      } else {
+        drush_print(dt('Reference file @source could not be found.', array('@source' => $filepath)));
+      }
+    }
+
+    if (count($valid_files)) {
+      $destination = '../euei/export_data/files/' . $this->getSiteName() . '/' . $this->getSiteName() . '_' . $this->getEntityId($entity) . '.zip';
+      $zip = new ZipArchive();
+      if($zip->open($destination, ZIPARCHIVE::OVERWRITE) !== true) {
+        throw new Exception(strstr('Cannot create zip file @dest ', array('@dest' => $destination)));
+      }
+      foreach($valid_files as $file) {
+        $name = "/" . end(explode('/', $file));
+        $zip->addFile($file, $name);
+      }
+      $zip->close();
+      if (file_exists($destination)) {
+        $destination = explode('/', $destination);
+        $destination = array_slice($destination, 2);
+        $zipfile = array(
+          'file_name' => end($destination),
+          'file_path' => implode('/', $destination),
+        );
+
+        return $zipfile;
+      }
+    }
+  }
+
+
+  /**
+   * @param $file
+   *  Array contains 'file_name" and "file_path" elements.
+   * @param $entity
+   *   The entity ID object.
+   *
+   * @return string
+   *   The uniqueID
+   */
+  protected function addFileAsDocument($file, $entity) {
+
+    $fields = array(
+      'unique_id' => '%s',
+      'title' => '%s',
+      'uid' => '%s',
+      'gid' => '%s',
+      'created' => '%d',
+      'file_name' => '%s',
+      'file_path' => '%s',
+    );
+
+    $directives = array();
+    foreach ($fields as $directive) {
+      $directives[] = "'" . $directive . "'";
+    }
+
+    $values = array();
+    foreach($fields as $key => $directive) {
+      if ($key == 'unique_id') {
+        $values[$key] = $this->getSiteName() . ':file:' . $this->getEntityId($entity);
+      }
+      elseif ($key == 'title') {
+        $values[$key] = $file['file_name'];
+      }
+      elseif ($key == 'uid') {
+        $values[$key] = $this->getSiteName() . ':' . $entity->uid;
+      }
+      elseif ($key == 'gid') {
+        $values[$key] = $this->getGroupIdFromEntity($entity);
+      }
+      elseif ($key == 'created') {
+        $values[$key] = $entity->created;
+      }
+      else {
+        $values[$key] = $file[$key];
+      }
+    }
+
+    $query = "INSERT INTO euei._gizra_node_document(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
+    return db_query($query, $values) ? $values['unique_id'] : FALSE ;
+  }
 
 }
 

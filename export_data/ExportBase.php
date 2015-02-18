@@ -47,7 +47,9 @@ class ExportBase implements ExportInterface {
    */
   public function export() {
     // Remove any existing data if the EUEI site.
-    if ($this->getSiteName() == 'euei') {
+    // Cause of export images runs before documents for the same table.
+    // IT need not be trancated before export documents.
+    if ($this->getSiteName() == 'euei' && $this->getBundle() != 'document') {
       $this->truncateTable();
     }
 
@@ -145,8 +147,22 @@ class ExportBase implements ExportInterface {
     return array('unique_id' => $this->getSiteName() . ':' . $this->getEntityId($entity));
   }
 
+  /**
+   * Get the site name.
+   *
+   * @return string
+   */
   protected function getSiteName() {
     return $this->siteName;
+  }
+
+  /**
+   * Get the bundle name.
+   *
+   * @return string
+   */
+  protected function getBundle() {
+    return $this->bundle;
   }
 
   /**
@@ -202,5 +218,38 @@ class ExportBase implements ExportInterface {
     return TRUE;
   }
 
+  /**
+   * Export a file object.
+   *
+   * @param object $file
+   *   The object file with 'filepath' property .
+   *
+   * @return string
+   *   Path to exported file or empty if unsuccsessfull.
+   *
+   * @throws Exception
+   *   message if destination directory not exist.
+   */
+  protected function exportFile($file, $folder='files') {
+    $file = is_array($file) ? (object)$file : $file;
+    $destination = "../euei/export_data/" . $folder . "/" . $this->getSiteName();
 
+    if (!file_check_directory($destination, FILE_CREATE_DIRECTORY)) {
+      throw new Exception(strstr('Directory @dest does not exist.', array('@dest' => $destination)));
+    }
+
+    $source = $this->getSiteName() == 'euwi' ? 'sites/default/' . $file->filepath : $file->filepath;
+    if (!file_exists($source)) {
+      drush_print(dt('File @source could not be found.', array('@source' => $source)));
+    }
+
+    $filename = array_pop(explode('/', $file->filepath));
+    $path = $destination . '/' . $filename;
+    if (copy($source, $path)){
+      $path = explode('/', $path);
+      //remove the "../euei/" prefix.
+      $path = array_slice($path, 2);
+      return implode('/', $path);
+    }
+  }
 }

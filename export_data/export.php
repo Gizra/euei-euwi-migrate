@@ -12,7 +12,11 @@ require '/vagrant/wordpress/build/euei/export_data/comment/ExportComment.php';
 require '/vagrant/wordpress/build/euei/export_data/node/ExportNodeEvent.php';
 require '/vagrant/wordpress/build/euei/export_data/user/ExportUser.php';
 require '/vagrant/wordpress/build/euei/export_data/membership/ExportOgMembership.php';
+require '/vagrant/wordpress/build/euei/export_data/node/ExportNodeImage.php';
 
+//Images
+$handler = new ExportNodeImage();
+$handler->export();
 
 // Document.
 $handler = new ExportNodeDocument();

@@ -15,7 +15,7 @@ class EuEventMigration extends EuMigrationNode {
     parent::__construct();
 
     $this->description = t('Migration of the Events');
-    $this->dependencies = array('EuUser');
+    $this->dependencies = array('EuUser', 'EuDocument');
 
     // Set source object.
     $query = db_select('_gizra_node_event', 'event')
@@ -27,18 +27,16 @@ class EuEventMigration extends EuMigrationNode {
     // Set destination object.
     $this->destination = new MigrateDestinationNode($this->bundle);
 
-    $this->addSimpleMappings(array(
-      'title',
-      'body',
-      'path',
-      'promote',
-      'sticky',
-    ));
-
     // Set "Group event" as default value for all migrated groups.
     $this
       ->addFieldMapping('field_event_type')
       ->defaultValue(array('group_event'));
+
+    // Map additional documents to this Event.
+    $this
+      ->addFieldMapping('field_ref_document', 'ref_documents')
+      ->separator('|')
+      ->sourceMigration('EuDocument');
 
   }
 

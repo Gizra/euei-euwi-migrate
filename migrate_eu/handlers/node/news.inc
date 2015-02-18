@@ -15,7 +15,7 @@ class EuNewsMigration extends EuMigrationNode {
     parent::__construct();
 
     $this->description = t('Migration of the News');
-    $this->dependencies = array('EuUser');
+    $this->dependencies = array('EuUser', 'EuDocument');
 
     // Set source object.
     $query = db_select('_gizra_node_blog_post', 'post')
@@ -27,13 +27,11 @@ class EuNewsMigration extends EuMigrationNode {
     // Set destination object.
     $this->destination = new MigrateDestinationNode($this->bundle);
 
-    $this->addSimpleMappings(array(
-      'title',
-      'body',
-      'path',
-      'promote',
-      'sticky',
-    ));
+    // Map additional documents to this News.
+    $this
+      ->addFieldMapping('field_ref_document', 'ref_documents')
+      ->separator('|')
+      ->sourceMigration('EuDocument');
 
   }
 
