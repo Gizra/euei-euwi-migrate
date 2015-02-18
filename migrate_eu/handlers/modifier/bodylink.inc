@@ -54,6 +54,10 @@ class EuBodyLinkMigration extends EuMigration {
       return FALSE;
 
     $dom = new DOMDocument();
+
+    // Fix for loadHTML charset to safe ascii symbols.
+    $row->body = '<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8">' . $row->body;
+
     // Turns off the automatic adding html/body tags and doctype.
     @$dom->loadHTML($row->body, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOENT);
 
