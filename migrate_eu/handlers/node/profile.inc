@@ -63,6 +63,10 @@ class EuProfileMigration extends EuMigration {
       ->addFieldMapping('field_picture:source_path')
       ->defaultValue('sites/default/files');
 
+    // Map description for a user.
+    $this
+      ->addFieldMapping('field_description', 'about_me');
+    
   }
 
   /**
