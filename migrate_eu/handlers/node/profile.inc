@@ -19,7 +19,16 @@ class EuProfileMigration extends EuMigration {
 
     // Set source object.
     $query = db_select('_gizra_user', 'user')
-      ->fields('user', array('unique_id', 'name', 'first_name', 'last_name', 'organization', 'organization_category', 'country'))
+      ->fields('user', array(
+        'unique_id',
+        'name',
+        'first_name',
+        'last_name',
+        'picture_path',
+        'organization',
+        'organization_category',
+        'country'
+      ))
       ->orderBy('unique_id', 'ASC');
 
     $this->source = new MigrateSourceSQL($query);
@@ -37,6 +46,20 @@ class EuProfileMigration extends EuMigration {
     $this->addFieldMapping('field_organisation', 'organization');
     $this->addFieldMapping('field_organisation_type_of', 'organization_category');
     $this->addFieldMapping('field_country', 'country');
+
+    // Map picture of a User.
+    $this
+      ->addFieldMapping('field_picture', 'picture_path');
+
+    // Explicitly set the file function.
+    $this
+      ->addFieldMapping('field_picture:file_function')
+      ->defaultValue(' ');
+
+    // Set path to folder that contain all migrated files.
+    $this
+      ->addFieldMapping('field_picture:source_path')
+      ->defaultValue('sites/default/files');
 
   }
 

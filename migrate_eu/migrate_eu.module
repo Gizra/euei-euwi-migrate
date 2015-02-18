@@ -28,6 +28,12 @@ function migrate_eu_migrate_api() {
       'EuMembership' => array(
         'class_name' => 'EuMembershipMigration',
       ),
+      'EuCounter' => array(
+        'class_name' => 'EuCounterMigration',
+      ),
+      'EuBodyLink' => array(
+        'class_name' => 'EuBodyLinkMigration',
+      ),
     ),
   );
   

@@ -22,6 +22,7 @@ abstract class EuMigration extends Migration {
    */
   protected $groupConnect = array(
     // EUEI
+    'euei:euei' => '52097', // Mother-group of EUEI
     'euei:54' => '52090', // African Renewable Energy Technology Platform - AFRETEP
     'euei:10772' => '52092', // CEREEECA Project
     // EUWI

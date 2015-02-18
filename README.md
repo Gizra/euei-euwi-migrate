@@ -3,8 +3,7 @@
 ## Pre-setup
 1. ~~Protect user emails. (add .test to end of a users emails)~~ (Already in startup script)  
 ~~`drush scr export_data/prepare/protect_email.php`~~  
-2. Setup path of directory that contain migration files.  
-`drush vset c4d_migrate_files_path "/home/ilya/projects/migrate/distr/"`
+2. Put `export_data` folder with migrated files to `sites/default/files`  
 3. Patch drupal __dbtng__ module.  
 In file __/sites/all/modules/contrib/dbtng/database/query.inc__ fix `__clone` method.  
 ```php
@@ -19,19 +18,11 @@ function __clone() {
 ```
 4. For make work clean url on __dev__ version need put _.htaccess_ file in root directory.  
 https://github.com/drupal/drupal/blob/6.x/.htaccess
-6. Before migrate `EuMembership` apply next path via ``/devel/php`` link:  
-```php
-$ret = array();
-db_add_field($ret, 'migrate_map_eumembership', 'destid1', array('type' => 'int', 'length' => 11));
-$ret = array();
-db_add_field($ret, 'migrate_map_eumembership', 'destid2', array('type' => 'int', 'length' => 11));
-```
 7. Before migrate `EuProfile` disable auto title generation for `People` type in `Content-type -> People -> Edit`.
-8. Before migrate `EuDocument` allow write to everybody to files folder.  
-``chmod a+w -R sites/default/files/``  
 9. Order of run migration:  
 ``First Part: EuUser -> EuProfile -> EuMembership``  
-``Second Part: EuNews -> EuEvent -> EuDocument -> EuComment``  
+``Second Part: EuDocument -> EuEvent -> EuNews -> EuComment``  
+``Third part: EuCounter -> EuBodyLink``
 
 ## Post-setup
 1. Enable auto title generation for the `People` contenty type via `Content-type -> People -> Edit`.
@@ -54,7 +45,7 @@ yes | drush sql-drop
 # Import a backuped database.
 echo "Import a new database.\n"
 # drush sql-cli < ~/projects/migrate/c4d/c4d-with-exported-data.sql # Dump without groups
-drush sql-cli < ~/projects/migrate/distr/C4D_original_dump_last.sql
+pv ~/projects/migrate/distr/C4D_original_dump_last.sql | drush sql-cli
 
 # Change password for admin to 'admin'.
 echo "Update password for the admin\n"
@@ -84,6 +75,18 @@ yes | drush en migrate_eu
 # Enable devel module.
 echo "Enable devel module\n"
 yes | drush en devel
+
+# Run migration once to make all working tables.
+echo "Run migration"
+drush ms
+
+# Apply path for the EuMembership migration.
+drush ev '
+$ret = array();
+db_add_field($ret, "migrate_map_eumembership", "destid1", array("type" => "int", "length" => 11));
+$ret = array();
+db_add_field($ret, "migrate_map_eumembership", "destid2", array("type" => "int", "length" => 11));
+'
 
 # finish
 echo "Finished!\n"
