@@ -15,11 +15,8 @@ class EuCommentMigration extends EuMigration {
     parent::__construct();
 
     $this->description = t('Migration of the Comments');
-    $this->dependencies = array(
-      'EuDocument',
-      'EuEvent',
-      'EuNews',
-      'EuUser',
+    $this->dependencies = array('EuUser', 'EuProfile', 'EuMembership',
+      'EuDocument', 'EuEvent', 'EuNews',
     );
 
     // Set source object.

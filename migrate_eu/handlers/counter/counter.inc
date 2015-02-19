@@ -13,7 +13,9 @@ class EuCounterMigration extends EuMigration {
     parent::__construct();
 
     $this->description = t('Migration of a Counters for News, Documents and Events');
-    $this->dependencies = array('EuNews', 'EuDocument', 'EuEvent');
+    $this->dependencies = array('EuUser', 'EuProfile', 'EuMembership',
+      'EuDocument', 'EuEvent', 'EuNews', 'EuComment',
+    );
 
     // Set source object.
     // Select all data from three tables by mysql union.
