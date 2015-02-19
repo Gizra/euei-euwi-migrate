@@ -13,7 +13,7 @@ class EuMembershipMigration extends EuMigration {
     parent::__construct();
 
     $this->description = t('Migration of the OG Membership');
-    $this->dependencies = array('EuUser');
+    $this->dependencies = array('EuUser', 'EuProfile');
 
     // Set source object.
     $query = db_select('_gizra_og_membership', 'og')

@@ -15,6 +15,7 @@ class EuDocumentMigration extends EuMigrationNode {
     parent::__construct();
 
     $this->description = t('Migration of the Documents');
+    $this->dependencies = array('EuUser', 'EuProfile', 'EuMembership');
 
     // Set source object.
     $query = db_select('_gizra_node_document', 'document')

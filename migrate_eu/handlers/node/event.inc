@@ -15,7 +15,9 @@ class EuEventMigration extends EuMigrationNode {
     parent::__construct();
 
     $this->description = t('Migration of the Events');
-    $this->dependencies = array('EuUser', 'EuDocument');
+    $this->dependencies = array('EuUser', 'EuProfile', 'EuMembership',
+      'EuDocument',
+    );
 
     // Set source object.
     $query = db_select('_gizra_node_event', 'event')

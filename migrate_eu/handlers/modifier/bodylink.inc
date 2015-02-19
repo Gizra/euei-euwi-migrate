@@ -15,7 +15,10 @@ class EuBodyLinkMigration extends EuMigration {
     parent::__construct();
 
     $this->description = t('Migration of the body links');
-    $this->dependencies = array('EuEvent', 'EuDocument', 'EuNews');
+    $this->dependencies = array('EuUser', 'EuProfile', 'EuMembership',
+      'EuDocument', 'EuEvent', 'EuNews', 'EuComment',
+      'EuCounter',
+    );
 
     // Set map object.
     $this->map = new MigrateSQLMap($this->machineName,
