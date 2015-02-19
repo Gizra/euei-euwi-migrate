@@ -126,11 +126,7 @@ class ExportUser extends ExportBase {
     if (empty($entity->name) || empty($entity->pass) || empty($entity->mail)) {
       return FALSE;
     }
-    foreach ($entity->og_groups as $og_key => $og_group) {
-      if (in_array($og_key, $this->groupForExport[$this->getSiteName()])) {
-        return TRUE;
-      }
-    }
+    return TRUE;
   }
 
   /**
