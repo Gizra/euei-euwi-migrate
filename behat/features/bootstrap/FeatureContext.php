@@ -39,6 +39,13 @@ class FeatureContext extends DrupalContext {
   }
 
   /**
+   * @Given /^I should see the text "([^"]*)" in the date$/
+   */
+  public function iShouldSeeTheTextInTheDate($text) {
+    $this->assertElementContains('.node-submitted', $text);
+  }
+
+  /**
    * @Then /^I should see "([^"]*)" under events$/
    */
   public function iShouldSeeUnderEvents($text) {
@@ -78,6 +85,29 @@ class FeatureContext extends DrupalContext {
     }
   }
 
+  /**
+   * @Given /^I should see the text "([^"]*)" in terms$/
+   */
+  public function iShouldSeeTheTextInTerms($terms) {
+    $terms = explode(';', $terms);
+    foreach ($terms as $term) {
+      $term = trim($term);
+      $this->assertElementContains('.node-terms', $term);
+    }
+  }
 
+  /**
+   * @Given /^I should see the content count "([^"]*)"$/
+   */
+  public function iShouldSeeTheContentCount($count) {
+    $page = $this->getSession()->getPage();
+    $text = $page->find('css', '.node-totalcount')->getText();
+
+    $text = intval(str_replace('views', '', $text));
+    if ($text < $count) {
+      throw new Exception(sprintf('Wrong views count (showing %d instead of %d)', $text, $count));
+    }
+
+  }
 
 }
