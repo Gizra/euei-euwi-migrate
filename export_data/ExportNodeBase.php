@@ -319,7 +319,7 @@ class ExportNodeBase extends ExportBase {
         throw new Exception(strstr('Cannot create zip file @dest ', array('@dest' => $destination)));
       }
       foreach($valid_files as $file) {
-        $name = "/" . end(explode('/', $file));
+        $name = end(explode('/', $file));
         $zip->addFile($file, $name);
       }
       $zip->close();
