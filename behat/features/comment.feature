@@ -5,12 +5,15 @@ Feature: Comment
   @api
   Scenario Outline: Explore some pages with comments
     Given   I logging in as "admin"
-    Then    I should see <author> of the comment
-    And     I should see <subject> of the comment
+    When    I visit "<url>"
+    Then    I should see the author <author> of the comment
+    And     I should see the date <date> of the comment
+    And     I should see the body <body> of the comment
 
   Examples:
-    | url                                                 | link                                                              | author              |
-    | euwi-africa/documents                               | Report of the meeting of the EUWI AWG in Stockholm                | Hélène Le Deunff    |
-    | euwi-eastern-europe-caucasus-central-asia/documents | New National Policy Dialogues Brochure                            | Nataliya Nikiforova |
-    | euwi-fwg/documents                                  | A Primer for Practitioners and Students in Developing Countries   | Celine Dondeynaz    |
-    | euwi-multi-stakeholder-forum/documents              | National Policy Dialogue on Financing Strategy                    | ecaterina Diderich |
+    | url                                                                             | author           | date            | body                                                           |
+    | afretep/document/feed-tariff-system-case-study-ghana                            | Magda Moner      | 19 January 2012 | Very interesting presentation.                                 |
+    | euwi-fwg/document/training-manual-economics-sustainable-water-management        | Nuria San Millán | 11 January 2010 | This manual is not available in spanish in the site.           |
+    | euwi-fwg/document/training-manual-economics-sustainable-water-management        | Celine Dondeynaz | 26 January 2010 | Links has been updated.                                        |
+    | euwi-coordination/event/euwi-coordination-group-meeting-04-december-2009        | Celine Dondeynaz | 9 December 2009 | Presentation C.Dondeynaz - EUWI website Status and way forward |
+    | euwi-coordination/event/eu-water-initiative-multi-stakeholder-forum-31-aug-2014 | Celine Dondeynaz | 29 August 2014  | please find the updated agenda for the MSF 2014                |

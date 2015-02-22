@@ -110,4 +110,28 @@ class FeatureContext extends DrupalContext {
 
   }
 
+  /*
+   * Comment sections start
+   */
+
+  /**
+   * @Given /^I should see the author (.+) of the comment$/
+   */
+  public function iShouldSeeTheAuthorOfTheComment($author) {
+    $this->assertPageContainsText($author);
+  }
+
+  /**
+   * @Given /^I should see the date (.+) of the comment$/
+   */
+  public function iShouldSeeTheDateOfTheComment($date) {
+    $this->assertPageContainsText($date);
+  }
+
+  /**
+   * @Given /^I should see the body (.+) of the comment$/
+   */
+  public function iShouldSeeTheBodyOfTheComment($body) {
+    $this->assertPageContainsText($body);;
+  }
 }
