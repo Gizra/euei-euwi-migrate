@@ -65,7 +65,36 @@ class ExportUser extends ExportBase {
         $values[$key] = $this->getTaxonomyFromAccount($entity);
       }
     }
+
+    $this->exportOgMembershipToEuei($entity);
     return $values;
+  }
+
+
+  /**
+   * Add an Euei user to the mother group.
+   *
+   * @param $entity
+   */
+  protected function exportOgMembershipToEuei($entity) {
+    if ($this->getSiteName() != 'euei') {
+      return;
+    }
+
+    if (!empty($entity->og_groups)) {
+      $gids = array_keys($entity->og_groups);
+
+      if (array_intersect($gids, $this->groupForExport['euei'])) {
+        // User is already a member of another valid group.
+        return;
+      }
+    }
+
+    $handler = new ExportOgMembership();
+    // We add the node ID of the mother group, so it will be picked up in
+    // \ExportOgMembership::getEntityUniqueId().
+    $entity->nid = 'euei';
+    $handler->insertQuery($entity);
   }
 
   /**

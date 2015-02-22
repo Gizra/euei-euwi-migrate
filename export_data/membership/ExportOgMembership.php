@@ -108,6 +108,10 @@ class ExportOgMembership extends ExportBase {
         $values[$key] = $this->getSiteName() . ':' . $entity->$key;
       }
     }
+
+    if (empty($value['changed'])) {
+      $value['changed'] = $value['created'];
+    }
     return $values;
   }
 }
