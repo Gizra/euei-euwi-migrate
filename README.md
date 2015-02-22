@@ -34,7 +34,7 @@ https://github.com/drupal/drupal/blob/6.x/.htaccess
 
 On current step all groups should be made manually.
 
-### Startup script for setup C4D system from zero on dev machine. 
+#### Startup script for setup C4D system from zero on dev machine. 
 ```bash
 #!/bin/sh
 
@@ -90,4 +90,21 @@ db_add_field($ret, "migrate_map_eumembership", "destid2", array("type" => "int",
 
 # finish
 echo "Finished!\n"
+```
+
+#### Post script for restore admin password and uninstall migrate modules
+```
+#!/bin/bash
+
+# Restore password for admin to default password.
+echo "Restore password for the admin\n"
+drush sql-query "UPDATE users SET pass='3e2f6687be0716873562cc35ab6ec778' WHERE uid='1'"
+
+# Disable and delete migration modules.
+echo "Disable migration modules"
+drush dis migrate_eu migrate_ui migrate 
+
+# Disable and delete migration modules.
+echo "Uninstall migration modules"
+drush pmu migrate_eu migrate_ui migrate 
 ```
