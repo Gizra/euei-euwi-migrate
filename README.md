@@ -93,7 +93,7 @@ echo "Finished!\n"
 ```
 
 #### Post script for restore admin password and uninstall migrate modules
-```
+```bash
 #!/bin/bash
 
 # Restore password for admin to default password.
