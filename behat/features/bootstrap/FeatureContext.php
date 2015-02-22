@@ -110,4 +110,24 @@ class FeatureContext extends DrupalContext {
 
   }
 
+  /**
+   * @Given /^I should see the author (.+) of the comment$/
+   */
+  public function iShouldSeeTheAuthorOfTheComment($author) {
+    $this->assertElementContains('#comments .username', $author);
+  }
+
+  /**
+   * @Given /^I should see the date (.+) of the comment$/
+   */
+  public function iShouldSeeTheDateOfTheComment($date) {
+    $this->assertElementContains('#comments .submitted', $date);
+  }
+
+  /**
+   * @Given /^I should see the body (.+) of the comment$/
+   */
+  public function iShouldSeeTheBodyOfTheComment($body) {
+    $this->assertElementContains('#comments .content', $body);
+  }
 }
