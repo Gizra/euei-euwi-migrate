@@ -18,7 +18,7 @@ Feature: Comment
     | euwi-coordination/event/eu-water-initiative-multi-stakeholder-forum-31-aug-2014 | Celine Dondeynaz | 29 August 2014  | please find the updated agenda for the MSF 2014                |
 
 
-  @api @foo
+  @api
   Scenario: Validate nested comments
     Given I logging in as "admin"
     When  I visit "euwi-fwg/document/training-manual-economics-sustainable-water-management"
