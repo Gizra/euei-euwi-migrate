@@ -93,6 +93,8 @@ echo "Finished!\n"
 ```
 
 #### Post script for restore admin password and uninstall migrate modules
+`cd /sites/all/modules/custom/euei-euwi-migrate`  
+`sh postscript.sh`
 ```bash
 #!/bin/bash
 
@@ -102,9 +104,13 @@ drush sql-query "UPDATE users SET pass='3e2f6687be0716873562cc35ab6ec778' WHERE 
 
 # Disable and delete migration modules.
 echo "Disable migration modules"
-drush dis migrate_eu migrate_ui migrate 
+yes | drush dis migrate_eu migrate_ui migrate 
 
 # Disable and delete migration modules.
 echo "Uninstall migration modules"
-drush pmu migrate_eu migrate_ui migrate 
+yes | drush pmu migrate_eu migrate_ui migrate 
+
+# Remove postifx `test` for user emails.
+echo "Remove postfix .test for user emails"
+drush scr export_data/prepare/protect_email.php --unprotect=1
 ```
