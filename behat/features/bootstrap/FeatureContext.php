@@ -110,10 +110,6 @@ class FeatureContext extends DrupalContext {
 
   }
 
-  /*
-   * Comment sections start
-   */
-
   /**
    * @Given /^I should see the author (.+) of the comment$/
    */
