@@ -130,4 +130,5 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeTheBodyOfTheComment($body) {
     $this->assertElementContains('#comments .content', $body);
   }
+
 }
