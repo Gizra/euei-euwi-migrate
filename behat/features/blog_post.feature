@@ -14,7 +14,7 @@ Feature: Blog post
     And   I should see the text "<date>" in the date
     And   I should see the text "<terms>" in terms
     And   I should see the content count "<count>"
-    And   I should see the "<ref-document>" in documents
+    And   I should see the text "<ref-document>"
 
   Examples:
     | url                                                                                                                                            | title                                      | body                                                                                                     | categories                                                                            | author              | date       | terms                                                                                                                                                          | count | ref-document   |
@@ -25,6 +25,13 @@ Feature: Blog post
     | euwi-coordination/news/cg-coordination-meeting-10june-2010                                                                                     | CG coordination meeting -10June 2010       | The documentation of the CG held in Brussels on the 10th June is gathered                                | documentation, EUWI meetings, meeting minutes                                         | Celine Dondeynaz    | 14/06/2010 | Brief - news;documentation;EUWI meetings;meeting minutes;English                                                                                               | 7     |                |
     | afretep/news/solar-south-africa-2012                                                                                                           | Solar South Africa 2012                    | Of the 19 successful bidders, <strong>9 new PV projects                                                  | PV south Africa, renewable south africa, solar power south africa, solar south africa | Amber Williams      | 24/05/2012 | Press Releases;PV south Africa;renewable south africa;Solar Energy;solar power south africa;solar south africa                                                 | 1602  |                |
     | euwi-eastern-europe-caucasus-central-asia/blog/unece-national-policy-dialogue-supports-water-sector-reform-tajikistan                          | UNECE National Policy Dialogue             | Following the adoption of the Strategy it will be necessary to revis                                     |                                                                                       | Nataliya Nikiforova | 09/10/2012 | IWRM;Event;English;TAJIKISTAN                                                                                                                                  | 1600  |                |
-    | euwi-eastern-europe-caucasus-central-asia/blog/national-policy-dialogues-water-taking-stock-10-years-progress-eastern-europe-caucasus-and-cent | National Policy Dialogues on Water:        | Ten years since the launching of the European  Union Water                                                |                                                                                       |                     |            | English;Event;OECD;Project Management;UNECE;Working group                                                                                                      |       | ec3573c737.jpg |
+    | euwi-eastern-europe-caucasus-central-asia/blog/national-policy-dialogues-water-taking-stock-10-years-progress-eastern-europe-caucasus-and-cent | National Policy Dialogues on Water:        | Ten years since the launching of the European  Union Water                                               |                                                                                       | Nataliya Nikiforova | 09/10/2012 | English;Event;OECD;Project Management;UNECE;Working group                                                                                                      |       | ec3573c737.jpg |
 
-
+  @api
+  Scenario: Confirm link to ref document properly
+    Given I logging in as "admin"
+    When  I visit "euwi-eastern-europe-caucasus-central-asia/blog/national-policy-dialogues-water-taking-stock-10-years-progress-eastern-europe-caucasus-and-cent"
+    And   I click "ec3573c737.jpg"
+    Then  I should get a "200" HTTP response
+    And   I should see the link "Download this document"
+    
