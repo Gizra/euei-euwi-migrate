@@ -130,6 +130,9 @@ class ExportNodeBase extends ExportBase {
       elseif ($key == 'counter') {
         $values[$key] = $this->getCounterFromNode($entity);
       }
+      elseif ($key == 'body') {
+        $this->parseBodyForImages($values[$key]);
+      }
     }
     return $values;
   }
@@ -387,6 +390,28 @@ class ExportNodeBase extends ExportBase {
 
     $query = "INSERT INTO euei._gizra_node_document(". implode(", ", array_keys($fields)) .") VALUES(" . implode(", ", $directives) . ")";
     return db_query($query, $values) ? $values['unique_id'] : FALSE ;
+  }
+
+  /**
+   *
+   */
+  protected function parseBodyForImages(&$body) {
+//    var_dump($body);
+
+//    if (!strpos($body, '<img'))
+//      return;
+
+    $dom = new DOMDocument();
+    $dom->loadHTML($body);
+
+    $images = $dom->getElementsByTagName('img');
+
+    foreach ($images as $image) {
+      $src = $image->getAttribute('src');
+      var_dump($src);
+//      die;
+    }
+
   }
 
 }
