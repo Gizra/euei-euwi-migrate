@@ -15,6 +15,7 @@ class EuCounterMigration extends EuMigration {
     $this->description = t('Migration of a Counters for News, Documents and Events');
     $this->dependencies = array('EuUser', 'EuProfile', 'EuMembership',
       'EuDocument', 'EuEvent', 'EuNews', 'EuComment',
+      'EuBodyLink',
     );
 
     // Set source object.
