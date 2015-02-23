@@ -17,7 +17,6 @@ class EuBodyLinkMigration extends EuMigration {
     $this->description = t('Migration of the body links');
     $this->dependencies = array('EuUser', 'EuProfile', 'EuMembership',
       'EuDocument', 'EuEvent', 'EuNews', 'EuComment',
-      'EuCounter',
     );
 
     // Set map object.
