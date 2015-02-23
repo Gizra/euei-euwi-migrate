@@ -130,4 +130,12 @@ class FeatureContext extends DrupalContext {
   public function iShouldSeeTheBodyOfTheComment($body) {
     $this->assertElementContains('#comments .content', $body);
   }
+
+  /**
+   * @Given /^I should see the "([^"]*)" in documents$/
+   */
+  public function iShouldSeeTheInDocuments($text) {
+    $this->assertElementContains('.field-field-ref-document', $text);
+  }
+
 }
