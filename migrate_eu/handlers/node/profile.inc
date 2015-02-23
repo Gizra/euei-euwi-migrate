@@ -76,6 +76,18 @@ class EuProfileMigration extends EuMigration {
    * @param $row
    */
   public function prepare($entity, $row) {
+    // Skip if profile for this user already exists.
+    $profile_nid = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('type', 'profile')
+      ->condition('uid', $entity->uid)
+      ->execute()
+      ->rowCount();
+
+    if (!empty($profile_nid)) {
+      return FALSE;
+    }
+
     // Make title for a Profile page.
     // Be sure that auto title generation is disabled
     // in Content-type -> People type.
