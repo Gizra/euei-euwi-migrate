@@ -131,4 +131,11 @@ class FeatureContext extends DrupalContext {
     $this->assertElementContains('#comments .content', $body);
   }
 
+  /**
+   * @Given /^I should see the picture "([^"]*)"$/
+   */
+  public function iShouldSeeThePicture($text) {
+    $this->assertElementContains('.picture', $text);
+  }
+
 }
