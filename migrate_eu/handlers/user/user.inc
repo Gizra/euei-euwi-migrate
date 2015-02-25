@@ -58,9 +58,6 @@ class EuUserMigration extends EuMigration {
       return FALSE;
     }
 
-    // Add a suffix to make the mail, to prevent sending emails by mistake.
-    $row->mail .= '.test';
-
     return TRUE;
   }
 
