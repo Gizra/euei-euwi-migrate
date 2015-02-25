@@ -94,6 +94,7 @@ class ExportUser extends ExportBase {
     // We add the node ID of the mother group, so it will be picked up in
     // \ExportOgMembership::getEntityUniqueId().
     $entity->nid = 'euei';
+    $entity->is_active = 1;
     $handler->insertQuery($entity);
   }
 
