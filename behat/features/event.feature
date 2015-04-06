@@ -12,7 +12,7 @@ Feature: Event
 
   Examples:
     | url                                                | upcoming                                                       | past                                                       |
-    | public-water_and_sanitation/calendar               | Regulation of public services: national and local perspectives | Water Thematic Regional Seminar - Astana, Kazakhstan       |
+    | public-water_and_sanitation/calendar/past          | Regulation of public services: national and local perspectives | Water Thematic Regional Seminar - Astana, Kazakhstan       |
     | afretep/calendar                                   | No upcoming events found.                                      | 1st Announcement for ARPEDAC Clean Development Mechanism   |
     | euwi-mediterranean/calendar                        | No upcoming events found.                                      | EU Water Framework Directive and Med-EUWI                  |
     | euwi-eastern-europe-caucasus-central-asia/calendar | No upcoming events found.                                      | EU Water Initiative - EECCA Component Working Group        |
